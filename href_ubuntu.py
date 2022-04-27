@@ -690,7 +690,7 @@ def ingest_gribs(frame,master_ds):
 
     return master_ds
 
-# resolutions()
+resolutions()
 
 frame = '03'
 master_master_ds = create_master_ds()
