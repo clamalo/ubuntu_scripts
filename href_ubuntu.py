@@ -184,7 +184,7 @@ def nam3k(chelsa_ds,frame,cycle,datestr,offset):
         idx_file = '/root/nam.t'+cycle+'z.conusnest.hiresf'+frame+'.tm00.grib2.idx'
         read_idx(idx_file,'nam',int(frame),cycle,datestr)
         (xr.load_dataset('/root/current.grib2')).to_netcdf('current.nc')
-        os.system('/root/anaconda3/envs/blend/bin/gdalwarp-t_srs EPSG:4326 /root/current.nc /root/minus_one_.tif')
+        os.system('/root/anaconda3/envs/blend/bin/gdalwarp -t_srs EPSG:4326 /root/current.nc /root/minus_one_.tif')
         inputfile = '/root/minus_one_.tif'
         outputfile = '/root/minus_one_.nc'
         ds = gdal.Translate(outputfile, inputfile, format='NetCDF')
@@ -505,7 +505,7 @@ def create_master_ds():
             idx_file = '/root/nam.t'+cycle+'z.conusnest.hiresf'+frame+'.tm00.grib2.idx'
             read_idx(idx_file,'nam',int(frame),cycle,datestr)
             (xr.load_dataset('/root/current.grib2')).to_netcdf('current.nc')
-            os.system('/root/anaconda3/envs/blend/bin/gdalwarp-t_srs EPSG:4326 /root/current.nc /root/master.tif')
+            os.system('/root/anaconda3/envs/blend/bin/gdalwarp -t_srs EPSG:4326 /root/current.nc /root/master.tif')
             inputfile = '/root/master.tif'
             outputfile = '/root/master.nc'
             ds = gdal.Translate(outputfile, inputfile, format='NetCDF')
@@ -514,7 +514,7 @@ def create_master_ds():
             if 'crs' in str(dataset):
                 dataset = dataset.drop(['crs'])
 
-        # os.system('/root/anaconda3/envs/blend/bin/gdalwarp-t_srs EPSG:4326 current.grib2 current_.grib2')
+        # os.system('/root/anaconda3/envs/blend/bin/gdalwarp -t_srs EPSG:4326 current.grib2 current_.grib2')
         # dataset = xr.load_dataset('/root/current_.grib2',engine='cfgrib')
         dataset['lon'] = dataset['lon']+360
         dataset = crop_ds(dataset,'180_chelsa')
