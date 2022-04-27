@@ -344,7 +344,6 @@ def fv32p5k(chelsa_ds,frame,cycle,datestr,offset):
 
 
 def crop_ds(ds,type):
-    print(ds,type)
     # topleft_bottomright = [45,-125,35,-115]
     # topleft_bottomright = [41,-109,37,-102]
     topleft_bottomright = [50,-125,46.5,-120]
@@ -367,7 +366,6 @@ def crop_ds(ds,type):
         max_lon = topleft_bottomright[3]
     min_lat = topleft_bottomright[2]
     max_lat = topleft_bottomright[0]
-    print(min_lon,max_lon)
 
     if type == '360_grib':
         mask_lon = (ds.longitude >= min_lon) & (ds.longitude <= max_lon)
@@ -459,6 +457,8 @@ def create_master_ds():
         new_lon = np.linspace(chelsa_ds.lon[0], chelsa_ds.lon[-1], chelsa_ds.dims["lon"] * 2)
         new_lat = np.linspace(chelsa_ds.lat[0], chelsa_ds.lat[-1], chelsa_ds.dims["lat"] * 2)
         chelsa_ds = chelsa_ds.interp(lat=new_lat, lon=new_lon)
+
+        print(dataset,chelsa_ds)
 
         dataset = dataset.interp(lat=chelsa_ds["lat"], lon=chelsa_ds["lon"])
         dataset['nam3k_1'] = dataset['tp']
