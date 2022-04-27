@@ -432,7 +432,8 @@ def crop_ds(ds,type):
     ds = ds.where(mask_lon, drop=True)
     if type == '360_chelsa':
         ds['lon'] = ds['lon']+180
-    print(max(ds.tp.values))
+    for n in range(len(ds.lat)):
+        print(max(ds.tp[n].values))
     return ds
 
 def resolutions():
