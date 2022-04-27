@@ -359,6 +359,9 @@ def crop_ds(ds,type):
     elif type == '360_chelsa':
         min_lon = topleft_bottomright[1]+360
         max_lon = topleft_bottomright[3]+360
+    elif type == 'resolutions':
+        min_lon = topleft_bottomright[1]+180
+        max_lon = topleft_bottomright[3]+180
     else:
         min_lon = topleft_bottomright[1]
         max_lon = topleft_bottomright[3]
@@ -369,7 +372,7 @@ def crop_ds(ds,type):
     if type == '360_grib':
         mask_lon = (ds.longitude >= min_lon) & (ds.longitude <= max_lon)
         mask_lat = (ds.latitude >= min_lat) & (ds.latitude <= max_lat)
-    elif type == '360_chelsa' or type == '180_chelsa':
+    elif type == '360_chelsa' or type == '180_chelsa' or type == 'resolutions':
         mask_lon = (ds.lon >= min_lon) & (ds.lon <= max_lon)
         mask_lat = (ds.lat >= min_lat) & (ds.lat <= max_lat)
     ds = ds.where(mask_lat, drop=True)
@@ -392,7 +395,7 @@ def resolutions():
         lats = int(20880/(180/coarsen_resolution))
 
         ds['lon'] = ds['lon']+180
-        ds = crop_ds(ds,'360_chelsa')
+        ds = crop_ds(ds,'resolutions')
 
         ds_coarse = ds.coarsen(lon=lons, lat=lats, boundary='pad').mean()
 
