@@ -764,6 +764,7 @@ for n in range(2,36):
     master_ds['tp'] = (master_ds['nam3k_1']+master_ds['nam3k_2']+master_ds['nam3k_3']+master_ds['nam3k_4']+master_ds['nam3k_5']+master_ds['hrrr3k_1']+master_ds['hrrr3k_2']+master_ds['hrrr3k_3']+master_ds['arw5k_1_1']+master_ds['arw5k_1_2']+master_ds['arw5k_2_1']+master_ds['arw5k_2_2']+master_ds['fv35k_1']+master_ds['fv35k_2']+master_ds['fv35k_3']+master_ds['arw2.5k_1']+master_ds['arw2.5k_2']+master_ds['fv32.5k_1']+master_ds['fv32.5k_2']+master_ds['fv32.5k_3'])/20
     # master_ds['tp'] = (master_ds['nam3k_1']+master_ds['nam_3k_2']+master_ds['hrrr3k_1']+master_ds['hrrr3k_2'])/4
     master_ds.to_netcdf('master_ds.nc')
+    print(master_ds)
 
     # master_master_ds = xr.concat([master_master_ds,master_ds], dim="hour")
 
