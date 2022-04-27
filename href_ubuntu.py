@@ -194,6 +194,7 @@ def nam3k(chelsa_ds,frame,cycle,datestr,offset):
         prior_dataset = xr.load_dataset('/root/minus_one_.grib2',engine='cfgrib')
         dataset['tp'] = dataset['tp']-prior_dataset['tp']
 
+    dataset['lon'] = dataset['lon']+360
     dataset = crop_ds(dataset,'180_chelsa')
     dataset = dataset.interp(lat=chelsa_ds["lat"], lon=chelsa_ds["lon"])
     dataset['tp'] = dataset['tp']*chelsa_ds['precip']
@@ -224,6 +225,7 @@ def hrrr3k(chelsa_ds,frame,cycle,datestr,offset):
     dataset = xr.load_dataset('/root/current_.nc')
     dataset = dataset.drop(['crs'])
 
+    dataset['lon'] = dataset['lon']+360
     dataset = crop_ds(dataset,'180_chelsa')
     dataset = dataset.interp(lat=chelsa_ds["lat"], lon=chelsa_ds["lon"])
     dataset['tp'] = dataset['tp']*chelsa_ds['precip']
@@ -254,6 +256,7 @@ def arw5k_1(chelsa_ds,frame,cycle,datestr,offset):
     dataset = xr.load_dataset('/root/current_.nc')
     dataset = dataset.drop(['crs'])
 
+    dataset['lon'] = dataset['lon']+360
     dataset = crop_ds(dataset,'180_chelsa')
     dataset = dataset.interp(lat=chelsa_ds["lat"], lon=chelsa_ds["lon"])
     dataset['tp'] = dataset['tp']*chelsa_ds['precip']
@@ -284,6 +287,7 @@ def arw5k_2(chelsa_ds,frame,cycle,datestr,offset):
     dataset = xr.load_dataset('/root/current_.nc')
     dataset = dataset.drop(['crs'])
 
+    dataset['lon'] = dataset['lon']+360
     dataset = crop_ds(dataset,'180_chelsa')
     dataset = dataset.interp(lat=chelsa_ds["lat"], lon=chelsa_ds["lon"])
     dataset['tp'] = dataset['tp']*chelsa_ds['precip']
@@ -314,6 +318,7 @@ def fv35k(chelsa_ds,frame,cycle,datestr,offset):
     dataset = xr.load_dataset('/root/current_.nc')
     dataset = dataset.drop(['crs'])
 
+    dataset['lon'] = dataset['lon']+360
     dataset = crop_ds(dataset,'180_chelsa')
     dataset = dataset.interp(lat=chelsa_ds["lat"], lon=chelsa_ds["lon"])
     dataset['tp'] = dataset['tp']*chelsa_ds['precip']
@@ -344,6 +349,7 @@ def arw2p5k(chelsa_ds,frame,cycle,datestr,offset):
     dataset = xr.load_dataset('/root/current_.nc')
     dataset = dataset.drop(['crs'])
 
+    dataset['lon'] = dataset['lon']+360
     dataset = crop_ds(dataset,'180_chelsa')
     dataset = dataset.interp(lat=chelsa_ds["lat"], lon=chelsa_ds["lon"])
     dataset['tp'] = dataset['tp']*chelsa_ds['precip']
@@ -375,6 +381,7 @@ def fv32p5k(chelsa_ds,frame,cycle,datestr,offset):
     dataset = xr.load_dataset('/root/current_.nc')
     dataset = dataset.drop(['crs'])
 
+    dataset['lon'] = dataset['lon']+360
     dataset = crop_ds(dataset,'180_chelsa')
     dataset = dataset.interp(lat=chelsa_ds["lat"], lon=chelsa_ds["lon"])
     dataset['tp'] = dataset['tp']*chelsa_ds['precip']
