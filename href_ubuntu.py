@@ -786,7 +786,7 @@ for n in range(2,36):
 
     lats = ds['lat']
     lons = ds['lon']
-    tp = ds['nam3k_1']*.0393701
+    tp = ds['nam3k_2']*.0393701
     fig = plt.figure(figsize=(12, 8))
     ax = plt.axes(projection=ccrs.PlateCarree())
     newcmp = create_colormap()
