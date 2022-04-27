@@ -558,8 +558,8 @@ def ingest_gribs(frame,master_ds):
     frame = name_frame(int(frame))
     datestr = datestr_and_cycle()[0]
     cycle = datestr_and_cycle()[1]
-    resolutions = [3,5,2.5]
-    # resolutions = [2.5]
+    # resolutions = [3,5,2.5]
+    resolutions = [3]
     for resolution in resolutions:
         if resolution == 3:
             #load downscaling file
