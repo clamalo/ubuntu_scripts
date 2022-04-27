@@ -167,9 +167,14 @@ def nam3k(chelsa_ds,frame,cycle,datestr,offset):
     os.system('curl "'+idx_url+'" --output "/root/nam.t'+cycle+'z.conusnest.hiresf'+frame+'.tm00.grib2.idx"')
     idx_file = '/root/nam.t'+cycle+'z.conusnest.hiresf'+frame+'.tm00.grib2.idx'
     read_idx(idx_file,'nam',int(frame),cycle,datestr)
-    os.system('gdalwarp -t_srs EPSG:4326 current.grib2 current_.grib2')
+    (xr.load_dataset('current.grib2')).to_netcdf('current.nc')
+    os.system('gdalwarp -t_srs EPSG:4326 current.nc current_.tif')
+    inputfile = 'current_.tif'
+    outputfile = 'current_.nc'
+    ds = gdal.Translate(outputfile, inputfile, format='NetCDF')
     os.remove(idx_file)
-    dataset = xr.load_dataset('/root/current_.grib2',engine='cfgrib')
+    dataset = xr.load_dataset('/root/current_.nc')
+    dataset = dataset.drop(['crs'])
 
     if int(frame)%3 != 1:
         frame = name_frame(int(frame)-1)
@@ -177,12 +182,19 @@ def nam3k(chelsa_ds,frame,cycle,datestr,offset):
         os.system('curl "'+idx_url+'" --output "/root/nam.t'+cycle+'z.conusnest.hiresf'+frame+'.tm00.grib2.idx"')
         idx_file = '/root/nam.t'+cycle+'z.conusnest.hiresf'+frame+'.tm00.grib2.idx'
         read_idx(idx_file,'nam',int(frame),cycle,datestr)
-        os.system('gdalwarp -t_srs EPSG:4326 current.grib2 minus_one_.grib2')
+        (xr.load_dataset('current.grib2')).to_netcdf('current.nc')
+        os.system('gdalwarp -t_srs EPSG:4326 current.nc minus_one_.tif')
+        inputfile = 'minus_one_.tif'
+        outputfile = 'minus_one_.nc'
+        ds = gdal.Translate(outputfile, inputfile, format='NetCDF')
+        os.remove(idx_file)
+        prior_dataset = xr.load_dataset('/root/minus_one_.nc')
+        prior_dataset = dataset.drop(['crs'])
         os.remove(idx_file)
         prior_dataset = xr.load_dataset('/root/minus_one_.grib2',engine='cfgrib')
         dataset['tp'] = dataset['tp']-prior_dataset['tp']
 
-    dataset = crop_ds(dataset,'360_grib')
+    dataset = crop_ds(dataset,'180_chelsa')
     dataset = dataset.interp(latitude=chelsa_ds["lat"], longitude=chelsa_ds["lon"])
     dataset['tp'] = dataset['tp']*chelsa_ds['precip']
 
@@ -203,11 +215,16 @@ def hrrr3k(chelsa_ds,frame,cycle,datestr,offset):
     os.system('curl "'+idx_url+'" --output "/root/hrrr.t'+cycle+'z.wrfsfcf'+frame+'.grib2.idx"')
     idx_file = '/root/hrrr.t'+cycle+'z.wrfsfcf'+frame+'.grib2.idx'
     read_idx(idx_file,'hrrr',int(frame),cycle,datestr)
-    os.system('gdalwarp -t_srs EPSG:4326 current.grib2 current_.grib2')
+    (xr.load_dataset('current.grib2')).to_netcdf('current.nc')
+    os.system('gdalwarp -t_srs EPSG:4326 current.nc current_.tif')
+    inputfile = 'current_.tif'
+    outputfile = 'current_.nc'
+    ds = gdal.Translate(outputfile, inputfile, format='NetCDF')
     os.remove(idx_file)
-    dataset = xr.load_dataset('/root/current_.grib2',engine='cfgrib')
+    dataset = xr.load_dataset('/root/current_.nc')
+    dataset = dataset.drop(['crs'])
 
-    dataset = crop_ds(dataset,'360_grib')
+    dataset = crop_ds(dataset,'180_chelsa')
     dataset = dataset.interp(latitude=chelsa_ds["lat"], longitude=chelsa_ds["lon"])
     dataset['tp'] = dataset['tp']*chelsa_ds['precip']
 
@@ -228,11 +245,16 @@ def arw5k_1(chelsa_ds,frame,cycle,datestr,offset):
     os.system('curl "'+idx_url+'" --output "/root/hiresw.t'+cycle+'z.arw_5km.f'+frame+'.conus.grib2.idx"')
     idx_file = '/root/hiresw.t'+cycle+'z.arw_5km.f'+frame+'.conus.grib2.idx'
     read_idx(idx_file,'arw5k_1',int(frame),cycle,datestr)
-    os.system('gdalwarp -t_srs EPSG:4326 current.grib2 current_.grib2')
+    (xr.load_dataset('current.grib2')).to_netcdf('current.nc')
+    os.system('gdalwarp -t_srs EPSG:4326 current.nc current_.tif')
+    inputfile = 'current_.tif'
+    outputfile = 'current_.nc'
+    ds = gdal.Translate(outputfile, inputfile, format='NetCDF')
     os.remove(idx_file)
-    dataset = xr.load_dataset('/root/current_.grib2',engine='cfgrib')
+    dataset = xr.load_dataset('/root/current_.nc')
+    dataset = dataset.drop(['crs'])
 
-    dataset = crop_ds(dataset,'360_grib')
+    dataset = crop_ds(dataset,'180_chelsa')
     dataset = dataset.interp(latitude=chelsa_ds["lat"], longitude=chelsa_ds["lon"])
     dataset['tp'] = dataset['tp']*chelsa_ds['precip']
 
@@ -253,11 +275,16 @@ def arw5k_2(chelsa_ds,frame,cycle,datestr,offset):
     os.system('curl "'+idx_url+'" --output "/root/hiresw.t'+cycle+'z.arw_5km.f'+frame+'.conusmem2.grib2.idx"')
     idx_file = '/root/hiresw.t'+cycle+'z.arw_5km.f'+frame+'.conusmem2.grib2.idx'
     read_idx(idx_file,'arw5k_2',int(frame),cycle,datestr)
-    os.system('gdalwarp -t_srs EPSG:4326 current.grib2 current_.grib2')
+    (xr.load_dataset('current.grib2')).to_netcdf('current.nc')
+    os.system('gdalwarp -t_srs EPSG:4326 current.nc current_.tif')
+    inputfile = 'current_.tif'
+    outputfile = 'current_.nc'
+    ds = gdal.Translate(outputfile, inputfile, format='NetCDF')
     os.remove(idx_file)
-    dataset = xr.load_dataset('/root/current_.grib2',engine='cfgrib')
+    dataset = xr.load_dataset('/root/current_.nc')
+    dataset = dataset.drop(['crs'])
 
-    dataset = crop_ds(dataset,'360_grib')
+    dataset = crop_ds(dataset,'180_chelsa')
     dataset = dataset.interp(latitude=chelsa_ds["lat"], longitude=chelsa_ds["lon"])
     dataset['tp'] = dataset['tp']*chelsa_ds['precip']
 
@@ -278,11 +305,16 @@ def fv35k(chelsa_ds,frame,cycle,datestr,offset):
     os.system('curl "'+idx_url+'" --output "/root/hiresw.t'+cycle+'z.fv3_5km.f'+frame+'.conus.grib2.idx"')
     idx_file = '/root/hiresw.t'+cycle+'z.fv3_5km.f'+frame+'.conus.grib2.idx'
     read_idx(idx_file,'fv35k',int(frame),cycle,datestr)
-    os.system('gdalwarp -t_srs EPSG:4326 current.grib2 current_.grib2')
+    (xr.load_dataset('current.grib2')).to_netcdf('current.nc')
+    os.system('gdalwarp -t_srs EPSG:4326 current.nc current_.tif')
+    inputfile = 'current_.tif'
+    outputfile = 'current_.nc'
+    ds = gdal.Translate(outputfile, inputfile, format='NetCDF')
     os.remove(idx_file)
-    dataset = xr.load_dataset('/root/current_.grib2',engine='cfgrib')
+    dataset = xr.load_dataset('/root/current_.nc')
+    dataset = dataset.drop(['crs'])
 
-    dataset = crop_ds(dataset,'360_grib')
+    dataset = crop_ds(dataset,'180_chelsa')
     dataset = dataset.interp(latitude=chelsa_ds["lat"], longitude=chelsa_ds["lon"])
     dataset['tp'] = dataset['tp']*chelsa_ds['precip']
 
@@ -303,11 +335,16 @@ def arw2p5k(chelsa_ds,frame,cycle,datestr,offset):
     os.system('curl "'+idx_url+'" --output "/root/hiresw.t'+cycle+'z.arw_2p5km.f'+frame+'.conus.grib2.idx"')
     idx_file = '/root/hiresw.t'+cycle+'z.arw_2p5km.f'+frame+'.conus.grib2.idx'
     read_idx(idx_file,'arw2p5k',int(frame),cycle,datestr)
-    os.system('gdalwarp -t_srs EPSG:4326 current.grib2 current_.grib2')
+    (xr.load_dataset('current.grib2')).to_netcdf('current.nc')
+    os.system('gdalwarp -t_srs EPSG:4326 current.nc current_.tif')
+    inputfile = 'current_.tif'
+    outputfile = 'current_.nc'
+    ds = gdal.Translate(outputfile, inputfile, format='NetCDF')
     os.remove(idx_file)
-    dataset = xr.load_dataset('/root/current_.grib2',engine='cfgrib')
+    dataset = xr.load_dataset('/root/current_.nc')
+    dataset = dataset.drop(['crs'])
 
-    dataset = crop_ds(dataset,'360_grib')
+    dataset = crop_ds(dataset,'180_chelsa')
     dataset = dataset.interp(latitude=chelsa_ds["lat"], longitude=chelsa_ds["lon"])
     dataset['tp'] = dataset['tp']*chelsa_ds['precip']
 
@@ -329,11 +366,16 @@ def fv32p5k(chelsa_ds,frame,cycle,datestr,offset):
     os.system('curl "'+idx_url+'" --output "/root/hiresw.t'+cycle+'z.fv3_2p5km.f'+frame+'.conus.grib2.idx"')
     idx_file = '/root/hiresw.t'+cycle+'z.fv3_2p5km.f'+frame+'.conus.grib2.idx'
     read_idx(idx_file,'fv32p5k',int(frame),cycle,datestr)
-    os.system('gdalwarp -t_srs EPSG:4326 current.grib2 current_.grib2')
+    (xr.load_dataset('current.grib2')).to_netcdf('current.nc')
+    os.system('gdalwarp -t_srs EPSG:4326 current.nc current_.tif')
+    inputfile = 'current_.tif'
+    outputfile = 'current_.nc'
+    ds = gdal.Translate(outputfile, inputfile, format='NetCDF')
     os.remove(idx_file)
-    dataset = xr.load_dataset('/root/current_.grib2',engine='cfgrib')
+    dataset = xr.load_dataset('/root/current_.nc')
+    dataset = dataset.drop(['crs'])
 
-    dataset = crop_ds(dataset,'360_grib')
+    dataset = crop_ds(dataset,'180_chelsa')
     dataset = dataset.interp(latitude=chelsa_ds["lat"], longitude=chelsa_ds["lon"])
     dataset['tp'] = dataset['tp']*chelsa_ds['precip']
 
@@ -344,7 +386,6 @@ def fv32p5k(chelsa_ds,frame,cycle,datestr,offset):
 
 
 def crop_ds(ds,type):
-    print(ds,type)
     # topleft_bottomright = [45,-125,35,-115]
     # topleft_bottomright = [41,-109,37,-102]
     topleft_bottomright = [50,-125,46.5,-120]
@@ -368,7 +409,6 @@ def crop_ds(ds,type):
     min_lat = topleft_bottomright[2]
     max_lat = topleft_bottomright[0]
 
-    print(min_lon,max_lon)
 
     if type == '360_grib':
         mask_lon = (ds.longitude >= min_lon) & (ds.longitude <= max_lon)
@@ -461,8 +501,6 @@ def create_master_ds():
         new_lon = np.linspace(chelsa_ds.lon[0], chelsa_ds.lon[-1], chelsa_ds.dims["lon"] * 2)
         new_lat = np.linspace(chelsa_ds.lat[0], chelsa_ds.lat[-1], chelsa_ds.dims["lat"] * 2)
         chelsa_ds = chelsa_ds.interp(lat=new_lat, lon=new_lon)
-
-        print(dataset,chelsa_ds)
 
         dataset = dataset.interp(lat=chelsa_ds["lat"], lon=chelsa_ds["lon"])
         dataset['nam3k_1'] = dataset['tp']
@@ -704,7 +742,6 @@ def ingest_gribs(frame,master_ds):
 frame = '03'
 master_master_ds = create_master_ds()
 # master_ds = create_master_ds()
-quit()
 # print(master_ds)
 for n in range(2,36):
     # master_ds = create_master_ds()
