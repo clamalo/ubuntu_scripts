@@ -178,7 +178,7 @@ def nam3k(chelsa_ds,frame,cycle,datestr,offset):
     if 'crs' in str(dataset):
         dataset = dataset.drop(['crs'])
 
-    if int(frame)%3 != 0:
+    if int(frame-1)%3 != 0:
         print(frame,'frame')
         frame = name_frame(int(frame)-1)
         idx_url = 'https://ftpprd.ncep.noaa.gov/data/nccf/com/nam/prod/nam.'+datestr+'/nam.t'+cycle+'z.conusnest.hiresf'+frame+'.tm00.grib2.idx'
@@ -192,7 +192,7 @@ def nam3k(chelsa_ds,frame,cycle,datestr,offset):
         ds = gdal.Translate(outputfile, inputfile, format='NetCDF')
         prior_dataset = xr.load_dataset('/root/minus_one_.nc')
         if 'crs' in str(prior_dataset):
-                prior_dataset = prior_dataset.drop(['crs'])
+            prior_dataset = prior_dataset.drop(['crs'])
         os.remove(idx_file)
         dataset['tp'] = dataset['tp']-prior_dataset['tp']
 
@@ -200,6 +200,7 @@ def nam3k(chelsa_ds,frame,cycle,datestr,offset):
     dataset = crop_ds(dataset,'180_chelsa')
     dataset = dataset.interp(lat=chelsa_ds["lat"], lon=chelsa_ds["lon"])
     dataset['tp'] = dataset['tp']*chelsa_ds['precip']
+    print(dataset,'nam dataset 2')
 
     return dataset
 
