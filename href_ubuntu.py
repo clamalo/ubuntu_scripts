@@ -450,6 +450,7 @@ def create_master_ds():
 
         # os.system('gdalwarp -t_srs EPSG:4326 current.grib2 current_.grib2')
         # dataset = xr.load_dataset('/root/current_.grib2',engine='cfgrib')
+        dataset['lon'] = dataset['lon']+360
         dataset = crop_ds(dataset,'180_chelsa')
         dataset['tp'] = dataset['tp']*0
         chelsa_ds = xr.load_dataset('/root/3chelsa.nc')
