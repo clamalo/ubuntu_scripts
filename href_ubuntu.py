@@ -369,10 +369,10 @@ def crop_ds(ds,type):
     max_lat = topleft_bottomright[0]
     print(min_lon,max_lon)
 
-    if type == '360_grib':
-        mask_lon = (ds.longitude >= min_lon) & (ds.longitude <= max_lon)
-        mask_lat = (ds.latitude >= min_lat) & (ds.latitude <= max_lat)
-    elif type == '360_chelsa' or type == '180_chelsa' or type == 'resolutions':
+    # if type == '360_grib':
+    #     mask_lon = (ds.longitude >= min_lon) & (ds.longitude <= max_lon)
+    #     mask_lat = (ds.latitude >= min_lat) & (ds.latitude <= max_lat)
+    if type == '360_grib' or type == '360_chelsa' or type == '180_chelsa' or type == 'resolutions':
         mask_lon = (ds.lon >= min_lon) & (ds.lon <= max_lon)
         mask_lat = (ds.lat >= min_lat) & (ds.lat <= max_lat)
     ds = ds.where(mask_lat, drop=True)
