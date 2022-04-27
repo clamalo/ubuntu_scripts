@@ -167,7 +167,7 @@ def nam3k(chelsa_ds,frame,cycle,datestr,offset):
     os.system('curl "'+idx_url+'" --output "/root/nam.t'+cycle+'z.conusnest.hiresf'+frame+'.tm00.grib2.idx"')
     idx_file = '/root/nam.t'+cycle+'z.conusnest.hiresf'+frame+'.tm00.grib2.idx'
     read_idx(idx_file,'nam',int(frame),cycle,datestr)
-    (xr.load_dataset('/root/current.grib2')).to_netcdf('current.nc')
+    (xr.load_dataset('/root/current.grib2')).to_netcdf('/root/current.nc')
     os.system('/root/anaconda3/envs/blend/bin/gdalwarp -t_srs EPSG:4326 /root/current.nc /root/current_.tif')
     inputfile = '/root/current_.tif'
     outputfile = '/root/current_.nc'
@@ -177,22 +177,22 @@ def nam3k(chelsa_ds,frame,cycle,datestr,offset):
     if 'crs' in str(dataset):
         dataset = dataset.drop(['crs'])
 
-    if int(frame)%3 != 1:
-        frame = name_frame(int(frame)-1)
-        idx_url = 'https://ftpprd.ncep.noaa.gov/data/nccf/com/nam/prod/nam.'+datestr+'/nam.t'+cycle+'z.conusnest.hiresf'+frame+'.tm00.grib2.idx'
-        os.system('curl "'+idx_url+'" --output "/root/nam.t'+cycle+'z.conusnest.hiresf'+frame+'.tm00.grib2.idx"')
-        idx_file = '/root/nam.t'+cycle+'z.conusnest.hiresf'+frame+'.tm00.grib2.idx'
-        read_idx(idx_file,'nam',int(frame),cycle,datestr)
-        (xr.load_dataset('/root/current.grib2')).to_netcdf('current.nc')
-        os.system('/root/anaconda3/envs/blend/bin/gdalwarp -t_srs EPSG:4326 /root/current.nc /root/minus_one_.tif')
-        inputfile = '/root/minus_one_.tif'
-        outputfile = '/root/minus_one_.nc'
-        ds = gdal.Translate(outputfile, inputfile, format='NetCDF')
-        prior_dataset = xr.load_dataset('/root/minus_one_.nc')
-        if 'crs' in str(prior_dataset):
-                prior_dataset = prior_dataset.drop(['crs'])
-        os.remove(idx_file)
-        dataset['tp'] = dataset['tp']-prior_dataset['tp']
+    # if int(frame)%3 != 1:
+    #     frame = name_frame(int(frame)-1)
+    #     idx_url = 'https://ftpprd.ncep.noaa.gov/data/nccf/com/nam/prod/nam.'+datestr+'/nam.t'+cycle+'z.conusnest.hiresf'+frame+'.tm00.grib2.idx'
+    #     os.system('curl "'+idx_url+'" --output "/root/nam.t'+cycle+'z.conusnest.hiresf'+frame+'.tm00.grib2.idx"')
+    #     idx_file = '/root/nam.t'+cycle+'z.conusnest.hiresf'+frame+'.tm00.grib2.idx'
+    #     read_idx(idx_file,'nam',int(frame-1),cycle,datestr)
+    #     (xr.load_dataset('/root/current.grib2')).to_netcdf('/root/current.nc')
+    #     os.system('/root/anaconda3/envs/blend/bin/gdalwarp -t_srs EPSG:4326 /root/current.nc /root/minus_one_.tif')
+    #     inputfile = '/root/minus_one_.tif'
+    #     outputfile = '/root/minus_one_.nc'
+    #     ds = gdal.Translate(outputfile, inputfile, format='NetCDF')
+    #     prior_dataset = xr.load_dataset('/root/minus_one_.nc')
+    #     if 'crs' in str(prior_dataset):
+    #             prior_dataset = prior_dataset.drop(['crs'])
+    #     os.remove(idx_file)
+    #     dataset['tp'] = dataset['tp']-prior_dataset['tp']
 
     dataset['lon'] = dataset['lon']+360
     dataset = crop_ds(dataset,'180_chelsa')
@@ -216,7 +216,7 @@ def hrrr3k(chelsa_ds,frame,cycle,datestr,offset):
     os.system('curl "'+idx_url+'" --output "/root/hrrr.t'+cycle+'z.wrfsfcf'+frame+'.grib2.idx"')
     idx_file = '/root/hrrr.t'+cycle+'z.wrfsfcf'+frame+'.grib2.idx'
     read_idx(idx_file,'hrrr',int(frame),cycle,datestr)
-    (xr.load_dataset('/root/current.grib2')).to_netcdf('current.nc')
+    (xr.load_dataset('/root/current.grib2')).to_netcdf('/root/current.nc')
     os.system('/root/anaconda3/envs/blend/bin/gdalwarp -t_srs EPSG:4326 /root/current.nc /root/current_.tif')
     inputfile = '/root/current_.tif'
     outputfile = '/root/current_.nc'
@@ -248,7 +248,7 @@ def arw5k_1(chelsa_ds,frame,cycle,datestr,offset):
     os.system('curl "'+idx_url+'" --output "/root/hiresw.t'+cycle+'z.arw_5km.f'+frame+'.conus.grib2.idx"')
     idx_file = '/root/hiresw.t'+cycle+'z.arw_5km.f'+frame+'.conus.grib2.idx'
     read_idx(idx_file,'arw5k_1',int(frame),cycle,datestr)
-    (xr.load_dataset('/root/current.grib2')).to_netcdf('current.nc')
+    (xr.load_dataset('/root/current.grib2')).to_netcdf('/root/current.nc')
     os.system('/root/anaconda3/envs/blend/bin/gdalwarp -t_srs EPSG:4326 /root/current.nc /root/current_.tif')
     inputfile = '/root/current_.tif'
     outputfile = '/root/current_.nc'
@@ -280,7 +280,7 @@ def arw5k_2(chelsa_ds,frame,cycle,datestr,offset):
     os.system('curl "'+idx_url+'" --output "/root/hiresw.t'+cycle+'z.arw_5km.f'+frame+'.conusmem2.grib2.idx"')
     idx_file = '/root/hiresw.t'+cycle+'z.arw_5km.f'+frame+'.conusmem2.grib2.idx'
     read_idx(idx_file,'arw5k_2',int(frame),cycle,datestr)
-    (xr.load_dataset('/root/current.grib2')).to_netcdf('current.nc')
+    (xr.load_dataset('/root/current.grib2')).to_netcdf('/root/current.nc')
     os.system('/root/anaconda3/envs/blend/bin/gdalwarp -t_srs EPSG:4326 /root/current.nc /root/current_.tif')
     inputfile = '/root/current_.tif'
     outputfile = '/root/current_.nc'
@@ -312,7 +312,7 @@ def fv35k(chelsa_ds,frame,cycle,datestr,offset):
     os.system('curl "'+idx_url+'" --output "/root/hiresw.t'+cycle+'z.fv3_5km.f'+frame+'.conus.grib2.idx"')
     idx_file = '/root/hiresw.t'+cycle+'z.fv3_5km.f'+frame+'.conus.grib2.idx'
     read_idx(idx_file,'fv35k',int(frame),cycle,datestr)
-    (xr.load_dataset('/root/current.grib2')).to_netcdf('current.nc')
+    (xr.load_dataset('/root/current.grib2')).to_netcdf('/root/current.nc')
     os.system('/root/anaconda3/envs/blend/bin/gdalwarp -t_srs EPSG:4326 /root/current.nc /root/current_.tif')
     inputfile = '/root/current_.tif'
     outputfile = '/root/current_.nc'
@@ -344,7 +344,7 @@ def arw2p5k(chelsa_ds,frame,cycle,datestr,offset):
     os.system('curl "'+idx_url+'" --output "/root/hiresw.t'+cycle+'z.arw_2p5km.f'+frame+'.conus.grib2.idx"')
     idx_file = '/root/hiresw.t'+cycle+'z.arw_2p5km.f'+frame+'.conus.grib2.idx'
     read_idx(idx_file,'arw2p5k',int(frame),cycle,datestr)
-    (xr.load_dataset('/root/current.grib2')).to_netcdf('current.nc')
+    (xr.load_dataset('/root/current.grib2')).to_netcdf('/root/current.nc')
     os.system('/root/anaconda3/envs/blend/bin/gdalwarp -t_srs EPSG:4326 /root/current.nc /root/current_.tif')
     inputfile = '/root/current_.tif'
     outputfile = '/root/current_.nc'
@@ -377,7 +377,7 @@ def fv32p5k(chelsa_ds,frame,cycle,datestr,offset):
     os.system('curl "'+idx_url+'" --output "/root/hiresw.t'+cycle+'z.fv3_2p5km.f'+frame+'.conus.grib2.idx"')
     idx_file = '/root/hiresw.t'+cycle+'z.fv3_2p5km.f'+frame+'.conus.grib2.idx'
     read_idx(idx_file,'fv32p5k',int(frame),cycle,datestr)
-    (xr.load_dataset('/root/current.grib2')).to_netcdf('current.nc')
+    (xr.load_dataset('/root/current.grib2')).to_netcdf('/root/current.nc')
     os.system('/root/anaconda3/envs/blend/bin/gdalwarp -t_srs EPSG:4326 /root/current.nc /root/current_.tif')
     inputfile = '/root/current_.tif'
     outputfile = '/root/current_.nc'
@@ -399,6 +399,7 @@ def fv32p5k(chelsa_ds,frame,cycle,datestr,offset):
 
 
 def crop_ds(ds,type):
+    # if type == '180_chelsa':
         # for n in range(len(ds.lat)):
         #     print(max(ds.tp[n].values))
     # topleft_bottomright = [45,-125,35,-115]
@@ -504,7 +505,7 @@ def create_master_ds():
             os.system('curl "'+idx_url+'" --output "/root/nam.t'+cycle+'z.conusnest.hiresf'+frame+'.tm00.grib2.idx"')
             idx_file = '/root/nam.t'+cycle+'z.conusnest.hiresf'+frame+'.tm00.grib2.idx'
             read_idx(idx_file,'nam',int(frame),cycle,datestr)
-            (xr.load_dataset('/root/current.grib2')).to_netcdf('current.nc')
+            (xr.load_dataset('/root/current.grib2')).to_netcdf('/root/current.nc')
             os.system('/root/anaconda3/envs/blend/bin/gdalwarp -t_srs EPSG:4326 /root/current.nc /root/master.tif')
             inputfile = '/root/master.tif'
             outputfile = '/root/master.nc'
@@ -557,8 +558,8 @@ def ingest_gribs(frame,master_ds):
     frame = name_frame(int(frame))
     datestr = datestr_and_cycle()[0]
     cycle = datestr_and_cycle()[1]
-    resolutions = [3,5,2.5]
-    # resolutions = [2.5]
+    # resolutions = [3,5,2.5]
+    resolutions = [3]
     for resolution in resolutions:
         if resolution == 3:
             #load downscaling file
@@ -766,18 +767,18 @@ def ingest_gribs(frame,master_ds):
 # resolutions()
 
 frame = '03'
-# master_master_ds = create_master_ds()
-master_ds = create_master_ds()
+master_master_ds = create_master_ds()
+# master_ds = create_master_ds()
 # print(master_ds)
-for n in range(2,36):
-    # master_ds = create_master_ds()
+for n in range(8,36):
+    master_ds = create_master_ds()
     frame = name_frame(n)
     master_ds = ingest_gribs(frame,master_ds)
     # master_ds['tp'] = (master_ds['nam3k']+master_ds['hrrr3k']+master_ds['arw5k_1']+master_ds['arw5k_2']+master_ds['fv35k']+master_ds['arw2.5k']+master_ds['fv32.5k'])/7
     # master_ds['tp'] = (master_ds['nam3k_1']+master_ds['nam3k_2']+master_ds['nam3k_3']+master_ds['nam3k_4']+master_ds['nam3k_5']+master_ds['hrrr3k_1']+master_ds['hrrr3k_2']+master_ds['hrrr3k_3']+master_ds['arw5k_1_1']+master_ds['arw5k_1_2']+master_ds['arw5k_2_1']+master_ds['arw5k_2_2']+master_ds['fv35k_1']+master_ds['fv35k_2']+master_ds['fv35k_3']+master_ds['arw2.5k_1']+master_ds['arw2.5k_2']+master_ds['fv32.5k_1']+master_ds['fv32.5k_2']+master_ds['fv32.5k_3'])/20
-    # master_ds['tp'] = (master_ds['nam3k_1']+master_ds['nam3k_2']+master_ds['hrrr3k_1']+master_ds['hrrr3k_2'])/4
-    master_ds['tp'] = (master_ds['nam3k_1']+master_ds['hrrr3k_1']+master_ds['arw5k_1_1']+master_ds['arw5k_2_1']+master_ds['fv35k_1']+master_ds['arw2.5k_1']+master_ds['fv32.5k_1'])/7
-    master_ds.to_netcdf('master_ds.nc')
+    master_ds['tp'] = (master_ds['nam3k_1']+master_ds['nam3k_2']+master_ds['hrrr3k_1']+master_ds['hrrr3k_2'])/4
+    # master_ds['tp'] = (master_ds['nam3k_1']+master_ds['hrrr3k_1']+master_ds['arw5k_1_1']+master_ds['arw5k_2_1']+master_ds['fv35k_1']+master_ds['arw2.5k_1']+master_ds['fv32.5k_1'])/7
+    master_ds.to_netcdf('/root/master_ds.nc')
     print(master_ds)
 
     # master_master_ds = xr.concat([master_master_ds,master_ds], dim="hour")
@@ -793,7 +794,27 @@ for n in range(2,36):
 
     lats = ds['lat']
     lons = ds['lon']
-    tp = ds['hrrr3k_1']*.0393701
+    # if int(frame) == 2:
+    #     tp = ds['hrrr3k_1']*.0393701
+    # elif int(frame) == 3:
+    #     tp = ds['nam3k_1']*.0393701
+    # elif int(frame) == 4:
+    #     tp = ds['arw5k_1_1']*.0393701
+    # elif int(frame) == 5:
+    #     tp = ds['arw5k_2_1']*.0393701
+    # #**********
+    # elif int(frame) == 6:
+    #     tp = ds['fv35k_1']*.0393701
+    # #**********
+    # elif int(frame) == 7:
+    #     tp = ds['arw2.5k_1']*.0393701
+    # elif int(frame) == 8:
+    #     tp = ds['fv32.5k_1']*.0393701
+    # elif int(frame) == 9:
+    #     tp = ds['tp']*.0393701
+
+    tp = ds['nam3k_1']*.0393701
+
     fig = plt.figure(figsize=(12, 8))
     ax = plt.axes(projection=ccrs.PlateCarree())
     newcmp = create_colormap()
@@ -814,6 +835,6 @@ for n in range(2,36):
     os.system('git add hrcamef')
     os.system('git commit -m "auto-push"')
     os.system('git checkout master')
-    os.system('git pull git@github.com:clamalo/ubuntu_scripts.git main')
+    os.system('git pull git@github.com:clamalo/ubuntu_scripts.git master')
     os.system('git config --global core.askpass "git-gui--askpass"')
-    os.system('git push git@github.com:clamalo/ubuntu_scripts.git main')
+    os.system('git push git@github.com:clamalo/ubuntu_scripts.git master')
