@@ -357,8 +357,8 @@ def crop_ds(ds,type):
         min_lon = topleft_bottomright[1]+360
         max_lon = topleft_bottomright[3]+360
     elif type == '360_chelsa':
-        min_lon = topleft_bottomright[1]+360
-        max_lon = topleft_bottomright[3]+360
+        min_lon = topleft_bottomright[1]+180
+        max_lon = topleft_bottomright[3]+180
     else:
         min_lon = topleft_bottomright[1]
         max_lon = topleft_bottomright[3]
@@ -449,7 +449,7 @@ def create_master_ds():
         dataset = crop_ds(dataset,'180_chelsa')
         dataset['tp'] = dataset['tp']*0
         chelsa_ds = xr.load_dataset('/root/3chelsa.nc')
-        chelsa_ds['lon'] = chelsa_ds['lon']
+        chelsa_ds['lon'] = chelsa_ds['lon']-180
         # print(chelsa_ds,dataset)
         chelsa_ds = crop_ds(chelsa_ds,'360_chelsa')
 
