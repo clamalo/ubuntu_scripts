@@ -174,6 +174,7 @@ def nam3k(chelsa_ds,frame,cycle,datestr,offset):
     ds = gdal.Translate(outputfile, inputfile, format='NetCDF')
     os.remove(idx_file)
     dataset = xr.load_dataset('/root/current_.nc')
+    print(dataset,'nam_dataset_nam_dataset')
     if 'crs' in str(dataset):
         dataset = dataset.drop(['crs'])
 
