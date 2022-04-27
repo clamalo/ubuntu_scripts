@@ -796,7 +796,7 @@ for n in range(2,36):
     plt.clf()
 
     os.chdir('/root/')
-    os.system('git add *')
+    os.system('git add hrcamef')
     os.system('git commit -m "auto-push"')
     os.system('git checkout master')
     os.system('git pull https://github.com/clamalo/clamalo.github.io.git master')
