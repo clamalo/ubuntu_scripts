@@ -188,7 +188,6 @@ def nam3k(chelsa_ds,frame,cycle,datestr,offset):
         inputfile = 'minus_one_.tif'
         outputfile = 'minus_one_.nc'
         ds = gdal.Translate(outputfile, inputfile, format='NetCDF')
-        os.remove(idx_file)
         prior_dataset = xr.load_dataset('/root/minus_one_.nc')
         if 'crs' in str(prior_dataset):
                 prior_dataset = prior_dataset.drop(['crs'])
