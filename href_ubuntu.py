@@ -795,11 +795,10 @@ for n in range(2,36):
     plt.savefig('/root/hrcamef/tp_'+frame+'.png',dpi=500,bbox_inches='tight')
     plt.clf()
 
-
-os.chdir('/root/')
-os.system('git add hrcamef')
-os.system('git commit -m "auto-push"')
-os.system('git checkout master')
-os.system('git pull')
-os.system('git config --global core.askpass "git-gui--askpass"')
-os.system('git push')
+    os.chdir('/root/')
+    os.system('git add hrcamef')
+    os.system('git commit -m "auto-push"')
+    os.system('git checkout master')
+    os.system('git pull https://github.com/clamalo/clamalo.github.io.git master')
+    # os.system('git config --global core.askpass "git-gui--askpass"')
+    os.system('git push https://github.com/clamalo/clamalo.github.io.git master')
