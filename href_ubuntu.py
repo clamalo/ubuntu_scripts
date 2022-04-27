@@ -192,7 +192,6 @@ def nam3k(chelsa_ds,frame,cycle,datestr,offset):
         if 'crs' in str(prior_dataset):
                 prior_dataset = prior_dataset.drop(['crs'])
         os.remove(idx_file)
-        prior_dataset = xr.load_dataset('/root/minus_one_.grib2',engine='cfgrib')
         dataset['tp'] = dataset['tp']-prior_dataset['tp']
 
     dataset['lon'] = dataset['lon']+360
