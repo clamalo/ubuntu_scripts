@@ -436,9 +436,15 @@ def crop_ds(ds,type):
     ds = ds.where(mask_lon, drop=True)
     if type == '360_chelsa':
         ds['lon'] = ds['lon']+180
-    # if type=='180_chelsa':
-    #     for n in range(len(ds.lat)):
-    #         print(max(ds.tp[n].values))
+    if type=='180_chelsa':
+        for n in range(len(ds.lat)):
+            values = ds.tp[n].values
+            output = []
+            for value in zip(values):
+                if str(value) == 'nan':
+                    value = 0
+                output.append(value)
+            ds['tp'][n] = output
     return ds
 
 def resolutions():
@@ -772,6 +778,7 @@ for n in range(2,36):
     # master_ds['tp'] = (master_ds['nam3k_1']+master_ds['nam3k_2']+master_ds['hrrr3k_1']+master_ds['hrrr3k_2'])/4
     master_ds['tp'] = (master_ds['nam3k_1']+master_ds['hrrr3k_1']+master_ds['arw5k_1_1']+master_ds['arw5k_2_1']+master_ds['fv35k_1']+master_ds['arw2.5k_1']+master_ds['fv32.5k_1'])
     for n in range(len(master_ds.lat)):
+
         print(max(master_ds.tp[n].values))
     master_ds.to_netcdf('master_ds.nc')
     print(master_ds)
