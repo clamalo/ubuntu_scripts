@@ -800,5 +800,5 @@ for n in range(2,36):
     os.system('git commit -m "auto-push"')
     os.system('git checkout master')
     os.system('git pull https://github.com/clamalo/clamalo.github.io.git master')
-    # os.system('git config --global core.askpass "git-gui--askpass"')
+    os.system('git config --global core.askpass "git-gui--askpass"')
     os.system('git push https://github.com/clamalo/clamalo.github.io.git master')
