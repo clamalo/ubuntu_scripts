@@ -353,7 +353,7 @@ def crop_ds(ds,type):
     # topleft_bottomright = [50,-125,45,-120]
     # topleft_bottomright = [41,-115,37,-102]
 
-    if type == '360_grib':
+    if type == '360_grib' or type == '180_chelsa':
         min_lon = topleft_bottomright[1]+360
         max_lon = topleft_bottomright[3]+360
     elif type == '360_chelsa':
@@ -368,7 +368,7 @@ def crop_ds(ds,type):
     if type == '360_grib':
         mask_lon = (ds.longitude >= min_lon) & (ds.longitude <= max_lon)
         mask_lat = (ds.latitude >= min_lat) & (ds.latitude <= max_lat)
-    elif type == '360_chelsa':
+    elif type == '360_chelsa' or type == '180_chelsa':
         mask_lon = (ds.lon >= min_lon) & (ds.lon <= max_lon)
         mask_lat = (ds.lat >= min_lat) & (ds.lat <= max_lat)
     ds = ds.where(mask_lat, drop=True)
@@ -441,11 +441,11 @@ def create_master_ds():
             ds = gdal.Translate(outputfile, inputfile, format='NetCDF')
             os.remove(idx_file)
             dataset = xr.load_dataset('/root/master.nc')
-            dataset.drop(['crs'])
+            dataset = dataset.drop(['crs'])
 
         # os.system('gdalwarp -t_srs EPSG:4326 current.grib2 current_.grib2')
         # dataset = xr.load_dataset('/root/current_.grib2',engine='cfgrib')
-        dataset = crop_ds(dataset,'360_chelsa')
+        dataset = crop_ds(dataset,'180_chelsa')
         dataset['tp'] = dataset['tp']*0
         chelsa_ds = xr.load_dataset('/root/3chelsa.nc')
         chelsa_ds['lon'] = chelsa_ds['lon']
