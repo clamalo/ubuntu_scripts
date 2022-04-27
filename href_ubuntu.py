@@ -195,7 +195,7 @@ def nam3k(chelsa_ds,frame,cycle,datestr,offset):
         dataset['tp'] = dataset['tp']-prior_dataset['tp']
 
     dataset = crop_ds(dataset,'180_chelsa')
-    dataset = dataset.interp(latitude=chelsa_ds["lat"], longitude=chelsa_ds["lon"])
+    dataset = dataset.interp(lat=chelsa_ds["lat"], lon=chelsa_ds["lon"])
     dataset['tp'] = dataset['tp']*chelsa_ds['precip']
 
     return dataset
@@ -225,7 +225,7 @@ def hrrr3k(chelsa_ds,frame,cycle,datestr,offset):
     dataset = dataset.drop(['crs'])
 
     dataset = crop_ds(dataset,'180_chelsa')
-    dataset = dataset.interp(latitude=chelsa_ds["lat"], longitude=chelsa_ds["lon"])
+    dataset = dataset.interp(lat=chelsa_ds["lat"], lon=chelsa_ds["lon"])
     dataset['tp'] = dataset['tp']*chelsa_ds['precip']
 
     return dataset
@@ -255,7 +255,7 @@ def arw5k_1(chelsa_ds,frame,cycle,datestr,offset):
     dataset = dataset.drop(['crs'])
 
     dataset = crop_ds(dataset,'180_chelsa')
-    dataset = dataset.interp(latitude=chelsa_ds["lat"], longitude=chelsa_ds["lon"])
+    dataset = dataset.interp(lat=chelsa_ds["lat"], lon=chelsa_ds["lon"])
     dataset['tp'] = dataset['tp']*chelsa_ds['precip']
 
     return dataset
@@ -285,7 +285,7 @@ def arw5k_2(chelsa_ds,frame,cycle,datestr,offset):
     dataset = dataset.drop(['crs'])
 
     dataset = crop_ds(dataset,'180_chelsa')
-    dataset = dataset.interp(latitude=chelsa_ds["lat"], longitude=chelsa_ds["lon"])
+    dataset = dataset.interp(lat=chelsa_ds["lat"], lon=chelsa_ds["lon"])
     dataset['tp'] = dataset['tp']*chelsa_ds['precip']
 
     return dataset
@@ -315,7 +315,7 @@ def fv35k(chelsa_ds,frame,cycle,datestr,offset):
     dataset = dataset.drop(['crs'])
 
     dataset = crop_ds(dataset,'180_chelsa')
-    dataset = dataset.interp(latitude=chelsa_ds["lat"], longitude=chelsa_ds["lon"])
+    dataset = dataset.interp(lat=chelsa_ds["lat"], lon=chelsa_ds["lon"])
     dataset['tp'] = dataset['tp']*chelsa_ds['precip']
 
     return dataset
@@ -345,7 +345,7 @@ def arw2p5k(chelsa_ds,frame,cycle,datestr,offset):
     dataset = dataset.drop(['crs'])
 
     dataset = crop_ds(dataset,'180_chelsa')
-    dataset = dataset.interp(latitude=chelsa_ds["lat"], longitude=chelsa_ds["lon"])
+    dataset = dataset.interp(lat=chelsa_ds["lat"], lon=chelsa_ds["lon"])
     dataset['tp'] = dataset['tp']*chelsa_ds['precip']
 
     return dataset
@@ -376,7 +376,7 @@ def fv32p5k(chelsa_ds,frame,cycle,datestr,offset):
     dataset = dataset.drop(['crs'])
 
     dataset = crop_ds(dataset,'180_chelsa')
-    dataset = dataset.interp(latitude=chelsa_ds["lat"], longitude=chelsa_ds["lon"])
+    dataset = dataset.interp(lat=chelsa_ds["lat"], lon=chelsa_ds["lon"])
     dataset['tp'] = dataset['tp']*chelsa_ds['precip']
 
     return dataset
