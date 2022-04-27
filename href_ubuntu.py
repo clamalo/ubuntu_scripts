@@ -225,7 +225,6 @@ def hrrr3k(chelsa_ds,frame,cycle,datestr,offset):
     dataset = dataset.drop(['crs'])
 
     dataset = crop_ds(dataset,'180_chelsa')
-    print(dataset,chelsa_ds)
     dataset = dataset.interp(lat=chelsa_ds["lat"], lon=chelsa_ds["lon"])
     dataset['tp'] = dataset['tp']*chelsa_ds['precip']
 
@@ -387,6 +386,7 @@ def fv32p5k(chelsa_ds,frame,cycle,datestr,offset):
 
 
 def crop_ds(ds,type):
+    print(ds,type)
     # topleft_bottomright = [45,-125,35,-115]
     # topleft_bottomright = [41,-109,37,-102]
     topleft_bottomright = [50,-125,46.5,-120]
@@ -409,6 +409,8 @@ def crop_ds(ds,type):
         max_lon = topleft_bottomright[3]
     min_lat = topleft_bottomright[2]
     max_lat = topleft_bottomright[0]
+
+    print(min_lon,max_lon)
 
 
     if type == '360_grib':
