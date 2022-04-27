@@ -225,6 +225,7 @@ def hrrr3k(chelsa_ds,frame,cycle,datestr,offset):
     dataset = dataset.drop(['crs'])
 
     dataset = crop_ds(dataset,'180_chelsa')
+    print(dataset,chelsa_ds)
     dataset = dataset.interp(lat=chelsa_ds["lat"], lon=chelsa_ds["lon"])
     dataset['tp'] = dataset['tp']*chelsa_ds['precip']
 
