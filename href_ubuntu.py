@@ -814,6 +814,6 @@ for n in range(2,36):
     os.system('git add hrcamef')
     os.system('git commit -m "auto-push"')
     os.system('git checkout master')
-    os.system('git pull git@github.com:clamalo/ubuntu_scripts.git master')
+    os.system('git pull git@github.com:clamalo/ubuntu_scripts.git main')
     os.system('git config --global core.askpass "git-gui--askpass"')
-    os.system('git push git@github.com:clamalo/ubuntu_scripts.git master')
+    os.system('git push git@github.com:clamalo/ubuntu_scripts.git main')
