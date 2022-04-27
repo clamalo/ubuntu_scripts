@@ -441,8 +441,10 @@ def crop_ds(ds,type):
             values = ds.tp[n].values
             output = []
             for value in zip(values):
-                if str(value) == 'nan':
+                if str(value[0]) == 'nan':
                     value = 0
+                else:
+                    value = value[0]
                 print(value)
                 output.append(value)
             ds['tp'][n] = output
