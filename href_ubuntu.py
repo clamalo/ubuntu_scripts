@@ -368,6 +368,8 @@ def crop_ds(ds,type):
     min_lat = topleft_bottomright[2]
     max_lat = topleft_bottomright[0]
 
+    print(min_lon,max_lon)
+
     if type == '360_grib':
         mask_lon = (ds.longitude >= min_lon) & (ds.longitude <= max_lon)
         mask_lat = (ds.latitude >= min_lat) & (ds.latitude <= max_lat)
