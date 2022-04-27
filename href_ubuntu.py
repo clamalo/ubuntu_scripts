@@ -174,7 +174,8 @@ def nam3k(chelsa_ds,frame,cycle,datestr,offset):
     ds = gdal.Translate(outputfile, inputfile, format='NetCDF')
     os.remove(idx_file)
     dataset = xr.load_dataset('/root/current_.nc')
-    dataset = dataset.drop(['crs'])
+    if 'crs' in str(dataset):
+        dataset = dataset.drop(['crs'])
 
     if int(frame)%3 != 1:
         frame = name_frame(int(frame)-1)
@@ -189,7 +190,8 @@ def nam3k(chelsa_ds,frame,cycle,datestr,offset):
         ds = gdal.Translate(outputfile, inputfile, format='NetCDF')
         os.remove(idx_file)
         prior_dataset = xr.load_dataset('/root/minus_one_.nc')
-        prior_dataset = dataset.drop(['crs'])
+        if 'crs' in str(prior_dataset):
+                prior_dataset = prior_dataset.drop(['crs'])
         os.remove(idx_file)
         prior_dataset = xr.load_dataset('/root/minus_one_.grib2',engine='cfgrib')
         dataset['tp'] = dataset['tp']-prior_dataset['tp']
@@ -223,7 +225,8 @@ def hrrr3k(chelsa_ds,frame,cycle,datestr,offset):
     ds = gdal.Translate(outputfile, inputfile, format='NetCDF')
     os.remove(idx_file)
     dataset = xr.load_dataset('/root/current_.nc')
-    dataset = dataset.drop(['crs'])
+    if 'crs' in str(dataset):
+        dataset = dataset.drop(['crs'])
 
     dataset['lon'] = dataset['lon']+360
     dataset = crop_ds(dataset,'180_chelsa')
@@ -254,7 +257,8 @@ def arw5k_1(chelsa_ds,frame,cycle,datestr,offset):
     ds = gdal.Translate(outputfile, inputfile, format='NetCDF')
     os.remove(idx_file)
     dataset = xr.load_dataset('/root/current_.nc')
-    dataset = dataset.drop(['crs'])
+    if 'crs' in str(dataset):
+        dataset = dataset.drop(['crs'])
 
     dataset['lon'] = dataset['lon']+360
     dataset = crop_ds(dataset,'180_chelsa')
@@ -285,7 +289,8 @@ def arw5k_2(chelsa_ds,frame,cycle,datestr,offset):
     ds = gdal.Translate(outputfile, inputfile, format='NetCDF')
     os.remove(idx_file)
     dataset = xr.load_dataset('/root/current_.nc')
-    dataset = dataset.drop(['crs'])
+    if 'crs' in str(dataset):
+        dataset = dataset.drop(['crs'])
 
     dataset['lon'] = dataset['lon']+360
     dataset = crop_ds(dataset,'180_chelsa')
@@ -316,7 +321,8 @@ def fv35k(chelsa_ds,frame,cycle,datestr,offset):
     ds = gdal.Translate(outputfile, inputfile, format='NetCDF')
     os.remove(idx_file)
     dataset = xr.load_dataset('/root/current_.nc')
-    dataset = dataset.drop(['crs'])
+    if 'crs' in str(dataset):
+        dataset = dataset.drop(['crs'])
 
     dataset['lon'] = dataset['lon']+360
     dataset = crop_ds(dataset,'180_chelsa')
@@ -347,7 +353,8 @@ def arw2p5k(chelsa_ds,frame,cycle,datestr,offset):
     ds = gdal.Translate(outputfile, inputfile, format='NetCDF')
     os.remove(idx_file)
     dataset = xr.load_dataset('/root/current_.nc')
-    dataset = dataset.drop(['crs'])
+    if 'crs' in str(dataset):
+        dataset = dataset.drop(['crs'])
 
     dataset['lon'] = dataset['lon']+360
     dataset = crop_ds(dataset,'180_chelsa')
@@ -379,7 +386,8 @@ def fv32p5k(chelsa_ds,frame,cycle,datestr,offset):
     ds = gdal.Translate(outputfile, inputfile, format='NetCDF')
     os.remove(idx_file)
     dataset = xr.load_dataset('/root/current_.nc')
-    dataset = dataset.drop(['crs'])
+    if 'crs' in str(dataset):
+        dataset = dataset.drop(['crs'])
 
     dataset['lon'] = dataset['lon']+360
     dataset = crop_ds(dataset,'180_chelsa')
@@ -393,7 +401,6 @@ def fv32p5k(chelsa_ds,frame,cycle,datestr,offset):
 
 
 def crop_ds(ds,type):
-    print(ds,type)
     # topleft_bottomright = [45,-125,35,-115]
     # topleft_bottomright = [41,-109,37,-102]
     topleft_bottomright = [50,-125,46.5,-120]
@@ -416,9 +423,6 @@ def crop_ds(ds,type):
         max_lon = topleft_bottomright[3]
     min_lat = topleft_bottomright[2]
     max_lat = topleft_bottomright[0]
-
-    print(min_lon,max_lon)
-
 
     if type == '360_grib':
         mask_lon = (ds.longitude >= min_lon) & (ds.longitude <= max_lon)
@@ -496,7 +500,8 @@ def create_master_ds():
             ds = gdal.Translate(outputfile, inputfile, format='NetCDF')
             os.remove(idx_file)
             dataset = xr.load_dataset('/root/master.nc')
-            dataset = dataset.drop(['crs'])
+            if 'crs' in str(dataset):
+                dataset = dataset.drop(['crs'])
 
         # os.system('gdalwarp -t_srs EPSG:4326 current.grib2 current_.grib2')
         # dataset = xr.load_dataset('/root/current_.grib2',engine='cfgrib')
