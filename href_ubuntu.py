@@ -183,7 +183,7 @@ def nam3k(chelsa_ds,frame,cycle,datestr,offset):
         idx_url = 'https://ftpprd.ncep.noaa.gov/data/nccf/com/nam/prod/nam.'+datestr+'/nam.t'+cycle+'z.conusnest.hiresf'+frame+'.tm00.grib2.idx'
         os.system('curl "'+idx_url+'" --output "/root/nam.t'+cycle+'z.conusnest.hiresf'+frame+'.tm00.grib2.idx"')
         idx_file = '/root/nam.t'+cycle+'z.conusnest.hiresf'+frame+'.tm00.grib2.idx'
-        read_idx(idx_file,'nam',int(frame-1),cycle,datestr)
+        read_idx(idx_file,'nam',int(int(frame)-1),cycle,datestr)
         (xr.load_dataset('/root/current.grib2')).to_netcdf('/root/current.nc')
         os.system('/root/anaconda3/envs/blend/bin/gdalwarp -t_srs EPSG:4326 /root/current.nc /root/minus_one_.tif')
         inputfile = '/root/minus_one_.tif'
