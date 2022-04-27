@@ -167,7 +167,7 @@ def nam3k(chelsa_ds,frame,cycle,datestr,offset):
     os.system('curl "'+idx_url+'" --output "/root/nam.t'+cycle+'z.conusnest.hiresf'+frame+'.tm00.grib2.idx"')
     idx_file = '/root/nam.t'+cycle+'z.conusnest.hiresf'+frame+'.tm00.grib2.idx'
     read_idx(idx_file,'nam',int(frame),cycle,datestr)
-    (xr.load_dataset('current.grib2')).to_netcdf('current.nc')
+    (xr.load_dataset('/root/current.grib2')).to_netcdf('current.nc')
     os.system('/root/anaconda3/envs/blend/bin/gdalwarp -t_srs EPSG:4326 current.nc current_.tif')
     inputfile = 'current_.tif'
     outputfile = 'current_.nc'
@@ -183,7 +183,7 @@ def nam3k(chelsa_ds,frame,cycle,datestr,offset):
         os.system('curl "'+idx_url+'" --output "/root/nam.t'+cycle+'z.conusnest.hiresf'+frame+'.tm00.grib2.idx"')
         idx_file = '/root/nam.t'+cycle+'z.conusnest.hiresf'+frame+'.tm00.grib2.idx'
         read_idx(idx_file,'nam',int(frame),cycle,datestr)
-        (xr.load_dataset('current.grib2')).to_netcdf('current.nc')
+        (xr.load_dataset('/root/current.grib2')).to_netcdf('current.nc')
         os.system('/root/anaconda3/envs/blend/bin/gdalwarp-t_srs EPSG:4326 current.nc minus_one_.tif')
         inputfile = 'minus_one_.tif'
         outputfile = 'minus_one_.nc'
@@ -216,7 +216,7 @@ def hrrr3k(chelsa_ds,frame,cycle,datestr,offset):
     os.system('curl "'+idx_url+'" --output "/root/hrrr.t'+cycle+'z.wrfsfcf'+frame+'.grib2.idx"')
     idx_file = '/root/hrrr.t'+cycle+'z.wrfsfcf'+frame+'.grib2.idx'
     read_idx(idx_file,'hrrr',int(frame),cycle,datestr)
-    (xr.load_dataset('current.grib2')).to_netcdf('current.nc')
+    (xr.load_dataset('/root/current.grib2')).to_netcdf('current.nc')
     os.system('/root/anaconda3/envs/blend/bin/gdalwarp -t_srs EPSG:4326 current.nc current_.tif')
     inputfile = 'current_.tif'
     outputfile = 'current_.nc'
@@ -248,7 +248,7 @@ def arw5k_1(chelsa_ds,frame,cycle,datestr,offset):
     os.system('curl "'+idx_url+'" --output "/root/hiresw.t'+cycle+'z.arw_5km.f'+frame+'.conus.grib2.idx"')
     idx_file = '/root/hiresw.t'+cycle+'z.arw_5km.f'+frame+'.conus.grib2.idx'
     read_idx(idx_file,'arw5k_1',int(frame),cycle,datestr)
-    (xr.load_dataset('current.grib2')).to_netcdf('current.nc')
+    (xr.load_dataset('/root/current.grib2')).to_netcdf('current.nc')
     os.system('/root/anaconda3/envs/blend/bin/gdalwarp -t_srs EPSG:4326 current.nc current_.tif')
     inputfile = 'current_.tif'
     outputfile = 'current_.nc'
@@ -280,7 +280,7 @@ def arw5k_2(chelsa_ds,frame,cycle,datestr,offset):
     os.system('curl "'+idx_url+'" --output "/root/hiresw.t'+cycle+'z.arw_5km.f'+frame+'.conusmem2.grib2.idx"')
     idx_file = '/root/hiresw.t'+cycle+'z.arw_5km.f'+frame+'.conusmem2.grib2.idx'
     read_idx(idx_file,'arw5k_2',int(frame),cycle,datestr)
-    (xr.load_dataset('current.grib2')).to_netcdf('current.nc')
+    (xr.load_dataset('/root/current.grib2')).to_netcdf('current.nc')
     os.system('/root/anaconda3/envs/blend/bin/gdalwarp -t_srs EPSG:4326 current.nc current_.tif')
     inputfile = 'current_.tif'
     outputfile = 'current_.nc'
@@ -312,7 +312,7 @@ def fv35k(chelsa_ds,frame,cycle,datestr,offset):
     os.system('curl "'+idx_url+'" --output "/root/hiresw.t'+cycle+'z.fv3_5km.f'+frame+'.conus.grib2.idx"')
     idx_file = '/root/hiresw.t'+cycle+'z.fv3_5km.f'+frame+'.conus.grib2.idx'
     read_idx(idx_file,'fv35k',int(frame),cycle,datestr)
-    (xr.load_dataset('current.grib2')).to_netcdf('current.nc')
+    (xr.load_dataset('/root/current.grib2')).to_netcdf('current.nc')
     os.system('/root/anaconda3/envs/blend/bin/gdalwarp -t_srs EPSG:4326 current.nc current_.tif')
     inputfile = 'current_.tif'
     outputfile = 'current_.nc'
@@ -344,7 +344,7 @@ def arw2p5k(chelsa_ds,frame,cycle,datestr,offset):
     os.system('curl "'+idx_url+'" --output "/root/hiresw.t'+cycle+'z.arw_2p5km.f'+frame+'.conus.grib2.idx"')
     idx_file = '/root/hiresw.t'+cycle+'z.arw_2p5km.f'+frame+'.conus.grib2.idx'
     read_idx(idx_file,'arw2p5k',int(frame),cycle,datestr)
-    (xr.load_dataset('current.grib2')).to_netcdf('current.nc')
+    (xr.load_dataset('/root/current.grib2')).to_netcdf('current.nc')
     os.system('/root/anaconda3/envs/blend/bin/gdalwarp -t_srs EPSG:4326 current.nc current_.tif')
     inputfile = 'current_.tif'
     outputfile = 'current_.nc'
@@ -377,7 +377,7 @@ def fv32p5k(chelsa_ds,frame,cycle,datestr,offset):
     os.system('curl "'+idx_url+'" --output "/root/hiresw.t'+cycle+'z.fv3_2p5km.f'+frame+'.conus.grib2.idx"')
     idx_file = '/root/hiresw.t'+cycle+'z.fv3_2p5km.f'+frame+'.conus.grib2.idx'
     read_idx(idx_file,'fv32p5k',int(frame),cycle,datestr)
-    (xr.load_dataset('current.grib2')).to_netcdf('current.nc')
+    (xr.load_dataset('/root/current.grib2')).to_netcdf('current.nc')
     os.system('/root/anaconda3/envs/blend/bin/gdalwarp -t_srs EPSG:4326 current.nc current_.tif')
     inputfile = 'current_.tif'
     outputfile = 'current_.nc'
@@ -504,7 +504,7 @@ def create_master_ds():
             os.system('curl "'+idx_url+'" --output "/root/nam.t'+cycle+'z.conusnest.hiresf'+frame+'.tm00.grib2.idx"')
             idx_file = '/root/nam.t'+cycle+'z.conusnest.hiresf'+frame+'.tm00.grib2.idx'
             read_idx(idx_file,'nam',int(frame),cycle,datestr)
-            (xr.load_dataset('current.grib2')).to_netcdf('current.nc')
+            (xr.load_dataset('/root/current.grib2')).to_netcdf('current.nc')
             os.system('/root/anaconda3/envs/blend/bin/gdalwarp-t_srs EPSG:4326 current.nc master.tif')
             inputfile = 'master.tif'
             outputfile = 'master.nc'
@@ -807,13 +807,13 @@ for n in range(2,36):
     ax.add_feature(cartopy.feature.STATES)
     ax.add_feature(USCOUNTIES.with_scale('500k'),linewidth=1)
     cbar = plt.colorbar(cf, shrink=0.7, orientation="horizontal", pad=0.03)
-    plt.savefig('/root/hrcamef/tp_'+frame+'.png',dpi=500,bbox_inches='tight')
+    plt.savefig('/root/script/hrcamef/tp_'+frame+'.png',dpi=500,bbox_inches='tight')
     plt.clf()
 
-    os.chdir('/root/')
+    os.chdir('/root/script')
     os.system('git add hrcamef')
     os.system('git commit -m "auto-push"')
     os.system('git checkout master')
-    os.system('git pull git@github.com:clamalo/clamalo.github.io.git master')
+    os.system('git pull git@github.com:clamalo/ubuntu_scripts.git master')
     os.system('git config --global core.askpass "git-gui--askpass"')
-    os.system('git push git@github.com:clamalo/clamalo.github.io.git master')
+    os.system('git push git@github.com:clamalo/ubuntu_scripts.git master')
