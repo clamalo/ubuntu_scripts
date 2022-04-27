@@ -506,8 +506,8 @@ def create_master_ds():
             read_idx(idx_file,'nam',int(frame),cycle,datestr)
             (xr.load_dataset('/root/current.grib2')).to_netcdf('current.nc')
             os.system('/root/anaconda3/envs/blend/bin/gdalwarp-t_srs EPSG:4326 current.nc master.tif')
-            inputfile = 'master.tif'
-            outputfile = 'master.nc'
+            inputfile = '/root/master.tif'
+            outputfile = '/root/master.nc'
             ds = gdal.Translate(outputfile, inputfile, format='NetCDF')
             os.remove(idx_file)
             dataset = xr.load_dataset('/root/master.nc')
