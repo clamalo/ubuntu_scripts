@@ -177,6 +177,17 @@ def nam3k(chelsa_ds,frame,cycle,datestr,offset):
     print(dataset,'nam_dataset_nam_dataset')
     if 'crs' in str(dataset):
         dataset = dataset.drop(['crs'])
+    
+    for n in range(len(dataset.lat)):
+        values = dataset.tp[n].values
+        output = []
+        for value in zip(values):
+            if str(value[0]) == 'nan':
+                value = 0
+            else:
+                value = value[0]
+            output.append(value)
+        dataset['tp'][n] = output
 
     if int(frame)-1%3 != 0:
         print(frame,'frame')
@@ -195,6 +206,16 @@ def nam3k(chelsa_ds,frame,cycle,datestr,offset):
         if 'crs' in str(prior_dataset):
             prior_dataset = prior_dataset.drop(['crs'])
         os.remove(idx_file)
+        for n in range(len(dataset.lat)):
+            values = dataset.tp[n].values
+            output = []
+            for value in zip(values):
+                if str(value[0]) == 'nan':
+                    value = 0
+                else:
+                    value = value[0]
+                output.append(value)
+            dataset['tp'][n] = output
         dataset['tp'] = dataset['tp']-prior_dataset['tp']
     
     for n in range(len(dataset.lat)):
