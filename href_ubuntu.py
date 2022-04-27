@@ -399,9 +399,7 @@ def fv32p5k(chelsa_ds,frame,cycle,datestr,offset):
 
 
 def crop_ds(ds,type):
-    if type == '180_chelsa':
-        for n in range(len(ds.lat)):
-            print(max(ds.tp[n].values))
+    # if type == '180_chelsa':
         # for n in range(len(ds.lat)):
         #     print(max(ds.tp[n].values))
     # topleft_bottomright = [45,-125,35,-115]
