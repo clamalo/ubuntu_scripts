@@ -794,7 +794,23 @@ for n in range(2,36):
 
     lats = ds['lat']
     lons = ds['lon']
-    tp = ds['tp']*.0393701
+    if int(frame) == 2:
+        tp = ds['hrrr3k_1']*.0393701
+    elif int(frame) == 3:
+        tp = ds['nam3k_1']*.0393701
+    elif int(frame) == 4:
+        tp = ds['arw5k_1_1']*.0393701
+    elif int(frame) == 5:
+        tp = ds['arw5k_2_1']*.0393701
+    elif int(frame) == 6:
+        tp = ds['fv35k_1']*.0393701
+    elif int(frame) == 7:
+        tp = ds['arw2.5k_1']*.0393701
+    elif int(frame) == 8:
+        tp = ds['fv32.5k_1']*.0393701
+    elif int(frame) == 9:
+        tp = ds['tp']*.0393701
+
     fig = plt.figure(figsize=(12, 8))
     ax = plt.axes(projection=ccrs.PlateCarree())
     newcmp = create_colormap()
