@@ -167,7 +167,7 @@ def nam3k(chelsa_ds,frame,cycle,datestr,offset):
     os.system('curl "'+idx_url+'" --output "/root/nam.t'+cycle+'z.conusnest.hiresf'+frame+'.tm00.grib2.idx"')
     idx_file = '/root/nam.t'+cycle+'z.conusnest.hiresf'+frame+'.tm00.grib2.idx'
     read_idx(idx_file,'nam',int(frame),cycle,datestr)
-    (xr.load_dataset('/root/current.grib2')).to_netcdf('current.nc')
+    (xr.load_dataset('/root/current.grib2')).to_netcdf('/root/current.nc')
     os.system('/root/anaconda3/envs/blend/bin/gdalwarp -t_srs EPSG:4326 /root/current.nc /root/current_.tif')
     inputfile = '/root/current_.tif'
     outputfile = '/root/current_.nc'
@@ -183,7 +183,7 @@ def nam3k(chelsa_ds,frame,cycle,datestr,offset):
         os.system('curl "'+idx_url+'" --output "/root/nam.t'+cycle+'z.conusnest.hiresf'+frame+'.tm00.grib2.idx"')
         idx_file = '/root/nam.t'+cycle+'z.conusnest.hiresf'+frame+'.tm00.grib2.idx'
         read_idx(idx_file,'nam',int(frame),cycle,datestr)
-        (xr.load_dataset('/root/current.grib2')).to_netcdf('current.nc')
+        (xr.load_dataset('/root/current.grib2')).to_netcdf('/root/current.nc')
         os.system('/root/anaconda3/envs/blend/bin/gdalwarp -t_srs EPSG:4326 /root/current.nc /root/minus_one_.tif')
         inputfile = '/root/minus_one_.tif'
         outputfile = '/root/minus_one_.nc'
@@ -216,7 +216,7 @@ def hrrr3k(chelsa_ds,frame,cycle,datestr,offset):
     os.system('curl "'+idx_url+'" --output "/root/hrrr.t'+cycle+'z.wrfsfcf'+frame+'.grib2.idx"')
     idx_file = '/root/hrrr.t'+cycle+'z.wrfsfcf'+frame+'.grib2.idx'
     read_idx(idx_file,'hrrr',int(frame),cycle,datestr)
-    (xr.load_dataset('/root/current.grib2')).to_netcdf('current.nc')
+    (xr.load_dataset('/root/current.grib2')).to_netcdf('/root/current.nc')
     os.system('/root/anaconda3/envs/blend/bin/gdalwarp -t_srs EPSG:4326 /root/current.nc /root/current_.tif')
     inputfile = '/root/current_.tif'
     outputfile = '/root/current_.nc'
@@ -248,7 +248,7 @@ def arw5k_1(chelsa_ds,frame,cycle,datestr,offset):
     os.system('curl "'+idx_url+'" --output "/root/hiresw.t'+cycle+'z.arw_5km.f'+frame+'.conus.grib2.idx"')
     idx_file = '/root/hiresw.t'+cycle+'z.arw_5km.f'+frame+'.conus.grib2.idx'
     read_idx(idx_file,'arw5k_1',int(frame),cycle,datestr)
-    (xr.load_dataset('/root/current.grib2')).to_netcdf('current.nc')
+    (xr.load_dataset('/root/current.grib2')).to_netcdf('/root/current.nc')
     os.system('/root/anaconda3/envs/blend/bin/gdalwarp -t_srs EPSG:4326 /root/current.nc /root/current_.tif')
     inputfile = '/root/current_.tif'
     outputfile = '/root/current_.nc'
@@ -280,7 +280,7 @@ def arw5k_2(chelsa_ds,frame,cycle,datestr,offset):
     os.system('curl "'+idx_url+'" --output "/root/hiresw.t'+cycle+'z.arw_5km.f'+frame+'.conusmem2.grib2.idx"')
     idx_file = '/root/hiresw.t'+cycle+'z.arw_5km.f'+frame+'.conusmem2.grib2.idx'
     read_idx(idx_file,'arw5k_2',int(frame),cycle,datestr)
-    (xr.load_dataset('/root/current.grib2')).to_netcdf('current.nc')
+    (xr.load_dataset('/root/current.grib2')).to_netcdf('/root/current.nc')
     os.system('/root/anaconda3/envs/blend/bin/gdalwarp -t_srs EPSG:4326 /root/current.nc /root/current_.tif')
     inputfile = '/root/current_.tif'
     outputfile = '/root/current_.nc'
@@ -312,7 +312,7 @@ def fv35k(chelsa_ds,frame,cycle,datestr,offset):
     os.system('curl "'+idx_url+'" --output "/root/hiresw.t'+cycle+'z.fv3_5km.f'+frame+'.conus.grib2.idx"')
     idx_file = '/root/hiresw.t'+cycle+'z.fv3_5km.f'+frame+'.conus.grib2.idx'
     read_idx(idx_file,'fv35k',int(frame),cycle,datestr)
-    (xr.load_dataset('/root/current.grib2')).to_netcdf('current.nc')
+    (xr.load_dataset('/root/current.grib2')).to_netcdf('/root/current.nc')
     os.system('/root/anaconda3/envs/blend/bin/gdalwarp -t_srs EPSG:4326 /root/current.nc /root/current_.tif')
     inputfile = '/root/current_.tif'
     outputfile = '/root/current_.nc'
@@ -344,7 +344,7 @@ def arw2p5k(chelsa_ds,frame,cycle,datestr,offset):
     os.system('curl "'+idx_url+'" --output "/root/hiresw.t'+cycle+'z.arw_2p5km.f'+frame+'.conus.grib2.idx"')
     idx_file = '/root/hiresw.t'+cycle+'z.arw_2p5km.f'+frame+'.conus.grib2.idx'
     read_idx(idx_file,'arw2p5k',int(frame),cycle,datestr)
-    (xr.load_dataset('/root/current.grib2')).to_netcdf('current.nc')
+    (xr.load_dataset('/root/current.grib2')).to_netcdf('/root/current.nc')
     os.system('/root/anaconda3/envs/blend/bin/gdalwarp -t_srs EPSG:4326 /root/current.nc /root/current_.tif')
     inputfile = '/root/current_.tif'
     outputfile = '/root/current_.nc'
@@ -377,7 +377,7 @@ def fv32p5k(chelsa_ds,frame,cycle,datestr,offset):
     os.system('curl "'+idx_url+'" --output "/root/hiresw.t'+cycle+'z.fv3_2p5km.f'+frame+'.conus.grib2.idx"')
     idx_file = '/root/hiresw.t'+cycle+'z.fv3_2p5km.f'+frame+'.conus.grib2.idx'
     read_idx(idx_file,'fv32p5k',int(frame),cycle,datestr)
-    (xr.load_dataset('/root/current.grib2')).to_netcdf('current.nc')
+    (xr.load_dataset('/root/current.grib2')).to_netcdf('/root/current.nc')
     os.system('/root/anaconda3/envs/blend/bin/gdalwarp -t_srs EPSG:4326 /root/current.nc /root/current_.tif')
     inputfile = '/root/current_.tif'
     outputfile = '/root/current_.nc'
@@ -507,7 +507,7 @@ def create_master_ds():
             os.system('curl "'+idx_url+'" --output "/root/nam.t'+cycle+'z.conusnest.hiresf'+frame+'.tm00.grib2.idx"')
             idx_file = '/root/nam.t'+cycle+'z.conusnest.hiresf'+frame+'.tm00.grib2.idx'
             read_idx(idx_file,'nam',int(frame),cycle,datestr)
-            (xr.load_dataset('/root/current.grib2')).to_netcdf('current.nc')
+            (xr.load_dataset('/root/current.grib2')).to_netcdf('/root/current.nc')
             os.system('/root/anaconda3/envs/blend/bin/gdalwarp -t_srs EPSG:4326 /root/current.nc /root/master.tif')
             inputfile = '/root/master.tif'
             outputfile = '/root/master.nc'
@@ -780,7 +780,7 @@ for n in range(2,36):
     # master_ds['tp'] = (master_ds['nam3k_1']+master_ds['nam3k_2']+master_ds['nam3k_3']+master_ds['nam3k_4']+master_ds['nam3k_5']+master_ds['hrrr3k_1']+master_ds['hrrr3k_2']+master_ds['hrrr3k_3']+master_ds['arw5k_1_1']+master_ds['arw5k_1_2']+master_ds['arw5k_2_1']+master_ds['arw5k_2_2']+master_ds['fv35k_1']+master_ds['fv35k_2']+master_ds['fv35k_3']+master_ds['arw2.5k_1']+master_ds['arw2.5k_2']+master_ds['fv32.5k_1']+master_ds['fv32.5k_2']+master_ds['fv32.5k_3'])/20
     # master_ds['tp'] = (master_ds['nam3k_1']+master_ds['nam3k_2']+master_ds['hrrr3k_1']+master_ds['hrrr3k_2'])/4
     master_ds['tp'] = (master_ds['nam3k_1']+master_ds['hrrr3k_1']+master_ds['arw5k_1_1']+master_ds['arw5k_2_1']+master_ds['fv35k_1']+master_ds['arw2.5k_1']+master_ds['fv32.5k_1'])/7
-    master_ds.to_netcdf('master_ds.nc')
+    master_ds.to_netcdf('/root/master_ds.nc')
     print(master_ds)
 
     # master_master_ds = xr.concat([master_master_ds,master_ds], dim="hour")
@@ -796,7 +796,7 @@ for n in range(2,36):
 
     lats = ds['lat']
     lons = ds['lon']
-    tp = ds['hrrr3k_2']*.0393701
+    tp = ds['hrrr3k_1']*.0393701
     fig = plt.figure(figsize=(12, 8))
     ax = plt.axes(projection=ccrs.PlateCarree())
     newcmp = create_colormap()
