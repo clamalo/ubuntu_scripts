@@ -357,8 +357,8 @@ def crop_ds(ds,type):
         min_lon = topleft_bottomright[1]+360
         max_lon = topleft_bottomright[3]+360
     elif type == '360_chelsa':
-        min_lon = topleft_bottomright[1]+180
-        max_lon = topleft_bottomright[3]+180
+        min_lon = topleft_bottomright[1]+360
+        max_lon = topleft_bottomright[3]+360
     else:
         min_lon = topleft_bottomright[1]
         max_lon = topleft_bottomright[3]
