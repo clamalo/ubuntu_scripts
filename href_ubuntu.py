@@ -150,7 +150,7 @@ def read_idx(idx_file,model,frame,cycle,datestr):
     curl_message = ('curl '+url+' -r '+str(start_bytes)+'-'+str(end_bytes)+' > '+file_name)
     print(curl_message)
     os.system(curl_message)
-    ds = xr.load_dataset(file_name,engine='cfgrib')
+    # ds = xr.load_dataset(file_name,engine='cfgrib')
 
 def nam3k(chelsa_ds,frame,cycle,datestr,offset):
 
@@ -180,7 +180,8 @@ def nam3k(chelsa_ds,frame,cycle,datestr,offset):
 
     if int(frame)-1%3 != 0:
         print(frame,'frame')
-        frame = name_frame(int(frame)-1)
+        frame = name_frame((int(frame)-1))
+        print(frame,'new frame!')
         idx_url = 'https://ftpprd.ncep.noaa.gov/data/nccf/com/nam/prod/nam.'+datestr+'/nam.t'+cycle+'z.conusnest.hiresf'+frame+'.tm00.grib2.idx'
         os.system('curl "'+idx_url+'" --output "/root/nam.t'+cycle+'z.conusnest.hiresf'+frame+'.tm00.grib2.idx"')
         idx_file = '/root/nam.t'+cycle+'z.conusnest.hiresf'+frame+'.tm00.grib2.idx'
