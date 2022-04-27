@@ -440,11 +440,11 @@ def create_master_ds():
             ds = gdal.Translate(outputfile, inputfile, format='NetCDF')
             os.remove(idx_file)
             dataset = xr.load_dataset('/root/master.nc')
-            print(dataset)
+            dataset.drop(['crs'])
 
         # os.system('gdalwarp -t_srs EPSG:4326 current.grib2 current_.grib2')
         # dataset = xr.load_dataset('/root/current_.grib2',engine='cfgrib')
-        dataset = crop_ds(dataset,'360_grib')
+        dataset = crop_ds(dataset,'360_chelsa')
         dataset['tp'] = dataset['tp']*0
         chelsa_ds = xr.load_dataset('/root/3chelsa.nc')
         chelsa_ds['lon'] = chelsa_ds['lon']
