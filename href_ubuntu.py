@@ -399,6 +399,8 @@ def fv32p5k(chelsa_ds,frame,cycle,datestr,offset):
 
 
 def crop_ds(ds,type):
+    if type=='180_chelsa':
+        print(ds)
     # topleft_bottomright = [45,-125,35,-115]
     # topleft_bottomright = [41,-109,37,-102]
     topleft_bottomright = [50,-125,46.5,-120]
@@ -422,6 +424,8 @@ def crop_ds(ds,type):
     min_lat = topleft_bottomright[2]
     max_lat = topleft_bottomright[0]
 
+    print(min_lon,max_lon)
+
     if type == '360_grib':
         mask_lon = (ds.longitude >= min_lon) & (ds.longitude <= max_lon)
         mask_lat = (ds.latitude >= min_lat) & (ds.latitude <= max_lat)
@@ -432,9 +436,6 @@ def crop_ds(ds,type):
     ds = ds.where(mask_lon, drop=True)
     if type == '360_chelsa':
         ds['lon'] = ds['lon']+180
-    if type=='180_chelsa':
-        for n in range(len(ds.lat)):
-            print(max(ds.tp[n].values))
     return ds
 
 def resolutions():
