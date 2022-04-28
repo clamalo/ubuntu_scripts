@@ -631,7 +631,7 @@ def create_master_ds():
             idx_file = '/root/nam.t'+cycle+'z.conusnest.hiresf'+frame+'.tm00.grib2.idx'
             read_idx(idx_file,'nam',int(frame),cycle,datestr)
             (xr.load_dataset('/root/current.grib2')).to_netcdf('/root/current.nc')
-            os.system('source /opt/anaconda3/bin/activate gis')
+            os.system('source /root/anaconda3/bin/activate gis')
             os.system('/root/anaconda3/envs/blend/bin/gdalwarp -t_srs EPSG:4326 /root/current.nc /root/master.tif')
             inputfile = '/root/master.tif'
             outputfile = '/root/master.nc'
@@ -947,7 +947,6 @@ frame = '03'
 master_master_ds = create_master_ds()
 # master_ds = create_master_ds()
 # print(master_ds)
-quit()
 for n in range(2,36):
     master_ds = create_master_ds()
     frame = name_frame(n)
