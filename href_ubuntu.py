@@ -152,6 +152,8 @@ def read_idx(idx_file,model,frame,cycle,datestr):
     os.system(curl_message)
     # ds = xr.load_dataset(file_name,engine='cfgrib')
 
+    return line1
+
 def nam3k(chelsa_ds,frame,cycle,datestr,offset):
 
     #remove files
@@ -166,7 +168,7 @@ def nam3k(chelsa_ds,frame,cycle,datestr,offset):
     idx_url = 'https://ftpprd.ncep.noaa.gov/data/nccf/com/nam/prod/nam.'+datestr+'/nam.t'+cycle+'z.conusnest.hiresf'+frame+'.tm00.grib2.idx'
     os.system('curl "'+idx_url+'" --output "/root/nam.t'+cycle+'z.conusnest.hiresf'+frame+'.tm00.grib2.idx"')
     idx_file = '/root/nam.t'+cycle+'z.conusnest.hiresf'+frame+'.tm00.grib2.idx'
-    read_idx(idx_file,'nam',int(frame),cycle,datestr)
+    current_line = read_idx(idx_file,'nam',int(frame),cycle,datestr)
     (xr.load_dataset('/root/current.grib2')).to_netcdf('/root/current.nc')
     os.system('/root/anaconda3/envs/blend/bin/gdalwarp -t_srs EPSG:4326 /root/current.nc /root/current_.tif')
     inputfile = '/root/current_.tif'
@@ -194,7 +196,7 @@ def nam3k(chelsa_ds,frame,cycle,datestr,offset):
         idx_url = 'https://ftpprd.ncep.noaa.gov/data/nccf/com/nam/prod/nam.'+datestr+'/nam.t'+cycle+'z.conusnest.hiresf'+frame+'.tm00.grib2.idx'
         os.system('curl "'+idx_url+'" --output "/root/nam.t'+cycle+'z.conusnest.hiresf'+frame+'.tm00.grib2.idx"')
         idx_file = '/root/nam.t'+cycle+'z.conusnest.hiresf'+frame+'.tm00.grib2.idx'
-        read_idx(idx_file,'nam',int(frame),cycle,datestr)
+        prior_line = read_idx(idx_file,'nam',int(frame),cycle,datestr)
         (xr.load_dataset('/root/current.grib2')).to_netcdf('/root/current.nc')
         os.system('/root/anaconda3/envs/blend/bin/gdalwarp -t_srs EPSG:4326 /root/current.nc /root/minus_one_.tif')
         inputfile = '/root/minus_one_.tif'
@@ -226,6 +228,9 @@ def nam3k(chelsa_ds,frame,cycle,datestr,offset):
         # dataset['tp'] = dataset['tp']-prior_dataset['tp']
         # for n in range(len(dataset.lat)):
         #     print(max(dataset.tp[n].values))
+        for n in range(100):
+            print(current_line)
+            print(prior_line)
 
     dataset['lon'] = dataset['lon']+360
     dataset = crop_ds(dataset,'180_chelsa')
@@ -233,7 +238,6 @@ def nam3k(chelsa_ds,frame,cycle,datestr,offset):
     #     print(max(dataset.tp[n].values))
     # for n in range(len(chelsa_ds.lat)):
     #     print(max(chelsa_ds.precip[n].values))
-    print(dataset,chelsa_ds)
     dataset = dataset.interp(lat=chelsa_ds["lat"], lon=chelsa_ds["lon"])
     for n in range(len(dataset.lat)):
         values = dataset.tp[n].values
@@ -247,8 +251,8 @@ def nam3k(chelsa_ds,frame,cycle,datestr,offset):
             # print(value)
         dataset['tp'][n] = output
     dataset['tp'] = dataset['tp']*chelsa_ds['precip']
-    for n in range(len(dataset.lat)):
-        print(max(dataset.tp[n].values))
+    # for n in range(len(dataset.lat)):
+    #     print(max(dataset.tp[n].values))
     print(frame)
 
     return dataset
