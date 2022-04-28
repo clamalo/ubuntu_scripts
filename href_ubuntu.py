@@ -975,7 +975,7 @@ for product_type in product_types:
 
         lats = ds['lat']
         lons = ds['lon']
-        tp = ds['nam3k_1']*.0393701
+        tp = ds['arw5k_1_1']*.0393701
 
         fig = plt.figure(figsize=(12, 8))
         ax = plt.axes(projection=ccrs.PlateCarree())
