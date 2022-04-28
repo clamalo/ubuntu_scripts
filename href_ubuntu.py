@@ -642,20 +642,21 @@ def ingest_gribs(frame,master_ds):
                 if model[0] == 'nam3k':
                     if cycle == '00':
                         dataset_one = nam3k(chelsa_ds,frame,'00',datestr,0)
-                        datestr = ((datetime.strptime(datestr, '%Y%m%d'))-timedelta(days=1)).strftime('%Y%m%d')
-                        dataset_two = nam3k(chelsa_ds,frame,'18',datestr,6)
-                        dataset_three = nam3k(chelsa_ds,frame,'12',datestr,12)
-                        dataset_four = nam3k(chelsa_ds,frame,'06',datestr,18)
-                        dataset_five = nam3k(chelsa_ds,frame,'00',datestr,24)
+                        # datestr = ((datetime.strptime(datestr, '%Y%m%d'))-timedelta(days=1)).strftime('%Y%m%d')
+                        # dataset_two = nam3k(chelsa_ds,frame,'18',datestr,6)
+                        # dataset_three = nam3k(chelsa_ds,frame,'12',datestr,12)
+                        # dataset_four = nam3k(chelsa_ds,frame,'06',datestr,18)
+                        # dataset_five = nam3k(chelsa_ds,frame,'00',datestr,24)
                     else:
                         dataset_one = nam3k(chelsa_ds,frame,'12',datestr,0)
-                        dataset_two = nam3k(chelsa_ds,frame,'06',datestr,6)
-                        dataset_three = nam3k(chelsa_ds,frame,'00',datestr,12)
-                        datestr = ((datetime.strptime(datestr, '%Y%m%d'))-timedelta(days=1)).strftime('%Y%m%d')
-                        dataset_four = nam3k(chelsa_ds,frame,'18',datestr,18)
-                        dataset_five = nam3k(chelsa_ds,frame,'12',datestr,24)
+                        # dataset_two = nam3k(chelsa_ds,frame,'06',datestr,6)
+                        # dataset_three = nam3k(chelsa_ds,frame,'00',datestr,12)
+                        # datestr = ((datetime.strptime(datestr, '%Y%m%d'))-timedelta(days=1)).strftime('%Y%m%d')
+                        # dataset_four = nam3k(chelsa_ds,frame,'18',datestr,18)
+                        # dataset_five = nam3k(chelsa_ds,frame,'12',datestr,24)
 
-                    datasets = [dataset_one,dataset_two,dataset_three,dataset_four,dataset_five]
+                    # datasets = [dataset_one,dataset_two,dataset_three,dataset_four,dataset_five]
+                    datasets = [dataset_one]
 
                 #hrrr ingest
                 elif model[0] == 'hrrr3k':
