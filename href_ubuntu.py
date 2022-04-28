@@ -224,7 +224,15 @@ def nam3k(chelsa_ds,frame,cycle,datestr,offset):
         # for n in range(len(prior_dataset.lat)):
         #     print(max(prior_dataset.tp[n].values))
         print(dataset,prior_dataset)
-        dataset['tp'] = dataset['tp']-prior_dataset['tp']
+        for n in range(len(dataset.lat)):
+            current_list = dataset.tp[n].values
+            prior_list = prior_dataset.tp[n].values
+            output = []
+            for current,prior in zip(current_list,prior_list):
+                current = current-prior
+                output.append(current)
+            dataset['tp'][n] = output
+        # dataset['tp'] = dataset['tp']-prior_dataset['tp']
         for n in range(len(dataset.lat)):
             print(max(dataset.tp[n].values))
     
