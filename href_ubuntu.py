@@ -656,21 +656,21 @@ def ingest_gribs(frame,master_ds):
                 if model[0] == 'nam3k':
                     if cycle == '00':
                         dataset_one = nam3k(chelsa_ds,frame,'00',datestr,0)
-                        # datestr = ((datetime.strptime(datestr, '%Y%m%d'))-timedelta(days=1)).strftime('%Y%m%d')
-                        # dataset_two = nam3k(chelsa_ds,frame,'18',datestr,6)
+                        datestr = ((datetime.strptime(datestr, '%Y%m%d'))-timedelta(days=1)).strftime('%Y%m%d')
+                        dataset_two = nam3k(chelsa_ds,frame,'18',datestr,6)
                         # dataset_three = nam3k(chelsa_ds,frame,'12',datestr,12)
                         # dataset_four = nam3k(chelsa_ds,frame,'06',datestr,18)
                         # dataset_five = nam3k(chelsa_ds,frame,'00',datestr,24)
                     else:
                         dataset_one = nam3k(chelsa_ds,frame,'12',datestr,0)
-                        # dataset_two = nam3k(chelsa_ds,frame,'06',datestr,6)
+                        dataset_two = nam3k(chelsa_ds,frame,'06',datestr,6)
                         # dataset_three = nam3k(chelsa_ds,frame,'00',datestr,12)
                         # datestr = ((datetime.strptime(datestr, '%Y%m%d'))-timedelta(days=1)).strftime('%Y%m%d')
                         # dataset_four = nam3k(chelsa_ds,frame,'18',datestr,18)
                         # dataset_five = nam3k(chelsa_ds,frame,'12',datestr,24)
 
                     # datasets = [dataset_one,dataset_two,dataset_three,dataset_four,dataset_five]
-                    datasets = [dataset_one]
+                    datasets = [dataset_one,dataset_two]
 
                 #hrrr ingest
                 elif model[0] == 'hrrr3k':
@@ -688,7 +688,7 @@ def ingest_gribs(frame,master_ds):
 
                 if model[0] == 'nam3k':
                     # r = 5
-                    r = 1
+                    r = 2
                 elif model[0] == 'hrrr3k':
                     r = 3
                 for n in range(r):
@@ -842,7 +842,8 @@ for n in range(2,36):
     master_ds = ingest_gribs(frame,master_ds)
     # master_ds['tp'] = (master_ds['nam3k']+master_ds['hrrr3k']+master_ds['arw5k_1']+master_ds['arw5k_2']+master_ds['fv35k']+master_ds['arw2.5k']+master_ds['fv32.5k'])/7
     # master_ds['tp'] = (master_ds['nam3k_1']+master_ds['nam3k_2']+master_ds['nam3k_3']+master_ds['nam3k_4']+master_ds['nam3k_5']+master_ds['hrrr3k_1']+master_ds['hrrr3k_2']+master_ds['hrrr3k_3']+master_ds['arw5k_1_1']+master_ds['arw5k_1_2']+master_ds['arw5k_2_1']+master_ds['arw5k_2_2']+master_ds['fv35k_1']+master_ds['fv35k_2']+master_ds['fv35k_3']+master_ds['arw2.5k_1']+master_ds['arw2.5k_2']+master_ds['fv32.5k_1']+master_ds['fv32.5k_2']+master_ds['fv32.5k_3'])/20
-    master_ds['tp'] = (master_ds['nam3k_1']+master_ds['nam3k_2']+master_ds['hrrr3k_1']+master_ds['hrrr3k_2'])/4
+    # master_ds['tp'] = (master_ds['nam3k_1']+master_ds['nam3k_2']+master_ds['hrrr3k_1']+master_ds['hrrr3k_2'])/4
+    master_ds['tp'] = (master_ds['nam3k_1']+master_ds['nam3k_2'])/2
     # master_ds['tp'] = (master_ds['nam3k_1']+master_ds['hrrr3k_1']+master_ds['arw5k_1_1']+master_ds['arw5k_2_1']+master_ds['fv35k_1']+master_ds['arw2.5k_1']+master_ds['fv32.5k_1'])/7
     master_ds.to_netcdf('/root/master_ds.nc')
     print(master_ds)
