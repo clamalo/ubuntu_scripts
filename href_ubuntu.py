@@ -895,6 +895,7 @@ for n in range(2,36):
     ax.add_feature(cartopy.feature.STATES)
     ax.add_feature(USCOUNTIES.with_scale('500k'),linewidth=1)
     cbar = plt.colorbar(cf, shrink=0.7, orientation="horizontal", pad=0.03)
+    plt.title('HRCAMEF Frame '+str(frame),fontsize=7)
     plt.savefig('/root/script/hrcamef/tp_'+frame+'.png',dpi=500,bbox_inches='tight')
     plt.clf()
 
