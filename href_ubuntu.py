@@ -268,7 +268,7 @@ def hrrr3k(chelsa_ds,frame,cycle,datestr,offset):
     idx_url = 'https://ftpprd.ncep.noaa.gov/data/nccf/com/hrrr/prod/hrrr.'+datestr+'/conus/hrrr.t'+cycle+'z.wrfsfcf'+frame+'.grib2.idx'
     os.system('curl "'+idx_url+'" --output "/root/hrrr.t'+cycle+'z.wrfsfcf'+frame+'.grib2.idx"')
     idx_file = '/root/hrrr.t'+cycle+'z.wrfsfcf'+frame+'.grib2.idx'
-    current_line = read_idx(idx_file,'hrrr',int(frame),cycle,datestr)
+    read_idx(idx_file,'hrrr',int(frame),cycle,datestr)
     (xr.load_dataset('/root/current.grib2')).to_netcdf('/root/current.nc')
     os.system('/root/anaconda3/envs/blend/bin/gdalwarp -t_srs EPSG:4326 /root/current.nc /root/current_.tif')
     inputfile = '/root/current_.tif'
@@ -278,9 +278,6 @@ def hrrr3k(chelsa_ds,frame,cycle,datestr,offset):
     dataset = xr.load_dataset('/root/current_.nc')
     if 'crs' in str(dataset):
         dataset = dataset.drop(['crs'])
-    
-    for n in range(100):
-        print(current_line)
 
     dataset['lon'] = dataset['lon']+360
     dataset = crop_ds(dataset,'180_chelsa')
@@ -626,7 +623,7 @@ def ingest_gribs(frame,master_ds):
     datestr = datestr_and_cycle()[0]
     cycle = datestr_and_cycle()[1]
     # resolutions = [3,5,2.5]
-    resolutions = [3]
+    resolutions = [5]
     for resolution in resolutions:
         if resolution == 3:
             #load downscaling file
@@ -883,7 +880,7 @@ for n in range(2,36):
     # elif int(frame) == 9:
     #     tp = ds['tp']*.0393701
 
-    tp = ds['hrrr3k_1']*.0393701
+    tp = ds['arw5k_1_1']*.0393701
 
     fig = plt.figure(figsize=(12, 8))
     ax = plt.axes(projection=ccrs.PlateCarree())
