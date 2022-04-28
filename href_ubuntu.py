@@ -941,80 +941,61 @@ def ingest_gribs(frame,master_ds):
 
     return master_ds
 
-resolutions()
+# resolutions()
 
 frame = '03'
 master_master_ds = create_master_ds()
 # master_ds = create_master_ds()
 # print(master_ds)
 # quit()
-for n in range(2,36):
-    master_ds = create_master_ds()
-    frame = name_frame(n)
-    master_ds = ingest_gribs(frame,master_ds)
-    # master_ds['tp'] = (master_ds['nam3k']+master_ds['hrrr3k']+master_ds['arw5k_1']+master_ds['arw5k_2']+master_ds['fv35k']+master_ds['arw2.5k']+master_ds['fv32.5k'])/7
-    # master_ds['tp'] = (master_ds['nam3k_1']+master_ds['nam3k_2']+master_ds['nam3k_3']+master_ds['nam3k_4']+master_ds['nam3k_5']+master_ds['hrrr3k_1']+master_ds['hrrr3k_2']+master_ds['hrrr3k_3']+master_ds['arw5k_1_1']+master_ds['arw5k_1_2']+master_ds['arw5k_2_1']+master_ds['arw5k_2_2']+master_ds['fv35k_1']+master_ds['fv35k_2']+master_ds['fv35k_3']+master_ds['arw2.5k_1']+master_ds['arw2.5k_2']+master_ds['fv32.5k_1']+master_ds['fv32.5k_2']+master_ds['fv32.5k_3'])/20
-    # master_ds['tp'] = (master_ds['nam3k_1']+master_ds['nam3k_2']+master_ds['hrrr3k_1']+master_ds['hrrr3k_2'])/4
-    # master_ds['tp'] = (master_ds['nam3k_1']+master_ds['hrrr3k_1'])/2
-    master_ds['tp'] = (master_ds['nam3k_1']+master_ds['hrrr3k_1']+master_ds['arw5k_1_1']+master_ds['arw5k_2_1']+master_ds['fv35k_1']+master_ds['arw2.5k_1']+master_ds['fv32.5k_1'])/7
-    master_ds.to_netcdf('/root/master_ds.nc')
-    print(master_ds)
+product_types = ['hourly','accumulated']
+for product_type in product_types:
+    for n in range(2,36):
+        master_ds = create_master_ds()
+        frame = name_frame(n)
+        master_ds = ingest_gribs(frame,master_ds)
+        # master_ds['tp'] = (master_ds['nam3k']+master_ds['hrrr3k']+master_ds['arw5k_1']+master_ds['arw5k_2']+master_ds['fv35k']+master_ds['arw2.5k']+master_ds['fv32.5k'])/7
+        # master_ds['tp'] = (master_ds['nam3k_1']+master_ds['nam3k_2']+master_ds['nam3k_3']+master_ds['nam3k_4']+master_ds['nam3k_5']+master_ds['hrrr3k_1']+master_ds['hrrr3k_2']+master_ds['hrrr3k_3']+master_ds['arw5k_1_1']+master_ds['arw5k_1_2']+master_ds['arw5k_2_1']+master_ds['arw5k_2_2']+master_ds['fv35k_1']+master_ds['fv35k_2']+master_ds['fv35k_3']+master_ds['arw2.5k_1']+master_ds['arw2.5k_2']+master_ds['fv32.5k_1']+master_ds['fv32.5k_2']+master_ds['fv32.5k_3'])/20
+        # master_ds['tp'] = (master_ds['nam3k_1']+master_ds['nam3k_2']+master_ds['hrrr3k_1']+master_ds['hrrr3k_2'])/4
+        # master_ds['tp'] = (master_ds['nam3k_1']+master_ds['hrrr3k_1'])/2
+        master_ds['tp'] = (master_ds['nam3k_1']+master_ds['hrrr3k_1']+master_ds['arw5k_1_1']+master_ds['arw5k_2_1']+master_ds['fv35k_1']+master_ds['arw2.5k_1']+master_ds['fv32.5k_1'])/7
+        master_ds.to_netcdf('/root/master_ds.nc')
+        print(master_ds)
 
-    # master_master_ds = xr.concat([master_master_ds,master_ds], dim="hour")
+        # master_master_ds = xr.concat([master_master_ds,master_ds], dim="hour")
 
-    # ds = master_master_ds.isel(hour=n-1)
+        # ds = master_master_ds.isel(hour=n-1)
 
-    # new_lon = np.linspace(ds.lon[0], ds.lon[-1], ds.dims["lon"] * 2)
-    # new_lat = np.linspace(ds.lat[0], ds.lat[-1], ds.dims["lat"] * 2)
-    # ds = ds.interp(lat=new_lat, lon=new_lon)
+        ds = master_ds
+        new_lon = np.linspace(ds.lon[0], ds.lon[-1], ds.dims["lon"] * 2)
+        new_lat = np.linspace(ds.lat[0], ds.lat[-1], ds.dims["lat"] * 2)
+        ds = ds.interp(lat=new_lat, lon=new_lon)
 
-    ds = master_ds
-    # ds =
+        lats = ds['lat']
+        lons = ds['lon']
+        tp = ds['tp']*.0393701
 
-    lats = ds['lat']
-    lons = ds['lon']
-    # if int(frame) == 2:
-    #     tp = ds['hrrr3k_1']*.0393701
-    # elif int(frame) == 3:
-    #     tp = ds['nam3k_1']*.0393701
-    # elif int(frame) == 4:
-    #     tp = ds['arw5k_1_1']*.0393701
-    # elif int(frame) == 5:
-    #     tp = ds['arw5k_2_1']*.0393701
-    # #**********
-    # elif int(frame) == 6:
-    #     tp = ds['fv35k_1']*.0393701
-    # #**********
-    # elif int(frame) == 7:
-    #     tp = ds['arw2.5k_1']*.0393701
-    # elif int(frame) == 8:
-    #     tp = ds['fv32.5k_1']*.0393701
-    # elif int(frame) == 9:
-    #     tp = ds['tp']*.0393701
+        fig = plt.figure(figsize=(12, 8))
+        ax = plt.axes(projection=ccrs.PlateCarree())
+        newcmp = create_colormap()
+        bounds = [0,0.01,0.03,0.05,0.075,0.1,0.15,0.2,0.25,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1,1.2,1.4,1.6,1.8,2,2.5,3,3.5,4,5,6,7,8,9,10]#,11,12,13,14,15,16,17,18,19,20]
+        norm = colors.BoundaryNorm(boundaries=bounds, ncolors=32)
+        #cf = ax.contourf(lons,lats,precip,us,norm=norm,cmap=newcmp)
+        cf = ax.pcolormesh(lons, lats, tp, norm=norm, cmap=newcmp)
 
-    tp = ds['tp']*.0393701
+        # cf = ax.pcolormesh(lons, lats, tp, cmap='jet', vmin=0, vmax=50)
+        ax.coastlines()
+        ax.add_feature(cartopy.feature.STATES)
+        # ax.add_feature(USCOUNTIES.with_scale('500k'),linewidth=1)
+        cbar = plt.colorbar(cf, shrink=0.7, orientation="horizontal", pad=0.03)
+        plt.title('HRCAMEF Frame '+str(frame),fontsize=7)
+        plt.savefig('/root/script/hrcamef/'+product_type+'/tp_'+frame+'.png',dpi=500,bbox_inches='tight')
+        plt.clf()
 
-    fig = plt.figure(figsize=(12, 8))
-    ax = plt.axes(projection=ccrs.PlateCarree())
-    newcmp = create_colormap()
-    bounds = [0,0.01,0.03,0.05,0.075,0.1,0.15,0.2,0.25,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1,1.2,1.4,1.6,1.8,2,2.5,3,3.5,4,5,6,7,8,9,10]#,11,12,13,14,15,16,17,18,19,20]
-    norm = colors.BoundaryNorm(boundaries=bounds, ncolors=32)
-    #cf = ax.contourf(lons,lats,precip,us,norm=norm,cmap=newcmp)
-    cf = ax.pcolormesh(lons, lats, tp, norm=norm, cmap=newcmp)
-
-    # cf = ax.pcolormesh(lons, lats, tp, cmap='jet', vmin=0, vmax=50)
-    ax.coastlines()
-    ax.add_feature(cartopy.feature.STATES)
-    # ax.add_feature(USCOUNTIES.with_scale('500k'),linewidth=1)
-    cbar = plt.colorbar(cf, shrink=0.7, orientation="horizontal", pad=0.03)
-    plt.title('HRCAMEF Frame '+str(frame),fontsize=7)
-    plt.savefig('/root/script/hrcamef/tp_'+frame+'.png',dpi=500,bbox_inches='tight')
-    plt.clf()
-
-    os.chdir('/root/script')
-    os.system('git add hrcamef')
-    os.system('git commit -m "auto-push"')
-    os.system('git checkout master')
-    os.system('git pull git@github.com:clamalo/ubuntu_scripts.git master')
-    os.system('git config --global core.askpass "git-gui--askpass"')
-    os.system('git push git@github.com:clamalo/ubuntu_scripts.git master')
+        os.chdir('/root/script')
+        os.system('git add hrcamef')
+        os.system('git commit -m "auto-push"')
+        os.system('git checkout master')
+        os.system('git pull git@github.com:clamalo/ubuntu_scripts.git master')
+        os.system('git config --global core.askpass "git-gui--askpass"')
+        os.system('git push git@github.com:clamalo/ubuntu_scripts.git master')
