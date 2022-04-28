@@ -150,7 +150,9 @@ def read_idx(idx_file,model,frame,cycle,datestr):
     curl_message = ('curl '+url+' -r '+str(start_bytes)+'-'+str(end_bytes)+' > '+file_name)
     print(curl_message)
     os.system(curl_message)
-    ds = xr.load_dataset(file_name,engine='cfgrib')
+    # ds = xr.load_dataset(file_name,engine='cfgrib')
+
+    return line1
 
 def nam3k(chelsa_ds,frame,cycle,datestr,offset):
 
@@ -166,7 +168,7 @@ def nam3k(chelsa_ds,frame,cycle,datestr,offset):
     idx_url = 'https://ftpprd.ncep.noaa.gov/data/nccf/com/nam/prod/nam.'+datestr+'/nam.t'+cycle+'z.conusnest.hiresf'+frame+'.tm00.grib2.idx'
     os.system('curl "'+idx_url+'" --output "/root/nam.t'+cycle+'z.conusnest.hiresf'+frame+'.tm00.grib2.idx"')
     idx_file = '/root/nam.t'+cycle+'z.conusnest.hiresf'+frame+'.tm00.grib2.idx'
-    read_idx(idx_file,'nam',int(frame),cycle,datestr)
+    current_line = read_idx(idx_file,'nam',int(frame),cycle,datestr)
     (xr.load_dataset('/root/current.grib2')).to_netcdf('/root/current.nc')
     os.system('/root/anaconda3/envs/blend/bin/gdalwarp -t_srs EPSG:4326 /root/current.nc /root/current_.tif')
     inputfile = '/root/current_.tif'
@@ -176,28 +178,82 @@ def nam3k(chelsa_ds,frame,cycle,datestr,offset):
     dataset = xr.load_dataset('/root/current_.nc')
     if 'crs' in str(dataset):
         dataset = dataset.drop(['crs'])
+    
+    for n in range(len(dataset.lat)):
+        values = dataset.tp[n].values
+        output = []
+        for value in zip(values):
+            if str(value[0]) == 'nan':
+                value = 0
+            else:
+                value = value[0]
+            output.append(value)
+            # print(value)
+        dataset['tp'][n] = output
 
-    # if int(frame)%3 != 1:
-    #     frame = name_frame(int(frame)-1)
-    #     idx_url = 'https://ftpprd.ncep.noaa.gov/data/nccf/com/nam/prod/nam.'+datestr+'/nam.t'+cycle+'z.conusnest.hiresf'+frame+'.tm00.grib2.idx'
-    #     os.system('curl "'+idx_url+'" --output "/root/nam.t'+cycle+'z.conusnest.hiresf'+frame+'.tm00.grib2.idx"')
-    #     idx_file = '/root/nam.t'+cycle+'z.conusnest.hiresf'+frame+'.tm00.grib2.idx'
-    #     read_idx(idx_file,'nam',int(frame-1),cycle,datestr)
-    #     (xr.load_dataset('/root/current.grib2')).to_netcdf('/root/current.nc')
-    #     os.system('/root/anaconda3/envs/blend/bin/gdalwarp -t_srs EPSG:4326 /root/current.nc /root/minus_one_.tif')
-    #     inputfile = '/root/minus_one_.tif'
-    #     outputfile = '/root/minus_one_.nc'
-    #     ds = gdal.Translate(outputfile, inputfile, format='NetCDF')
-    #     prior_dataset = xr.load_dataset('/root/minus_one_.nc')
-    #     if 'crs' in str(prior_dataset):
-    #             prior_dataset = prior_dataset.drop(['crs'])
-    #     os.remove(idx_file)
-    #     dataset['tp'] = dataset['tp']-prior_dataset['tp']
+    if (int(frame)-1)%3 != 0:
+        frame = name_frame((int(frame)-1))
+        idx_url = 'https://ftpprd.ncep.noaa.gov/data/nccf/com/nam/prod/nam.'+datestr+'/nam.t'+cycle+'z.conusnest.hiresf'+frame+'.tm00.grib2.idx'
+        os.system('curl "'+idx_url+'" --output "/root/nam.t'+cycle+'z.conusnest.hiresf'+frame+'.tm00.grib2.idx"')
+        idx_file = '/root/nam.t'+cycle+'z.conusnest.hiresf'+frame+'.tm00.grib2.idx'
+        prior_line = read_idx(idx_file,'nam',int(frame),cycle,datestr)
+        (xr.load_dataset('/root/current.grib2')).to_netcdf('/root/current.nc')
+        os.system('/root/anaconda3/envs/blend/bin/gdalwarp -t_srs EPSG:4326 /root/current.nc /root/minus_one_.tif')
+        inputfile = '/root/minus_one_.tif'
+        outputfile = '/root/minus_one_.nc'
+        ds = gdal.Translate(outputfile, inputfile, format='NetCDF')
+        prior_dataset = xr.load_dataset('/root/minus_one_.nc')
+        if 'crs' in str(prior_dataset):
+            prior_dataset = prior_dataset.drop(['crs'])
+        os.remove(idx_file)
+        for n in range(len(prior_dataset.lat)):
+            values = prior_dataset.tp[n].values
+            output = []
+            for value in zip(values):
+                if str(value[0]) == 'nan':
+                    value = 0
+                else:
+                    value = value[0]
+                # print(value)
+                output.append(value)
+            prior_dataset['tp'][n] = output
+        for n in range(len(dataset.lat)):
+            current_list = dataset.tp[n].values
+            prior_list = prior_dataset.tp[n].values
+            output = []
+            for current,prior in zip(current_list,prior_list):
+                current = current-prior
+                output.append(current)
+            dataset['tp'][n] = output
+        # dataset['tp'] = dataset['tp']-prior_dataset['tp']
+        # for n in range(len(dataset.lat)):
+        #     print(max(dataset.tp[n].values))
+        for n in range(100):
+            print(current_line)
+            print(prior_line)
 
     dataset['lon'] = dataset['lon']+360
     dataset = crop_ds(dataset,'180_chelsa')
+    # for n in range(len(dataset.lat)):
+    #     print(max(dataset.tp[n].values))
+    # for n in range(len(chelsa_ds.lat)):
+    #     print(max(chelsa_ds.precip[n].values))
     dataset = dataset.interp(lat=chelsa_ds["lat"], lon=chelsa_ds["lon"])
+    for n in range(len(dataset.lat)):
+        values = dataset.tp[n].values
+        output = []
+        for value in zip(values):
+            if str(value[0]) == 'nan':
+                value = 0
+            else:
+                value = value[0]
+            output.append(value)
+            # print(value)
+        dataset['tp'][n] = output
     dataset['tp'] = dataset['tp']*chelsa_ds['precip']
+    # for n in range(len(dataset.lat)):
+    #     print(max(dataset.tp[n].values))
+    print(frame)
 
     return dataset
 
@@ -519,6 +575,17 @@ def create_master_ds():
         # dataset = xr.load_dataset('/root/current_.grib2',engine='cfgrib')
         dataset['lon'] = dataset['lon']+360
         dataset = crop_ds(dataset,'180_chelsa')
+        # for n in range(len(dataset.lat)):
+        #     values = dataset.tp[n].values
+        #     output = []
+        #     for value in zip(values):
+        #         if str(value[0]) == 'nan':
+        #             value = 0
+        #         else:
+        #             value = value[0]
+        #         output.append(value)
+        #         # print(value)
+        #     dataset['tp'][n] = output
         dataset['tp'] = dataset['tp']*0
         chelsa_ds = xr.load_dataset('/root/3chelsa.nc')
         # chelsa_ds['lon'] = chelsa_ds['lon']-180
@@ -592,20 +659,21 @@ def ingest_gribs(frame,master_ds):
                 if model[0] == 'nam3k':
                     if cycle == '00':
                         dataset_one = nam3k(chelsa_ds,frame,'00',datestr,0)
-                        datestr = ((datetime.strptime(datestr, '%Y%m%d'))-timedelta(days=1)).strftime('%Y%m%d')
-                        dataset_two = nam3k(chelsa_ds,frame,'18',datestr,6)
-                        dataset_three = nam3k(chelsa_ds,frame,'12',datestr,12)
-                        dataset_four = nam3k(chelsa_ds,frame,'06',datestr,18)
-                        dataset_five = nam3k(chelsa_ds,frame,'00',datestr,24)
+                        # datestr = ((datetime.strptime(datestr, '%Y%m%d'))-timedelta(days=1)).strftime('%Y%m%d')
+                        # dataset_two = nam3k(chelsa_ds,frame,'18',datestr,6)
+                        # dataset_three = nam3k(chelsa_ds,frame,'12',datestr,12)
+                        # dataset_four = nam3k(chelsa_ds,frame,'06',datestr,18)
+                        # dataset_five = nam3k(chelsa_ds,frame,'00',datestr,24)
                     else:
                         dataset_one = nam3k(chelsa_ds,frame,'12',datestr,0)
-                        dataset_two = nam3k(chelsa_ds,frame,'06',datestr,6)
-                        dataset_three = nam3k(chelsa_ds,frame,'00',datestr,12)
-                        datestr = ((datetime.strptime(datestr, '%Y%m%d'))-timedelta(days=1)).strftime('%Y%m%d')
-                        dataset_four = nam3k(chelsa_ds,frame,'18',datestr,18)
-                        dataset_five = nam3k(chelsa_ds,frame,'12',datestr,24)
+                        # dataset_two = nam3k(chelsa_ds,frame,'06',datestr,6)
+                        # dataset_three = nam3k(chelsa_ds,frame,'00',datestr,12)
+                        # datestr = ((datetime.strptime(datestr, '%Y%m%d'))-timedelta(days=1)).strftime('%Y%m%d')
+                        # dataset_four = nam3k(chelsa_ds,frame,'18',datestr,18)
+                        # dataset_five = nam3k(chelsa_ds,frame,'12',datestr,24)
 
-                    datasets = [dataset_one,dataset_two,dataset_three,dataset_four,dataset_five]
+                    # datasets = [dataset_one,dataset_two,dataset_three,dataset_four,dataset_five]
+                    datasets = [dataset_one]
 
                 #hrrr ingest
                 elif model[0] == 'hrrr3k':
@@ -622,7 +690,8 @@ def ingest_gribs(frame,master_ds):
                     datasets = [dataset_one,dataset_two,dataset_three]
 
                 if model[0] == 'nam3k':
-                    r = 5
+                    # r = 5
+                    r = 1
                 elif model[0] == 'hrrr3k':
                     r = 3
                 for n in range(r):
@@ -770,7 +839,7 @@ frame = '03'
 master_master_ds = create_master_ds()
 # master_ds = create_master_ds()
 # print(master_ds)
-for n in range(8,36):
+for n in range(10,36):
     master_ds = create_master_ds()
     frame = name_frame(n)
     master_ds = ingest_gribs(frame,master_ds)
