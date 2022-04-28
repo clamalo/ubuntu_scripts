@@ -190,6 +190,7 @@ def nam3k(chelsa_ds,frame,cycle,datestr,offset):
         dataset['tp'][n] = output
 
     if (int(frame)-1)%3 != 0:
+        print(frame,'PRIOR DATASETTING')
         frame = name_frame((int(frame)-1))
         idx_url = 'https://ftpprd.ncep.noaa.gov/data/nccf/com/nam/prod/nam.'+datestr+'/nam.t'+cycle+'z.conusnest.hiresf'+frame+'.tm00.grib2.idx'
         os.system('curl "'+idx_url+'" --output "/root/nam.t'+cycle+'z.conusnest.hiresf'+frame+'.tm00.grib2.idx"')
