@@ -673,7 +673,8 @@ def ingest_gribs(frame,master_ds):
                     datasets = [dataset_one,dataset_two,dataset_three]
 
                 if model[0] == 'nam3k':
-                    r = 5
+                    # r = 5
+                    r = 1
                 elif model[0] == 'hrrr3k':
                     r = 3
                 for n in range(r):
