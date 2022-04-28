@@ -880,7 +880,7 @@ for n in range(2,36):
     # elif int(frame) == 9:
     #     tp = ds['tp']*.0393701
 
-    tp = ds['nam3k_1']*.0393701
+    tp = ds['tp']*.0393701
 
     fig = plt.figure(figsize=(12, 8))
     ax = plt.axes(projection=ccrs.PlateCarree())
