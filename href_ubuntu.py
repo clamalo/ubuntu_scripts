@@ -737,41 +737,43 @@ def ingest_gribs(frame,master_ds):
                 if model[0] == 'nam3k':
                     if cycle == '00':
                         dataset_one = nam3k(chelsa_ds,frame,'00',datestr,0)
-                        datestr = ((datetime.strptime(datestr, '%Y%m%d'))-timedelta(days=1)).strftime('%Y%m%d')
-                        dataset_two = nam3k(chelsa_ds,frame,'18',datestr,6)
+                        # datestr = ((datetime.strptime(datestr, '%Y%m%d'))-timedelta(days=1)).strftime('%Y%m%d')
+                        # dataset_two = nam3k(chelsa_ds,frame,'18',datestr,6)
                         # dataset_three = nam3k(chelsa_ds,frame,'12',datestr,12)
                         # dataset_four = nam3k(chelsa_ds,frame,'06',datestr,18)
                         # dataset_five = nam3k(chelsa_ds,frame,'00',datestr,24)
                     else:
                         dataset_one = nam3k(chelsa_ds,frame,'12',datestr,0)
-                        dataset_two = nam3k(chelsa_ds,frame,'06',datestr,6)
+                        # dataset_two = nam3k(chelsa_ds,frame,'06',datestr,6)
                         # dataset_three = nam3k(chelsa_ds,frame,'00',datestr,12)
                         # datestr = ((datetime.strptime(datestr, '%Y%m%d'))-timedelta(days=1)).strftime('%Y%m%d')
                         # dataset_four = nam3k(chelsa_ds,frame,'18',datestr,18)
                         # dataset_five = nam3k(chelsa_ds,frame,'12',datestr,24)
 
                     # datasets = [dataset_one,dataset_two,dataset_three,dataset_four,dataset_five]
-                    datasets = [dataset_one,dataset_two]
+                    datasets = [dataset_one]
 
                 #hrrr ingest
                 elif model[0] == 'hrrr3k':
                     if cycle == '00':
                         dataset_one = hrrr3k(chelsa_ds,frame,'00',datestr,0)
-                        datestr = ((datetime.strptime(datestr, '%Y%m%d'))-timedelta(days=1)).strftime('%Y%m%d')
-                        dataset_two = hrrr3k(chelsa_ds,frame,'18',datestr,6)
-                        dataset_three = hrrr3k(chelsa_ds,frame,'12',datestr,12)
+                        # datestr = ((datetime.strptime(datestr, '%Y%m%d'))-timedelta(days=1)).strftime('%Y%m%d')
+                        # dataset_two = hrrr3k(chelsa_ds,frame,'18',datestr,6)
+                        # dataset_three = hrrr3k(chelsa_ds,frame,'12',datestr,12)
                     else:
                         dataset_one = hrrr3k(chelsa_ds,frame,'12',datestr,0)
-                        dataset_two = hrrr3k(chelsa_ds,frame,'06',datestr,6)
-                        dataset_three = hrrr3k(chelsa_ds,frame,'00',datestr,12)
+                        # dataset_two = hrrr3k(chelsa_ds,frame,'06',datestr,6)
+                        # dataset_three = hrrr3k(chelsa_ds,frame,'00',datestr,12)
 
-                    datasets = [dataset_one,dataset_two,dataset_three]
+                    # datasets = [dataset_one,dataset_two,dataset_three]
+                    datasets = [dataset_one]
 
                 if model[0] == 'nam3k':
                     # r = 5
-                    r = 2
+                    r = 1
                 elif model[0] == 'hrrr3k':
-                    r = 3
+                    # r = 3
+                    r = 1
                 for n in range(r):
                     master_ds[model[0]+'_'+str(n+1)] = master_ds[model[0]+'_'+str(n+1)]+datasets[n]['tp']
 
@@ -813,45 +815,50 @@ def ingest_gribs(frame,master_ds):
                 if model[0] == 'arw5k_1':
                     if cycle == '00':
                         dataset_one = arw5k_1(chelsa_ds,frame,'00',datestr,0)
-                        datestr = ((datetime.strptime(datestr, '%Y%m%d'))-timedelta(days=1)).strftime('%Y%m%d')
-                        dataset_two = arw5k_1(chelsa_ds,frame,'12',datestr,12)
+                        # datestr = ((datetime.strptime(datestr, '%Y%m%d'))-timedelta(days=1)).strftime('%Y%m%d')
+                        # dataset_two = arw5k_1(chelsa_ds,frame,'12',datestr,12)
                     else:
                         dataset_one = arw5k_1(chelsa_ds,frame,'12',datestr,0)
-                        dataset_two = arw5k_1(chelsa_ds,frame,'00',datestr,12)
+                        # dataset_two = arw5k_1(chelsa_ds,frame,'00',datestr,12)
 
-                    datasets = [dataset_one,dataset_two]
+                    # datasets = [dataset_one,dataset_two]
+                    datasets = [dataset_one]
 
                 #wrf arw5k 2 ingest
                 elif model[0] == 'arw5k_2':
                     if cycle == '00':
                         dataset_one = arw5k_2(chelsa_ds,frame,'00',datestr,0)
-                        datestr = ((datetime.strptime(datestr, '%Y%m%d'))-timedelta(days=1)).strftime('%Y%m%d')
-                        dataset_two = arw5k_2(chelsa_ds,frame,'12',datestr,12)
+                        # datestr = ((datetime.strptime(datestr, '%Y%m%d'))-timedelta(days=1)).strftime('%Y%m%d')
+                        # dataset_two = arw5k_2(chelsa_ds,frame,'12',datestr,12)
                     else:
                         dataset_one = arw5k_2(chelsa_ds,frame,'12',datestr,0)
-                        dataset_two = arw5k_2(chelsa_ds,frame,'00',datestr,12)
+                        # dataset_two = arw5k_2(chelsa_ds,frame,'00',datestr,12)
 
-                    datasets = [dataset_one,dataset_two]
+                    # datasets = [dataset_one,dataset_two]
+                    datasets = [dataset_one]
 
                 #wrf fv3 ingest
                 elif model[0] == 'fv35k':
                     if cycle == '00':
                         dataset_one = fv35k(chelsa_ds,frame,'00',datestr,0)
-                        datestr = ((datetime.strptime(datestr, '%Y%m%d'))-timedelta(days=1)).strftime('%Y%m%d')
-                        dataset_two = fv35k(chelsa_ds,frame,'12',datestr,12)
-                        dataset_three = fv35k(chelsa_ds,frame,'00',datestr,24)
+                        # datestr = ((datetime.strptime(datestr, '%Y%m%d'))-timedelta(days=1)).strftime('%Y%m%d')
+                        # dataset_two = fv35k(chelsa_ds,frame,'12',datestr,12)
+                        # dataset_three = fv35k(chelsa_ds,frame,'00',datestr,24)
                     else:
                         dataset_one = fv35k(chelsa_ds,frame,'12',datestr,0)
-                        dataset_two = fv35k(chelsa_ds,frame,'00',datestr,12)
-                        datestr = ((datetime.strptime(datestr, '%Y%m%d'))-timedelta(days=1)).strftime('%Y%m%d')
-                        dataset_three = fv35k(chelsa_ds,frame,'12',datestr,24)
+                        # dataset_two = fv35k(chelsa_ds,frame,'00',datestr,12)
+                        # datestr = ((datetime.strptime(datestr, '%Y%m%d'))-timedelta(days=1)).strftime('%Y%m%d')
+                        # dataset_three = fv35k(chelsa_ds,frame,'12',datestr,24)
 
-                    datasets = [dataset_one,dataset_two,dataset_three]
+                    # datasets = [dataset_one,dataset_two,dataset_three]
+                    datasets = [dataset_one]
 
                 if model[0] == 'arw5k_1' or model[0] == 'arw5k_2':
-                    r = 2
+                    # r = 2
+                    r = 1
                 elif model[0] == 'fv35k':
-                    r = 3
+                    # r = 3
+                    r = 1
                 for n in range(r):
                     master_ds[model[0]+'_'+str(n+1)] = master_ds[model[0]+'_'+str(n+1)]+datasets[n]['tp']
 
@@ -894,35 +901,39 @@ def ingest_gribs(frame,master_ds):
                 if model[0] == 'arw2.5k':
                     if cycle == '00':
                         dataset_one = arw2p5k(chelsa_ds,frame,'00',datestr,0)
-                        datestr = ((datetime.strptime(datestr, '%Y%m%d'))-timedelta(days=1)).strftime('%Y%m%d')
-                        dataset_two = arw2p5k(chelsa_ds,frame,'12',datestr,12)
+                        # datestr = ((datetime.strptime(datestr, '%Y%m%d'))-timedelta(days=1)).strftime('%Y%m%d')
+                        # dataset_two = arw2p5k(chelsa_ds,frame,'12',datestr,12)
                     else:
                         dataset_one = arw2p5k(chelsa_ds,frame,'12',datestr,0)
-                        dataset_two = arw2p5k(chelsa_ds,frame,'00',datestr,12)
+                        # dataset_two = arw2p5k(chelsa_ds,frame,'00',datestr,12)
 
-                    datasets = [dataset_one,dataset_two]
+                    # datasets = [dataset_one,dataset_two]
+                    datasets = [dataset_one]
 
 
                 #wrf fv32.5k ingest
                 elif model[0] == 'fv32.5k':
                     if cycle == '00':
                         dataset_one = fv32p5k(chelsa_ds,frame,'00',datestr,0)
-                        datestr = ((datetime.strptime(datestr, '%Y%m%d'))-timedelta(days=1)).strftime('%Y%m%d')
-                        dataset_two = fv32p5k(chelsa_ds,frame,'12',datestr,12)
-                        dataset_three = fv32p5k(chelsa_ds,frame,'00',datestr,24)
+                        # datestr = ((datetime.strptime(datestr, '%Y%m%d'))-timedelta(days=1)).strftime('%Y%m%d')
+                        # dataset_two = fv32p5k(chelsa_ds,frame,'12',datestr,12)
+                        # dataset_three = fv32p5k(chelsa_ds,frame,'00',datestr,24)
                     else:
                         dataset_one = fv32p5k(chelsa_ds,frame,'12',datestr,0)
-                        dataset_two = fv32p5k(chelsa_ds,frame,'00',datestr,12)
-                        datestr = ((datetime.strptime(datestr, '%Y%m%d'))-timedelta(days=1)).strftime('%Y%m%d')
-                        dataset_three = fv32p5k(chelsa_ds,frame,'12',datestr,24)
+                        # dataset_two = fv32p5k(chelsa_ds,frame,'00',datestr,12)
+                        # datestr = ((datetime.strptime(datestr, '%Y%m%d'))-timedelta(days=1)).strftime('%Y%m%d')
+                        # dataset_three = fv32p5k(chelsa_ds,frame,'12',datestr,24)
 
-                    datasets = [dataset_one,dataset_two,dataset_three]
+                    # datasets = [dataset_one,dataset_two,dataset_three]
+                    datasets = [dataset_one]
 
 
                 if model[0] == 'arw2.5k':
-                    r = 2
+                    # r = 2
+                    r = 1
                 elif model[0] == 'fv32.5k':
-                    r = 3
+                    # r = 3
+                    r = 1
                 for n in range(r):
                     master_ds[model[0]+'_'+str(n+1)] = master_ds[model[0]+'_'+str(n+1)]+datasets[n]['tp']
 
