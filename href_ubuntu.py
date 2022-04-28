@@ -9,7 +9,7 @@ from datetime import datetime, timedelta
 import os
 import requests
 import matplotlib.colors as colors
-from metpy.plots import USCOUNTIES
+# from metpy.plots import USCOUNTIES
 from osgeo import gdal
 
 #create the colormap
@@ -163,6 +163,15 @@ def nam3k(chelsa_ds,frame,cycle,datestr,offset):
     file_exists = os.path.exists('/root/minus_one_.grib2')
     if file_exists == True:
         os.remove('/root/minus_one_.grib2')
+    file_exists = os.path.exists('/root/current.nc')
+    if file_exists == True:
+        os.remove('/root/current.nc')
+    file_exists = os.path.exists('/root/current_.nc')
+    if file_exists == True:
+        os.remove('/root/current_.nc')
+    file_exists = os.path.exists('/root/current_.tif')
+    if file_exists == True:
+        os.remove('/root/current_.tif')
 
     frame = name_frame(int(frame)+offset)
     idx_url = 'https://ftpprd.ncep.noaa.gov/data/nccf/com/nam/prod/nam.'+datestr+'/nam.t'+cycle+'z.conusnest.hiresf'+frame+'.tm00.grib2.idx'
@@ -170,7 +179,7 @@ def nam3k(chelsa_ds,frame,cycle,datestr,offset):
     idx_file = '/root/nam.t'+cycle+'z.conusnest.hiresf'+frame+'.tm00.grib2.idx'
     current_line = read_idx(idx_file,'nam',int(frame),cycle,datestr)
     (xr.load_dataset('/root/current.grib2')).to_netcdf('/root/current.nc')
-    os.system('/root/anaconda3/envs/blend/bin/gdalwarp -t_srs EPSG:4326 /root/current.nc /root/current_.tif')
+    os.system('/usr/bin/gdalwarp -t_srs EPSG:4326 /root/current.nc /root/current_.tif')
     inputfile = '/root/current_.tif'
     outputfile = '/root/current_.nc'
     ds = gdal.Translate(outputfile, inputfile, format='NetCDF')
@@ -198,7 +207,7 @@ def nam3k(chelsa_ds,frame,cycle,datestr,offset):
         idx_file = '/root/nam.t'+cycle+'z.conusnest.hiresf'+frame+'.tm00.grib2.idx'
         prior_line = read_idx(idx_file,'nam',int(frame),cycle,datestr)
         (xr.load_dataset('/root/current.grib2')).to_netcdf('/root/current.nc')
-        os.system('/root/anaconda3/envs/blend/bin/gdalwarp -t_srs EPSG:4326 /root/current.nc /root/minus_one_.tif')
+        os.system('/usr/bin/gdalwarp -t_srs EPSG:4326 /root/current.nc /root/minus_one_.tif')
         inputfile = '/root/minus_one_.tif'
         outputfile = '/root/minus_one_.nc'
         ds = gdal.Translate(outputfile, inputfile, format='NetCDF')
@@ -228,9 +237,6 @@ def nam3k(chelsa_ds,frame,cycle,datestr,offset):
         # dataset['tp'] = dataset['tp']-prior_dataset['tp']
         # for n in range(len(dataset.lat)):
         #     print(max(dataset.tp[n].values))
-        for n in range(100):
-            print(current_line)
-            print(prior_line)
 
     dataset['lon'] = dataset['lon']+360
     dataset = crop_ds(dataset,'180_chelsa')
@@ -266,6 +272,15 @@ def hrrr3k(chelsa_ds,frame,cycle,datestr,offset):
     file_exists = os.path.exists('/root/minus_one_.grib2')
     if file_exists == True:
         os.remove('/root/minus_one_.grib2')
+    file_exists = os.path.exists('/root/current.nc')
+    if file_exists == True:
+        os.remove('/root/current.nc')
+    file_exists = os.path.exists('/root/current_.nc')
+    if file_exists == True:
+        os.remove('/root/current_.nc')
+    file_exists = os.path.exists('/root/current_.tif')
+    if file_exists == True:
+        os.remove('/root/current_.tif')
 
     frame = name_frame(int(frame)+offset)
     idx_url = 'https://ftpprd.ncep.noaa.gov/data/nccf/com/hrrr/prod/hrrr.'+datestr+'/conus/hrrr.t'+cycle+'z.wrfsfcf'+frame+'.grib2.idx'
@@ -273,7 +288,7 @@ def hrrr3k(chelsa_ds,frame,cycle,datestr,offset):
     idx_file = '/root/hrrr.t'+cycle+'z.wrfsfcf'+frame+'.grib2.idx'
     read_idx(idx_file,'hrrr',int(frame),cycle,datestr)
     (xr.load_dataset('/root/current.grib2')).to_netcdf('/root/current.nc')
-    os.system('/root/anaconda3/envs/blend/bin/gdalwarp -t_srs EPSG:4326 /root/current.nc /root/current_.tif')
+    os.system('/usr/bin/gdalwarp -t_srs EPSG:4326 /root/current.nc /root/current_.tif')
     inputfile = '/root/current_.tif'
     outputfile = '/root/current_.nc'
     ds = gdal.Translate(outputfile, inputfile, format='NetCDF')
@@ -298,6 +313,15 @@ def arw5k_1(chelsa_ds,frame,cycle,datestr,offset):
     file_exists = os.path.exists('/root/minus_one_.grib2')
     if file_exists == True:
         os.remove('/root/minus_one_.grib2')
+    file_exists = os.path.exists('/root/current.nc')
+    if file_exists == True:
+        os.remove('/root/current.nc')
+    file_exists = os.path.exists('/root/current_.nc')
+    if file_exists == True:
+        os.remove('/root/current_.nc')
+    file_exists = os.path.exists('/root/current_.tif')
+    if file_exists == True:
+        os.remove('/root/current_.tif')
 
     frame = name_frame(int(frame)+offset)
     idx_url = 'https://ftpprd.ncep.noaa.gov/data/nccf/com/hiresw/prod/hiresw.'+datestr+'/hiresw.t'+cycle+'z.arw_5km.f'+frame+'.conus.grib2.idx'
@@ -305,7 +329,7 @@ def arw5k_1(chelsa_ds,frame,cycle,datestr,offset):
     idx_file = '/root/hiresw.t'+cycle+'z.arw_5km.f'+frame+'.conus.grib2.idx'
     read_idx(idx_file,'arw5k_1',int(frame),cycle,datestr)
     (xr.load_dataset('/root/current.grib2')).to_netcdf('/root/current.nc')
-    os.system('/root/anaconda3/envs/blend/bin/gdalwarp -t_srs EPSG:4326 /root/current.nc /root/current_.tif')
+    os.system('/usr/bin/gdalwarp -t_srs EPSG:4326 /root/current.nc /root/current_.tif')
     inputfile = '/root/current_.tif'
     outputfile = '/root/current_.nc'
     ds = gdal.Translate(outputfile, inputfile, format='NetCDF')
@@ -330,6 +354,15 @@ def arw5k_2(chelsa_ds,frame,cycle,datestr,offset):
     file_exists = os.path.exists('/root/minus_one_.grib2')
     if file_exists == True:
         os.remove('/root/minus_one_.grib2')
+    file_exists = os.path.exists('/root/current.nc')
+    if file_exists == True:
+        os.remove('/root/current.nc')
+    file_exists = os.path.exists('/root/current_.nc')
+    if file_exists == True:
+        os.remove('/root/current_.nc')
+    file_exists = os.path.exists('/root/current_.tif')
+    if file_exists == True:
+        os.remove('/root/current_.tif')
 
     frame = name_frame(int(frame)+offset)
     idx_url = 'https://ftpprd.ncep.noaa.gov/data/nccf/com/hiresw/prod/hiresw.'+datestr+'/hiresw.t'+cycle+'z.arw_5km.f'+frame+'.conusmem2.grib2.idx'
@@ -337,7 +370,7 @@ def arw5k_2(chelsa_ds,frame,cycle,datestr,offset):
     idx_file = '/root/hiresw.t'+cycle+'z.arw_5km.f'+frame+'.conusmem2.grib2.idx'
     read_idx(idx_file,'arw5k_2',int(frame),cycle,datestr)
     (xr.load_dataset('/root/current.grib2')).to_netcdf('/root/current.nc')
-    os.system('/root/anaconda3/envs/blend/bin/gdalwarp -t_srs EPSG:4326 /root/current.nc /root/current_.tif')
+    os.system('/usr/bin/gdalwarp -t_srs EPSG:4326 /root/current.nc /root/current_.tif')
     inputfile = '/root/current_.tif'
     outputfile = '/root/current_.nc'
     ds = gdal.Translate(outputfile, inputfile, format='NetCDF')
@@ -362,6 +395,15 @@ def fv35k(chelsa_ds,frame,cycle,datestr,offset):
     file_exists = os.path.exists('/root/minus_one_.grib2')
     if file_exists == True:
         os.remove('/root/minus_one_.grib2')
+    file_exists = os.path.exists('/root/current.nc')
+    if file_exists == True:
+        os.remove('/root/current.nc')
+    file_exists = os.path.exists('/root/current_.nc')
+    if file_exists == True:
+        os.remove('/root/current_.nc')
+    file_exists = os.path.exists('/root/current_.tif')
+    if file_exists == True:
+        os.remove('/root/current_.tif')
 
     frame = name_frame(int(frame)+offset)
     idx_url = 'https://ftpprd.ncep.noaa.gov/data/nccf/com/hiresw/prod/hiresw.'+datestr+'/hiresw.t'+cycle+'z.fv3_5km.f'+frame+'.conus.grib2.idx'
@@ -369,7 +411,7 @@ def fv35k(chelsa_ds,frame,cycle,datestr,offset):
     idx_file = '/root/hiresw.t'+cycle+'z.fv3_5km.f'+frame+'.conus.grib2.idx'
     read_idx(idx_file,'fv35k',int(frame),cycle,datestr)
     (xr.load_dataset('/root/current.grib2')).to_netcdf('/root/current.nc')
-    os.system('/root/anaconda3/envs/blend/bin/gdalwarp -t_srs EPSG:4326 /root/current.nc /root/current_.tif')
+    os.system('/usr/bin/gdalwarp -t_srs EPSG:4326 /root/current.nc /root/current_.tif')
     inputfile = '/root/current_.tif'
     outputfile = '/root/current_.nc'
     ds = gdal.Translate(outputfile, inputfile, format='NetCDF')
@@ -394,6 +436,15 @@ def arw2p5k(chelsa_ds,frame,cycle,datestr,offset):
     file_exists = os.path.exists('/root/minus_one_.grib2')
     if file_exists == True:
         os.remove('/root/minus_one_.grib2')
+    file_exists = os.path.exists('/root/current.nc')
+    if file_exists == True:
+        os.remove('/root/current.nc')
+    file_exists = os.path.exists('/root/current_.nc')
+    if file_exists == True:
+        os.remove('/root/current_.nc')
+    file_exists = os.path.exists('/root/current_.tif')
+    if file_exists == True:
+        os.remove('/root/current_.tif')
 
     frame = name_frame(int(frame)+offset)
     idx_url = 'https://ftpprd.ncep.noaa.gov/data/nccf/com/hiresw/prod/hiresw.'+datestr+'/hiresw.t'+cycle+'z.arw_2p5km.f'+frame+'.conus.grib2.idx'
@@ -401,7 +452,7 @@ def arw2p5k(chelsa_ds,frame,cycle,datestr,offset):
     idx_file = '/root/hiresw.t'+cycle+'z.arw_2p5km.f'+frame+'.conus.grib2.idx'
     read_idx(idx_file,'arw2p5k',int(frame),cycle,datestr)
     (xr.load_dataset('/root/current.grib2')).to_netcdf('/root/current.nc')
-    os.system('/root/anaconda3/envs/blend/bin/gdalwarp -t_srs EPSG:4326 /root/current.nc /root/current_.tif')
+    os.system('/usr/bin/gdalwarp -t_srs EPSG:4326 /root/current.nc /root/current_.tif')
     inputfile = '/root/current_.tif'
     outputfile = '/root/current_.nc'
     ds = gdal.Translate(outputfile, inputfile, format='NetCDF')
@@ -427,6 +478,15 @@ def fv32p5k(chelsa_ds,frame,cycle,datestr,offset):
     file_exists = os.path.exists('/root/minus_one_.grib2')
     if file_exists == True:
         os.remove('/root/minus_one_.grib2')
+    file_exists = os.path.exists('/root/current.nc')
+    if file_exists == True:
+        os.remove('/root/current.nc')
+    file_exists = os.path.exists('/root/current_.nc')
+    if file_exists == True:
+        os.remove('/root/current_.nc')
+    file_exists = os.path.exists('/root/current_.tif')
+    if file_exists == True:
+        os.remove('/root/current_.tif')
 
     frame = name_frame(int(frame)+offset)
     idx_url = 'https://ftpprd.ncep.noaa.gov/data/nccf/com/hiresw/prod/hiresw.'+datestr+'/hiresw.t'+cycle+'z.fv3_2p5km.f'+frame+'.conus.grib2.idx'
@@ -434,7 +494,7 @@ def fv32p5k(chelsa_ds,frame,cycle,datestr,offset):
     idx_file = '/root/hiresw.t'+cycle+'z.fv3_2p5km.f'+frame+'.conus.grib2.idx'
     read_idx(idx_file,'fv32p5k',int(frame),cycle,datestr)
     (xr.load_dataset('/root/current.grib2')).to_netcdf('/root/current.nc')
-    os.system('/root/anaconda3/envs/blend/bin/gdalwarp -t_srs EPSG:4326 /root/current.nc /root/current_.tif')
+    os.system('/usr/bin/gdalwarp -t_srs EPSG:4326 /root/current.nc /root/current_.tif')
     inputfile = '/root/current_.tif'
     outputfile = '/root/current_.nc'
     ds = gdal.Translate(outputfile, inputfile, format='NetCDF')
@@ -552,6 +612,15 @@ def create_master_ds():
         file_exists = os.path.exists('/root/master.grib2')
         if file_exists == True:
             os.remove('/root/master.grib2')
+        file_exists = os.path.exists('/root/current.nc')
+        if file_exists == True:
+            os.remove('/root/current.nc')
+        file_exists = os.path.exists('/root/current_.nc')
+        if file_exists == True:
+            os.remove('/root/current_.nc')
+        file_exists = os.path.exists('/root/current_.tif')
+        if file_exists == True:
+            os.remove('/root/current_.tif')
         if model[0] == 'nam':
 
             frame = 3
@@ -562,7 +631,8 @@ def create_master_ds():
             idx_file = '/root/nam.t'+cycle+'z.conusnest.hiresf'+frame+'.tm00.grib2.idx'
             read_idx(idx_file,'nam',int(frame),cycle,datestr)
             (xr.load_dataset('/root/current.grib2')).to_netcdf('/root/current.nc')
-            os.system('/root/anaconda3/envs/blend/bin/gdalwarp -t_srs EPSG:4326 /root/current.nc /root/master.tif')
+            os.system('conda activate gis')
+            os.system('/usr/bin/gdalwarp -t_srs EPSG:4326 /root/current.nc /root/master.tif')
             inputfile = '/root/master.tif'
             outputfile = '/root/master.nc'
             ds = gdal.Translate(outputfile, inputfile, format='NetCDF')
@@ -571,7 +641,7 @@ def create_master_ds():
             if 'crs' in str(dataset):
                 dataset = dataset.drop(['crs'])
 
-        # os.system('/root/anaconda3/envs/blend/bin/gdalwarp -t_srs EPSG:4326 current.grib2 current_.grib2')
+        # os.system('/usr/bin/gdalwarp -t_srs EPSG:4326 current.grib2 current_.grib2')
         # dataset = xr.load_dataset('/root/current_.grib2',engine='cfgrib')
         dataset['lon'] = dataset['lon']+360
         dataset = crop_ds(dataset,'180_chelsa')
@@ -625,8 +695,8 @@ def ingest_gribs(frame,master_ds):
     frame = name_frame(int(frame))
     datestr = datestr_and_cycle()[0]
     cycle = datestr_and_cycle()[1]
-    # resolutions = [3,5,2.5]
-    resolutions = [3]
+    resolutions = [3,5,2.5]
+    # resolutions = [5]
     for resolution in resolutions:
         if resolution == 3:
             #load downscaling file
@@ -653,6 +723,15 @@ def ingest_gribs(frame,master_ds):
                 file_exists = os.path.exists('/root/minus_one_.grib2')
                 if file_exists == True:
                     os.remove('/root/minus_one_.grib2')
+                file_exists = os.path.exists('/root/current.nc')
+                if file_exists == True:
+                    os.remove('/root/current.nc')
+                file_exists = os.path.exists('/root/current_.nc')
+                if file_exists == True:
+                    os.remove('/root/current_.nc')
+                file_exists = os.path.exists('/root/current_.tif')
+                if file_exists == True:
+                    os.remove('/root/current_.tif')
 
                 datasets = []
                 #nam ingest
@@ -679,21 +758,23 @@ def ingest_gribs(frame,master_ds):
                 elif model[0] == 'hrrr3k':
                     if cycle == '00':
                         dataset_one = hrrr3k(chelsa_ds,frame,'00',datestr,0)
-                        datestr = ((datetime.strptime(datestr, '%Y%m%d'))-timedelta(days=1)).strftime('%Y%m%d')
-                        dataset_two = hrrr3k(chelsa_ds,frame,'18',datestr,6)
-                        dataset_three = hrrr3k(chelsa_ds,frame,'12',datestr,12)
+                        # datestr = ((datetime.strptime(datestr, '%Y%m%d'))-timedelta(days=1)).strftime('%Y%m%d')
+                        # dataset_two = hrrr3k(chelsa_ds,frame,'18',datestr,6)
+                        # dataset_three = hrrr3k(chelsa_ds,frame,'12',datestr,12)
                     else:
                         dataset_one = hrrr3k(chelsa_ds,frame,'12',datestr,0)
-                        dataset_two = hrrr3k(chelsa_ds,frame,'06',datestr,6)
-                        dataset_three = hrrr3k(chelsa_ds,frame,'00',datestr,12)
+                        # dataset_two = hrrr3k(chelsa_ds,frame,'06',datestr,6)
+                        # dataset_three = hrrr3k(chelsa_ds,frame,'00',datestr,12)
 
-                    datasets = [dataset_one,dataset_two,dataset_three]
+                    # datasets = [dataset_one,dataset_two,dataset_three]
+                    datasets = [dataset_one]
 
                 if model[0] == 'nam3k':
                     # r = 5
                     r = 1
                 elif model[0] == 'hrrr3k':
-                    r = 3
+                    # r = 3
+                    r = 1
                 for n in range(r):
                     master_ds[model[0]+'_'+str(n+1)] = master_ds[model[0]+'_'+str(n+1)]+datasets[n]['tp']
 
@@ -720,51 +801,65 @@ def ingest_gribs(frame,master_ds):
                 file_exists = os.path.exists('/root/minus_one_.grib2')
                 if file_exists == True:
                     os.remove('/root/minus_one_.grib2')
+                file_exists = os.path.exists('/root/current.nc')
+                if file_exists == True:
+                    os.remove('/root/current.nc')
+                file_exists = os.path.exists('/root/current_.nc')
+                if file_exists == True:
+                    os.remove('/root/current_.nc')
+                file_exists = os.path.exists('/root/current_.tif')
+                if file_exists == True:
+                    os.remove('/root/current_.tif')
 
                 datasets = []
                 #wrf arw5k 1 ingest
                 if model[0] == 'arw5k_1':
                     if cycle == '00':
                         dataset_one = arw5k_1(chelsa_ds,frame,'00',datestr,0)
-                        datestr = ((datetime.strptime(datestr, '%Y%m%d'))-timedelta(days=1)).strftime('%Y%m%d')
-                        dataset_two = arw5k_1(chelsa_ds,frame,'12',datestr,12)
+                        # datestr = ((datetime.strptime(datestr, '%Y%m%d'))-timedelta(days=1)).strftime('%Y%m%d')
+                        # dataset_two = arw5k_1(chelsa_ds,frame,'12',datestr,12)
                     else:
                         dataset_one = arw5k_1(chelsa_ds,frame,'12',datestr,0)
-                        dataset_two = arw5k_1(chelsa_ds,frame,'00',datestr,12)
+                        # dataset_two = arw5k_1(chelsa_ds,frame,'00',datestr,12)
 
-                    datasets = [dataset_one,dataset_two]
+                    # datasets = [dataset_one,dataset_two]
+                    datasets = [dataset_one]
 
                 #wrf arw5k 2 ingest
                 elif model[0] == 'arw5k_2':
                     if cycle == '00':
                         dataset_one = arw5k_2(chelsa_ds,frame,'00',datestr,0)
-                        datestr = ((datetime.strptime(datestr, '%Y%m%d'))-timedelta(days=1)).strftime('%Y%m%d')
-                        dataset_two = arw5k_2(chelsa_ds,frame,'12',datestr,12)
+                        # datestr = ((datetime.strptime(datestr, '%Y%m%d'))-timedelta(days=1)).strftime('%Y%m%d')
+                        # dataset_two = arw5k_2(chelsa_ds,frame,'12',datestr,12)
                     else:
                         dataset_one = arw5k_2(chelsa_ds,frame,'12',datestr,0)
-                        dataset_two = arw5k_2(chelsa_ds,frame,'00',datestr,12)
+                        # dataset_two = arw5k_2(chelsa_ds,frame,'00',datestr,12)
 
-                    datasets = [dataset_one,dataset_two]
+                    # datasets = [dataset_one,dataset_two]
+                    datasets = [dataset_one]
 
                 #wrf fv3 ingest
                 elif model[0] == 'fv35k':
                     if cycle == '00':
                         dataset_one = fv35k(chelsa_ds,frame,'00',datestr,0)
-                        datestr = ((datetime.strptime(datestr, '%Y%m%d'))-timedelta(days=1)).strftime('%Y%m%d')
-                        dataset_two = fv35k(chelsa_ds,frame,'12',datestr,12)
-                        dataset_three = fv35k(chelsa_ds,frame,'00',datestr,24)
+                        # datestr = ((datetime.strptime(datestr, '%Y%m%d'))-timedelta(days=1)).strftime('%Y%m%d')
+                        # dataset_two = fv35k(chelsa_ds,frame,'12',datestr,12)
+                        # dataset_three = fv35k(chelsa_ds,frame,'00',datestr,24)
                     else:
                         dataset_one = fv35k(chelsa_ds,frame,'12',datestr,0)
-                        dataset_two = fv35k(chelsa_ds,frame,'00',datestr,12)
-                        datestr = ((datetime.strptime(datestr, '%Y%m%d'))-timedelta(days=1)).strftime('%Y%m%d')
-                        dataset_three = fv35k(chelsa_ds,frame,'12',datestr,24)
+                        # dataset_two = fv35k(chelsa_ds,frame,'00',datestr,12)
+                        # datestr = ((datetime.strptime(datestr, '%Y%m%d'))-timedelta(days=1)).strftime('%Y%m%d')
+                        # dataset_three = fv35k(chelsa_ds,frame,'12',datestr,24)
 
-                    datasets = [dataset_one,dataset_two,dataset_three]
+                    # datasets = [dataset_one,dataset_two,dataset_three]
+                    datasets = [dataset_one]
 
                 if model[0] == 'arw5k_1' or model[0] == 'arw5k_2':
-                    r = 2
+                    # r = 2
+                    r = 1
                 elif model[0] == 'fv35k':
-                    r = 3
+                    # r = 3
+                    r = 1
                 for n in range(r):
                     master_ds[model[0]+'_'+str(n+1)] = master_ds[model[0]+'_'+str(n+1)]+datasets[n]['tp']
 
@@ -792,41 +887,54 @@ def ingest_gribs(frame,master_ds):
                 file_exists = os.path.exists('/root/minus_one_.grib2')
                 if file_exists == True:
                     os.remove('/root/minus_one_.grib2')
+                file_exists = os.path.exists('/root/current.nc')
+                if file_exists == True:
+                    os.remove('/root/current.nc')
+                file_exists = os.path.exists('/root/current_.nc')
+                if file_exists == True:
+                    os.remove('/root/current_.nc')
+                file_exists = os.path.exists('/root/current_.tif')
+                if file_exists == True:
+                    os.remove('/root/current_.tif')
 
                 datasets = []
                 #wrf arw2.5k 1 ingest
                 if model[0] == 'arw2.5k':
                     if cycle == '00':
                         dataset_one = arw2p5k(chelsa_ds,frame,'00',datestr,0)
-                        datestr = ((datetime.strptime(datestr, '%Y%m%d'))-timedelta(days=1)).strftime('%Y%m%d')
-                        dataset_two = arw2p5k(chelsa_ds,frame,'12',datestr,12)
+                        # datestr = ((datetime.strptime(datestr, '%Y%m%d'))-timedelta(days=1)).strftime('%Y%m%d')
+                        # dataset_two = arw2p5k(chelsa_ds,frame,'12',datestr,12)
                     else:
                         dataset_one = arw2p5k(chelsa_ds,frame,'12',datestr,0)
-                        dataset_two = arw2p5k(chelsa_ds,frame,'00',datestr,12)
+                        # dataset_two = arw2p5k(chelsa_ds,frame,'00',datestr,12)
 
-                    datasets = [dataset_one,dataset_two]
+                    # datasets = [dataset_one,dataset_two]
+                    datasets = [dataset_one]
 
 
                 #wrf fv32.5k ingest
                 elif model[0] == 'fv32.5k':
                     if cycle == '00':
                         dataset_one = fv32p5k(chelsa_ds,frame,'00',datestr,0)
-                        datestr = ((datetime.strptime(datestr, '%Y%m%d'))-timedelta(days=1)).strftime('%Y%m%d')
-                        dataset_two = fv32p5k(chelsa_ds,frame,'12',datestr,12)
-                        dataset_three = fv32p5k(chelsa_ds,frame,'00',datestr,24)
+                        # datestr = ((datetime.strptime(datestr, '%Y%m%d'))-timedelta(days=1)).strftime('%Y%m%d')
+                        # dataset_two = fv32p5k(chelsa_ds,frame,'12',datestr,12)
+                        # dataset_three = fv32p5k(chelsa_ds,frame,'00',datestr,24)
                     else:
                         dataset_one = fv32p5k(chelsa_ds,frame,'12',datestr,0)
-                        dataset_two = fv32p5k(chelsa_ds,frame,'00',datestr,12)
-                        datestr = ((datetime.strptime(datestr, '%Y%m%d'))-timedelta(days=1)).strftime('%Y%m%d')
-                        dataset_three = fv32p5k(chelsa_ds,frame,'12',datestr,24)
+                        # dataset_two = fv32p5k(chelsa_ds,frame,'00',datestr,12)
+                        # datestr = ((datetime.strptime(datestr, '%Y%m%d'))-timedelta(days=1)).strftime('%Y%m%d')
+                        # dataset_three = fv32p5k(chelsa_ds,frame,'12',datestr,24)
 
-                    datasets = [dataset_one,dataset_two,dataset_three]
+                    # datasets = [dataset_one,dataset_two,dataset_three]
+                    datasets = [dataset_one]
 
 
                 if model[0] == 'arw2.5k':
-                    r = 2
+                    # r = 2
+                    r = 1
                 elif model[0] == 'fv32.5k':
-                    r = 3
+                    # r = 3
+                    r = 1
                 for n in range(r):
                     master_ds[model[0]+'_'+str(n+1)] = master_ds[model[0]+'_'+str(n+1)]+datasets[n]['tp']
 
@@ -839,14 +947,16 @@ frame = '03'
 master_master_ds = create_master_ds()
 # master_ds = create_master_ds()
 # print(master_ds)
-for n in range(10,36):
+quit()
+for n in range(2,36):
     master_ds = create_master_ds()
     frame = name_frame(n)
     master_ds = ingest_gribs(frame,master_ds)
     # master_ds['tp'] = (master_ds['nam3k']+master_ds['hrrr3k']+master_ds['arw5k_1']+master_ds['arw5k_2']+master_ds['fv35k']+master_ds['arw2.5k']+master_ds['fv32.5k'])/7
     # master_ds['tp'] = (master_ds['nam3k_1']+master_ds['nam3k_2']+master_ds['nam3k_3']+master_ds['nam3k_4']+master_ds['nam3k_5']+master_ds['hrrr3k_1']+master_ds['hrrr3k_2']+master_ds['hrrr3k_3']+master_ds['arw5k_1_1']+master_ds['arw5k_1_2']+master_ds['arw5k_2_1']+master_ds['arw5k_2_2']+master_ds['fv35k_1']+master_ds['fv35k_2']+master_ds['fv35k_3']+master_ds['arw2.5k_1']+master_ds['arw2.5k_2']+master_ds['fv32.5k_1']+master_ds['fv32.5k_2']+master_ds['fv32.5k_3'])/20
-    master_ds['tp'] = (master_ds['nam3k_1']+master_ds['nam3k_2']+master_ds['hrrr3k_1']+master_ds['hrrr3k_2'])/4
-    # master_ds['tp'] = (master_ds['nam3k_1']+master_ds['hrrr3k_1']+master_ds['arw5k_1_1']+master_ds['arw5k_2_1']+master_ds['fv35k_1']+master_ds['arw2.5k_1']+master_ds['fv32.5k_1'])/7
+    # master_ds['tp'] = (master_ds['nam3k_1']+master_ds['nam3k_2']+master_ds['hrrr3k_1']+master_ds['hrrr3k_2'])/4
+    # master_ds['tp'] = (master_ds['nam3k_1']+master_ds['hrrr3k_1'])/2
+    master_ds['tp'] = (master_ds['nam3k_1']+master_ds['hrrr3k_1']+master_ds['arw5k_1_1']+master_ds['arw5k_2_1']+master_ds['fv35k_1']+master_ds['arw2.5k_1']+master_ds['fv32.5k_1'])/7
     master_ds.to_netcdf('/root/master_ds.nc')
     print(master_ds)
 
@@ -882,7 +992,7 @@ for n in range(10,36):
     # elif int(frame) == 9:
     #     tp = ds['tp']*.0393701
 
-    tp = ds['nam3k_1']*.0393701
+    tp = ds['tp']*.0393701
 
     fig = plt.figure(figsize=(12, 8))
     ax = plt.axes(projection=ccrs.PlateCarree())
@@ -897,6 +1007,7 @@ for n in range(10,36):
     ax.add_feature(cartopy.feature.STATES)
     ax.add_feature(USCOUNTIES.with_scale('500k'),linewidth=1)
     cbar = plt.colorbar(cf, shrink=0.7, orientation="horizontal", pad=0.03)
+    plt.title('HRCAMEF Frame '+str(frame),fontsize=7)
     plt.savefig('/root/script/hrcamef/tp_'+frame+'.png',dpi=500,bbox_inches='tight')
     plt.clf()
 
