@@ -622,8 +622,8 @@ def ingest_gribs(frame,master_ds):
     frame = name_frame(int(frame))
     datestr = datestr_and_cycle()[0]
     cycle = datestr_and_cycle()[1]
-    # resolutions = [3,5,2.5]
-    resolutions = [5]
+    resolutions = [3,5,2.5]
+    # resolutions = [5]
     for resolution in resolutions:
         if resolution == 3:
             #load downscaling file
@@ -880,7 +880,7 @@ for n in range(2,36):
     # elif int(frame) == 9:
     #     tp = ds['tp']*.0393701
 
-    tp = ds['arw5k_2_1']*.0393701
+    tp = ds['tp']*.0393701
 
     fig = plt.figure(figsize=(12, 8))
     ax = plt.axes(projection=ccrs.PlateCarree())
