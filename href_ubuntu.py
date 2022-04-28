@@ -163,6 +163,15 @@ def nam3k(chelsa_ds,frame,cycle,datestr,offset):
     file_exists = os.path.exists('/root/minus_one_.grib2')
     if file_exists == True:
         os.remove('/root/minus_one_.grib2')
+    file_exists = os.path.exists('/root/current.nc')
+    if file_exists == True:
+        os.remove('/root/current.nc')
+    file_exists = os.path.exists('/root/current_.nc')
+    if file_exists == True:
+        os.remove('/root/current_.nc')
+    file_exists = os.path.exists('/root/current_.tif')
+    if file_exists == True:
+        os.remove('/root/current_.tif')
 
     frame = name_frame(int(frame)+offset)
     idx_url = 'https://ftpprd.ncep.noaa.gov/data/nccf/com/nam/prod/nam.'+datestr+'/nam.t'+cycle+'z.conusnest.hiresf'+frame+'.tm00.grib2.idx'
@@ -263,6 +272,15 @@ def hrrr3k(chelsa_ds,frame,cycle,datestr,offset):
     file_exists = os.path.exists('/root/minus_one_.grib2')
     if file_exists == True:
         os.remove('/root/minus_one_.grib2')
+    file_exists = os.path.exists('/root/current.nc')
+    if file_exists == True:
+        os.remove('/root/current.nc')
+    file_exists = os.path.exists('/root/current_.nc')
+    if file_exists == True:
+        os.remove('/root/current_.nc')
+    file_exists = os.path.exists('/root/current_.tif')
+    if file_exists == True:
+        os.remove('/root/current_.tif')
 
     frame = name_frame(int(frame)+offset)
     idx_url = 'https://ftpprd.ncep.noaa.gov/data/nccf/com/hrrr/prod/hrrr.'+datestr+'/conus/hrrr.t'+cycle+'z.wrfsfcf'+frame+'.grib2.idx'
@@ -295,6 +313,15 @@ def arw5k_1(chelsa_ds,frame,cycle,datestr,offset):
     file_exists = os.path.exists('/root/minus_one_.grib2')
     if file_exists == True:
         os.remove('/root/minus_one_.grib2')
+    file_exists = os.path.exists('/root/current.nc')
+    if file_exists == True:
+        os.remove('/root/current.nc')
+    file_exists = os.path.exists('/root/current_.nc')
+    if file_exists == True:
+        os.remove('/root/current_.nc')
+    file_exists = os.path.exists('/root/current_.tif')
+    if file_exists == True:
+        os.remove('/root/current_.tif')
 
     frame = name_frame(int(frame)+offset)
     idx_url = 'https://ftpprd.ncep.noaa.gov/data/nccf/com/hiresw/prod/hiresw.'+datestr+'/hiresw.t'+cycle+'z.arw_5km.f'+frame+'.conus.grib2.idx'
@@ -327,6 +354,15 @@ def arw5k_2(chelsa_ds,frame,cycle,datestr,offset):
     file_exists = os.path.exists('/root/minus_one_.grib2')
     if file_exists == True:
         os.remove('/root/minus_one_.grib2')
+    file_exists = os.path.exists('/root/current.nc')
+    if file_exists == True:
+        os.remove('/root/current.nc')
+    file_exists = os.path.exists('/root/current_.nc')
+    if file_exists == True:
+        os.remove('/root/current_.nc')
+    file_exists = os.path.exists('/root/current_.tif')
+    if file_exists == True:
+        os.remove('/root/current_.tif')
 
     frame = name_frame(int(frame)+offset)
     idx_url = 'https://ftpprd.ncep.noaa.gov/data/nccf/com/hiresw/prod/hiresw.'+datestr+'/hiresw.t'+cycle+'z.arw_5km.f'+frame+'.conusmem2.grib2.idx'
@@ -359,6 +395,15 @@ def fv35k(chelsa_ds,frame,cycle,datestr,offset):
     file_exists = os.path.exists('/root/minus_one_.grib2')
     if file_exists == True:
         os.remove('/root/minus_one_.grib2')
+    file_exists = os.path.exists('/root/current.nc')
+    if file_exists == True:
+        os.remove('/root/current.nc')
+    file_exists = os.path.exists('/root/current_.nc')
+    if file_exists == True:
+        os.remove('/root/current_.nc')
+    file_exists = os.path.exists('/root/current_.tif')
+    if file_exists == True:
+        os.remove('/root/current_.tif')
 
     frame = name_frame(int(frame)+offset)
     idx_url = 'https://ftpprd.ncep.noaa.gov/data/nccf/com/hiresw/prod/hiresw.'+datestr+'/hiresw.t'+cycle+'z.fv3_5km.f'+frame+'.conus.grib2.idx'
@@ -391,6 +436,15 @@ def arw2p5k(chelsa_ds,frame,cycle,datestr,offset):
     file_exists = os.path.exists('/root/minus_one_.grib2')
     if file_exists == True:
         os.remove('/root/minus_one_.grib2')
+    file_exists = os.path.exists('/root/current.nc')
+    if file_exists == True:
+        os.remove('/root/current.nc')
+    file_exists = os.path.exists('/root/current_.nc')
+    if file_exists == True:
+        os.remove('/root/current_.nc')
+    file_exists = os.path.exists('/root/current_.tif')
+    if file_exists == True:
+        os.remove('/root/current_.tif')
 
     frame = name_frame(int(frame)+offset)
     idx_url = 'https://ftpprd.ncep.noaa.gov/data/nccf/com/hiresw/prod/hiresw.'+datestr+'/hiresw.t'+cycle+'z.arw_2p5km.f'+frame+'.conus.grib2.idx'
@@ -424,6 +478,15 @@ def fv32p5k(chelsa_ds,frame,cycle,datestr,offset):
     file_exists = os.path.exists('/root/minus_one_.grib2')
     if file_exists == True:
         os.remove('/root/minus_one_.grib2')
+    file_exists = os.path.exists('/root/current.nc')
+    if file_exists == True:
+        os.remove('/root/current.nc')
+    file_exists = os.path.exists('/root/current_.nc')
+    if file_exists == True:
+        os.remove('/root/current_.nc')
+    file_exists = os.path.exists('/root/current_.tif')
+    if file_exists == True:
+        os.remove('/root/current_.tif')
 
     frame = name_frame(int(frame)+offset)
     idx_url = 'https://ftpprd.ncep.noaa.gov/data/nccf/com/hiresw/prod/hiresw.'+datestr+'/hiresw.t'+cycle+'z.fv3_2p5km.f'+frame+'.conus.grib2.idx'
@@ -549,6 +612,15 @@ def create_master_ds():
         file_exists = os.path.exists('/root/master.grib2')
         if file_exists == True:
             os.remove('/root/master.grib2')
+        file_exists = os.path.exists('/root/current.nc')
+        if file_exists == True:
+            os.remove('/root/current.nc')
+        file_exists = os.path.exists('/root/current_.nc')
+        if file_exists == True:
+            os.remove('/root/current_.nc')
+        file_exists = os.path.exists('/root/current_.tif')
+        if file_exists == True:
+            os.remove('/root/current_.tif')
         if model[0] == 'nam':
 
             frame = 3
@@ -650,6 +722,15 @@ def ingest_gribs(frame,master_ds):
                 file_exists = os.path.exists('/root/minus_one_.grib2')
                 if file_exists == True:
                     os.remove('/root/minus_one_.grib2')
+                file_exists = os.path.exists('/root/current.nc')
+                if file_exists == True:
+                    os.remove('/root/current.nc')
+                file_exists = os.path.exists('/root/current_.nc')
+                if file_exists == True:
+                    os.remove('/root/current_.nc')
+                file_exists = os.path.exists('/root/current_.tif')
+                if file_exists == True:
+                    os.remove('/root/current_.tif')
 
                 datasets = []
                 #nam ingest
@@ -717,6 +798,15 @@ def ingest_gribs(frame,master_ds):
                 file_exists = os.path.exists('/root/minus_one_.grib2')
                 if file_exists == True:
                     os.remove('/root/minus_one_.grib2')
+                file_exists = os.path.exists('/root/current.nc')
+                if file_exists == True:
+                    os.remove('/root/current.nc')
+                file_exists = os.path.exists('/root/current_.nc')
+                if file_exists == True:
+                    os.remove('/root/current_.nc')
+                file_exists = os.path.exists('/root/current_.tif')
+                if file_exists == True:
+                    os.remove('/root/current_.tif')
 
                 datasets = []
                 #wrf arw5k 1 ingest
@@ -789,6 +879,15 @@ def ingest_gribs(frame,master_ds):
                 file_exists = os.path.exists('/root/minus_one_.grib2')
                 if file_exists == True:
                     os.remove('/root/minus_one_.grib2')
+                file_exists = os.path.exists('/root/current.nc')
+                if file_exists == True:
+                    os.remove('/root/current.nc')
+                file_exists = os.path.exists('/root/current_.nc')
+                if file_exists == True:
+                    os.remove('/root/current_.nc')
+                file_exists = os.path.exists('/root/current_.tif')
+                if file_exists == True:
+                    os.remove('/root/current_.tif')
 
                 datasets = []
                 #wrf arw2.5k 1 ingest
