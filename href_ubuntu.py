@@ -557,17 +557,17 @@ def create_master_ds():
         # dataset = xr.load_dataset('/root/current_.grib2',engine='cfgrib')
         dataset['lon'] = dataset['lon']+360
         dataset = crop_ds(dataset,'180_chelsa')
-        for n in range(len(dataset.lat)):
-            values = dataset.tp[n].values
-            output = []
-            for value in zip(values):
-                if str(value[0]) == 'nan':
-                    value = 0
-                else:
-                    value = value[0]
-                output.append(value)
-                # print(value)
-            dataset['tp'][n] = output
+        # for n in range(len(dataset.lat)):
+        #     values = dataset.tp[n].values
+        #     output = []
+        #     for value in zip(values):
+        #         if str(value[0]) == 'nan':
+        #             value = 0
+        #         else:
+        #             value = value[0]
+        #         output.append(value)
+        #         # print(value)
+        #     dataset['tp'][n] = output
         dataset['tp'] = dataset['tp']*0
         chelsa_ds = xr.load_dataset('/root/3chelsa.nc')
         # chelsa_ds['lon'] = chelsa_ds['lon']-180
@@ -819,7 +819,7 @@ frame = '03'
 master_master_ds = create_master_ds()
 # master_ds = create_master_ds()
 # print(master_ds)
-for n in range(8,36):
+for n in range(10,36):
     master_ds = create_master_ds()
     frame = name_frame(n)
     master_ds = ingest_gribs(frame,master_ds)
