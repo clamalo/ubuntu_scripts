@@ -174,7 +174,6 @@ def nam3k(chelsa_ds,frame,cycle,datestr,offset):
     ds = gdal.Translate(outputfile, inputfile, format='NetCDF')
     os.remove(idx_file)
     dataset = xr.load_dataset('/root/current_.nc')
-    print(dataset,'nam_dataset_nam_dataset')
     if 'crs' in str(dataset):
         dataset = dataset.drop(['crs'])
     
@@ -190,10 +189,8 @@ def nam3k(chelsa_ds,frame,cycle,datestr,offset):
             # print(value)
         dataset['tp'][n] = output
 
-    if int(frame)-1%3 != 0:
-        print(frame,'frame')
+    if (int(frame)-1)%3 != 0:
         frame = name_frame((int(frame)-1))
-        print(frame,'new frame!')
         idx_url = 'https://ftpprd.ncep.noaa.gov/data/nccf/com/nam/prod/nam.'+datestr+'/nam.t'+cycle+'z.conusnest.hiresf'+frame+'.tm00.grib2.idx'
         os.system('curl "'+idx_url+'" --output "/root/nam.t'+cycle+'z.conusnest.hiresf'+frame+'.tm00.grib2.idx"')
         idx_file = '/root/nam.t'+cycle+'z.conusnest.hiresf'+frame+'.tm00.grib2.idx'
@@ -218,12 +215,6 @@ def nam3k(chelsa_ds,frame,cycle,datestr,offset):
                 # print(value)
                 output.append(value)
             prior_dataset['tp'][n] = output
-        # for n in range(len(dataset.lat)):
-        #     print(max(dataset.tp[n].values))
-        # print('prior')
-        # for n in range(len(prior_dataset.lat)):
-        #     print(max(prior_dataset.tp[n].values))
-        print(dataset,prior_dataset)
         for n in range(len(dataset.lat)):
             current_list = dataset.tp[n].values
             prior_list = prior_dataset.tp[n].values
@@ -233,17 +224,16 @@ def nam3k(chelsa_ds,frame,cycle,datestr,offset):
                 output.append(current)
             dataset['tp'][n] = output
         # dataset['tp'] = dataset['tp']-prior_dataset['tp']
-        for n in range(len(dataset.lat)):
-            print(max(dataset.tp[n].values))
-    
-    # for n in range(len(dataset.lat)):
-    #     print(max(dataset.tp[n].values))
+        # for n in range(len(dataset.lat)):
+        #     print(max(dataset.tp[n].values))
 
     dataset['lon'] = dataset['lon']+360
     dataset = crop_ds(dataset,'180_chelsa')
     dataset = dataset.interp(lat=chelsa_ds["lat"], lon=chelsa_ds["lon"])
     dataset['tp'] = dataset['tp']*chelsa_ds['precip']
-    print(dataset,'nam dataset 2')
+
+    for n in range(len(dataset.lat)):
+        print(max(dataset.tp[n].values))
 
     return dataset
 
