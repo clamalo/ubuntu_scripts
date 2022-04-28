@@ -969,9 +969,9 @@ for product_type in product_types:
         # ds = master_master_ds.isel(hour=n-1)
 
         ds = master_ds
-        new_lon = np.linspace(ds.lon[0], ds.lon[-1], ds.dims["lon"] * 2)
-        new_lat = np.linspace(ds.lat[0], ds.lat[-1], ds.dims["lat"] * 2)
-        ds = ds.interp(lat=new_lat, lon=new_lon)
+        # new_lon = np.linspace(ds.lon[0], ds.lon[-1], ds.dims["lon"] * 2)
+        # new_lat = np.linspace(ds.lat[0], ds.lat[-1], ds.dims["lat"] * 2)
+        # ds = ds.interp(lat=new_lat, lon=new_lon)
 
         lats = ds['lat']
         lons = ds['lon']
