@@ -218,10 +218,15 @@ def nam3k(chelsa_ds,frame,cycle,datestr,offset):
                 # print(value)
                 output.append(value)
             prior_dataset['tp'][n] = output
+        for n in range(len(dataset.lat)):
+            print(max(dataset.tp[n].values))
+        print('prior')
+        for n in range(len(prior_dataset.lat)):
+            print(max(prior_dataset.tp[n].values))
         dataset['tp'] = dataset['tp']-prior_dataset['tp']
     
-    for n in range(len(dataset.lat)):
-        print(max(dataset.tp[n].values))
+    # for n in range(len(dataset.lat)):
+    #     print(max(dataset.tp[n].values))
 
     dataset['lon'] = dataset['lon']+360
     dataset = crop_ds(dataset,'180_chelsa')
