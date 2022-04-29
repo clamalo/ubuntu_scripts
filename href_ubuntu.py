@@ -173,19 +173,21 @@ def nam3k(chelsa_ds,frame,cycle,datestr,offset,domain):
         os.remove('/root/current_.tif')
 
     frame = name_frame(int(frame)+offset)
-    idx_url = 'https://ftpprd.ncep.noaa.gov/data/nccf/com/nam/prod/nam.'+datestr+'/nam.t'+cycle+'z.conusnest.hiresf'+frame+'.tm00.grib2.idx'
-    os.system('curl "'+idx_url+'" --output "/root/nam.t'+cycle+'z.conusnest.hiresf'+frame+'.tm00.grib2.idx"')
-    idx_file = '/root/nam.t'+cycle+'z.conusnest.hiresf'+frame+'.tm00.grib2.idx'
-    current_line = read_idx(idx_file,'nam',int(frame),cycle,datestr)
-    (xr.load_dataset('/root/current.grib2',engine='cfgrib')).to_netcdf('/root/current.nc')
-    os.system('/usr/bin/gdalwarp -t_srs EPSG:4326 /root/current.nc /root/current_.tif')
-    inputfile = '/root/current_.tif'
-    outputfile = '/root/current_.nc'
-    ds = gdal.Translate(outputfile, inputfile, format='NetCDF')
-    os.remove(idx_file)
-    dataset = xr.load_dataset('/root/current_.nc')
-    if 'crs' in str(dataset):
-        dataset = dataset.drop(['crs'])
+    # idx_url = 'https://ftpprd.ncep.noaa.gov/data/nccf/com/nam/prod/nam.'+datestr+'/nam.t'+cycle+'z.conusnest.hiresf'+frame+'.tm00.grib2.idx'
+    # os.system('curl "'+idx_url+'" --output "/root/nam.t'+cycle+'z.conusnest.hiresf'+frame+'.tm00.grib2.idx"')
+    # idx_file = '/root/nam.t'+cycle+'z.conusnest.hiresf'+frame+'.tm00.grib2.idx'
+    # current_line = read_idx(idx_file,'nam',int(frame),cycle,datestr)
+    # (xr.load_dataset('/root/current.grib2',engine='cfgrib')).to_netcdf('/root/current.nc')
+    # os.system('/usr/bin/gdalwarp -t_srs EPSG:4326 /root/current.nc /root/current_.tif')
+    # inputfile = '/root/current_.tif'
+    # outputfile = '/root/current_.nc'
+    # ds = gdal.Translate(outputfile, inputfile, format='NetCDF')
+    # os.remove(idx_file)
+    # dataset = xr.load_dataset('/root/current_.nc')
+    # if 'crs' in str(dataset):
+    #     dataset = dataset.drop(['crs'])
+
+    dataset = xr.load_dataset('/root/nam3k_'+frame+'.nc')
     
     for n in range(len(dataset.lat)):
         values = dataset.tp[n].values
@@ -201,19 +203,20 @@ def nam3k(chelsa_ds,frame,cycle,datestr,offset,domain):
 
     if (int(frame)-1)%3 != 0:
         frame = name_frame((int(frame)-1))
-        idx_url = 'https://ftpprd.ncep.noaa.gov/data/nccf/com/nam/prod/nam.'+datestr+'/nam.t'+cycle+'z.conusnest.hiresf'+frame+'.tm00.grib2.idx'
-        os.system('curl "'+idx_url+'" --output "/root/nam.t'+cycle+'z.conusnest.hiresf'+frame+'.tm00.grib2.idx"')
-        idx_file = '/root/nam.t'+cycle+'z.conusnest.hiresf'+frame+'.tm00.grib2.idx'
-        prior_line = read_idx(idx_file,'nam',int(frame),cycle,datestr)
-        (xr.load_dataset('/root/current.grib2',engine='cfgrib')).to_netcdf('/root/current.nc')
-        os.system('/usr/bin/gdalwarp -t_srs EPSG:4326 /root/current.nc /root/minus_one_.tif')
-        inputfile = '/root/minus_one_.tif'
-        outputfile = '/root/minus_one_.nc'
-        ds = gdal.Translate(outputfile, inputfile, format='NetCDF')
-        prior_dataset = xr.load_dataset('/root/minus_one_.nc')
-        if 'crs' in str(prior_dataset):
-            prior_dataset = prior_dataset.drop(['crs'])
-        os.remove(idx_file)
+        # idx_url = 'https://ftpprd.ncep.noaa.gov/data/nccf/com/nam/prod/nam.'+datestr+'/nam.t'+cycle+'z.conusnest.hiresf'+frame+'.tm00.grib2.idx'
+        # os.system('curl "'+idx_url+'" --output "/root/nam.t'+cycle+'z.conusnest.hiresf'+frame+'.tm00.grib2.idx"')
+        # idx_file = '/root/nam.t'+cycle+'z.conusnest.hiresf'+frame+'.tm00.grib2.idx'
+        # prior_line = read_idx(idx_file,'nam',int(frame),cycle,datestr)
+        # (xr.load_dataset('/root/current.grib2',engine='cfgrib')).to_netcdf('/root/current.nc')
+        # os.system('/usr/bin/gdalwarp -t_srs EPSG:4326 /root/current.nc /root/minus_one_.tif')
+        # inputfile = '/root/minus_one_.tif'
+        # outputfile = '/root/minus_one_.nc'
+        # ds = gdal.Translate(outputfile, inputfile, format='NetCDF')
+        # prior_dataset = xr.load_dataset('/root/minus_one_.nc')
+        # if 'crs' in str(prior_dataset):
+        #     prior_dataset = prior_dataset.drop(['crs'])
+        # os.remove(idx_file)
+        prior_dataset = xr.load_dataset('/root/nam3k_'+frame+'.nc')
         for n in range(len(prior_dataset.lat)):
             values = prior_dataset.tp[n].values
             output = []
@@ -282,19 +285,21 @@ def hrrr3k(chelsa_ds,frame,cycle,datestr,offset,domain):
         os.remove('/root/current_.tif')
 
     frame = name_frame(int(frame)+offset)
-    idx_url = 'https://ftpprd.ncep.noaa.gov/data/nccf/com/hrrr/prod/hrrr.'+datestr+'/conus/hrrr.t'+cycle+'z.wrfsfcf'+frame+'.grib2.idx'
-    os.system('curl "'+idx_url+'" --output "/root/hrrr.t'+cycle+'z.wrfsfcf'+frame+'.grib2.idx"')
-    idx_file = '/root/hrrr.t'+cycle+'z.wrfsfcf'+frame+'.grib2.idx'
-    read_idx(idx_file,'hrrr',int(frame),cycle,datestr)
-    (xr.load_dataset('/root/current.grib2',engine='cfgrib')).to_netcdf('/root/current.nc')
-    os.system('/usr/bin/gdalwarp -t_srs EPSG:4326 /root/current.nc /root/current_.tif')
-    inputfile = '/root/current_.tif'
-    outputfile = '/root/current_.nc'
-    ds = gdal.Translate(outputfile, inputfile, format='NetCDF')
-    os.remove(idx_file)
-    dataset = xr.load_dataset('/root/current_.nc')
-    if 'crs' in str(dataset):
-        dataset = dataset.drop(['crs'])
+    # idx_url = 'https://ftpprd.ncep.noaa.gov/data/nccf/com/hrrr/prod/hrrr.'+datestr+'/conus/hrrr.t'+cycle+'z.wrfsfcf'+frame+'.grib2.idx'
+    # os.system('curl "'+idx_url+'" --output "/root/hrrr.t'+cycle+'z.wrfsfcf'+frame+'.grib2.idx"')
+    # idx_file = '/root/hrrr.t'+cycle+'z.wrfsfcf'+frame+'.grib2.idx'
+    # read_idx(idx_file,'hrrr',int(frame),cycle,datestr)
+    # (xr.load_dataset('/root/current.grib2',engine='cfgrib')).to_netcdf('/root/current.nc')
+    # os.system('/usr/bin/gdalwarp -t_srs EPSG:4326 /root/current.nc /root/current_.tif')
+    # inputfile = '/root/current_.tif'
+    # outputfile = '/root/current_.nc'
+    # ds = gdal.Translate(outputfile, inputfile, format='NetCDF')
+    # os.remove(idx_file)
+    # dataset = xr.load_dataset('/root/current_.nc')
+    # if 'crs' in str(dataset):
+    #     dataset = dataset.drop(['crs'])
+
+    dataset = xr.load_dataset('/root/hrrr3k_'+frame+'.nc')
 
     dataset['lon'] = dataset['lon']+360
     dataset = crop_ds(dataset,'180_chelsa',domain)
@@ -323,19 +328,21 @@ def arw5k_1(chelsa_ds,frame,cycle,datestr,offset,domain):
         os.remove('/root/current_.tif')
 
     frame = name_frame(int(frame)+offset)
-    idx_url = 'https://ftpprd.ncep.noaa.gov/data/nccf/com/hiresw/prod/hiresw.'+datestr+'/hiresw.t'+cycle+'z.arw_5km.f'+frame+'.conus.grib2.idx'
-    os.system('curl "'+idx_url+'" --output "/root/hiresw.t'+cycle+'z.arw_5km.f'+frame+'.conus.grib2.idx"')
-    idx_file = '/root/hiresw.t'+cycle+'z.arw_5km.f'+frame+'.conus.grib2.idx'
-    read_idx(idx_file,'arw5k_1',int(frame),cycle,datestr)
-    (xr.load_dataset('/root/current.grib2',engine='cfgrib')).to_netcdf('/root/current.nc')
-    os.system('/usr/bin/gdalwarp -t_srs EPSG:4326 /root/current.nc /root/current_.tif')
-    inputfile = '/root/current_.tif'
-    outputfile = '/root/current_.nc'
-    ds = gdal.Translate(outputfile, inputfile, format='NetCDF')
-    os.remove(idx_file)
-    dataset = xr.load_dataset('/root/current_.nc')
-    if 'crs' in str(dataset):
-        dataset = dataset.drop(['crs'])
+    # idx_url = 'https://ftpprd.ncep.noaa.gov/data/nccf/com/hiresw/prod/hiresw.'+datestr+'/hiresw.t'+cycle+'z.arw_5km.f'+frame+'.conus.grib2.idx'
+    # os.system('curl "'+idx_url+'" --output "/root/hiresw.t'+cycle+'z.arw_5km.f'+frame+'.conus.grib2.idx"')
+    # idx_file = '/root/hiresw.t'+cycle+'z.arw_5km.f'+frame+'.conus.grib2.idx'
+    # read_idx(idx_file,'arw5k_1',int(frame),cycle,datestr)
+    # (xr.load_dataset('/root/current.grib2',engine='cfgrib')).to_netcdf('/root/current.nc')
+    # os.system('/usr/bin/gdalwarp -t_srs EPSG:4326 /root/current.nc /root/current_.tif')
+    # inputfile = '/root/current_.tif'
+    # outputfile = '/root/current_.nc'
+    # ds = gdal.Translate(outputfile, inputfile, format='NetCDF')
+    # os.remove(idx_file)
+    # dataset = xr.load_dataset('/root/current_.nc')
+    # if 'crs' in str(dataset):
+    #     dataset = dataset.drop(['crs'])
+
+    dataset = xr.load_dataset('/root/arw5k_1_'+frame+'.nc')
 
     dataset['lon'] = dataset['lon']+360
     dataset = crop_ds(dataset,'180_chelsa',domain)
@@ -364,19 +371,21 @@ def arw5k_2(chelsa_ds,frame,cycle,datestr,offset,domain):
         os.remove('/root/current_.tif')
 
     frame = name_frame(int(frame)+offset)
-    idx_url = 'https://ftpprd.ncep.noaa.gov/data/nccf/com/hiresw/prod/hiresw.'+datestr+'/hiresw.t'+cycle+'z.arw_5km.f'+frame+'.conusmem2.grib2.idx'
-    os.system('curl "'+idx_url+'" --output "/root/hiresw.t'+cycle+'z.arw_5km.f'+frame+'.conusmem2.grib2.idx"')
-    idx_file = '/root/hiresw.t'+cycle+'z.arw_5km.f'+frame+'.conusmem2.grib2.idx'
-    read_idx(idx_file,'arw5k_2',int(frame),cycle,datestr)
-    (xr.load_dataset('/root/current.grib2',engine='cfgrib')).to_netcdf('/root/current.nc')
-    os.system('/usr/bin/gdalwarp -t_srs EPSG:4326 /root/current.nc /root/current_.tif')
-    inputfile = '/root/current_.tif'
-    outputfile = '/root/current_.nc'
-    ds = gdal.Translate(outputfile, inputfile, format='NetCDF')
-    os.remove(idx_file)
-    dataset = xr.load_dataset('/root/current_.nc')
-    if 'crs' in str(dataset):
-        dataset = dataset.drop(['crs'])
+    # idx_url = 'https://ftpprd.ncep.noaa.gov/data/nccf/com/hiresw/prod/hiresw.'+datestr+'/hiresw.t'+cycle+'z.arw_5km.f'+frame+'.conusmem2.grib2.idx'
+    # os.system('curl "'+idx_url+'" --output "/root/hiresw.t'+cycle+'z.arw_5km.f'+frame+'.conusmem2.grib2.idx"')
+    # idx_file = '/root/hiresw.t'+cycle+'z.arw_5km.f'+frame+'.conusmem2.grib2.idx'
+    # read_idx(idx_file,'arw5k_2',int(frame),cycle,datestr)
+    # (xr.load_dataset('/root/current.grib2',engine='cfgrib')).to_netcdf('/root/current.nc')
+    # os.system('/usr/bin/gdalwarp -t_srs EPSG:4326 /root/current.nc /root/current_.tif')
+    # inputfile = '/root/current_.tif'
+    # outputfile = '/root/current_.nc'
+    # ds = gdal.Translate(outputfile, inputfile, format='NetCDF')
+    # os.remove(idx_file)
+    # dataset = xr.load_dataset('/root/current_.nc')
+    # if 'crs' in str(dataset):
+    #     dataset = dataset.drop(['crs'])
+
+    dataset = xr.load_dataset('/root/arw5k_2_'+frame+'.nc')
 
     dataset['lon'] = dataset['lon']+360
     dataset = crop_ds(dataset,'180_chelsa',domain)
@@ -405,19 +414,21 @@ def fv35k(chelsa_ds,frame,cycle,datestr,offset,domain):
         os.remove('/root/current_.tif')
 
     frame = name_frame(int(frame)+offset)
-    idx_url = 'https://ftpprd.ncep.noaa.gov/data/nccf/com/hiresw/prod/hiresw.'+datestr+'/hiresw.t'+cycle+'z.fv3_5km.f'+frame+'.conus.grib2.idx'
-    os.system('curl "'+idx_url+'" --output "/root/hiresw.t'+cycle+'z.fv3_5km.f'+frame+'.conus.grib2.idx"')
-    idx_file = '/root/hiresw.t'+cycle+'z.fv3_5km.f'+frame+'.conus.grib2.idx'
-    read_idx(idx_file,'fv35k',int(frame),cycle,datestr)
-    (xr.load_dataset('/root/current.grib2',engine='cfgrib')).to_netcdf('/root/current.nc')
-    os.system('/usr/bin/gdalwarp -t_srs EPSG:4326 /root/current.nc /root/current_.tif')
-    inputfile = '/root/current_.tif'
-    outputfile = '/root/current_.nc'
-    ds = gdal.Translate(outputfile, inputfile, format='NetCDF')
-    os.remove(idx_file)
-    dataset = xr.load_dataset('/root/current_.nc')
-    if 'crs' in str(dataset):
-        dataset = dataset.drop(['crs'])
+    # idx_url = 'https://ftpprd.ncep.noaa.gov/data/nccf/com/hiresw/prod/hiresw.'+datestr+'/hiresw.t'+cycle+'z.fv3_5km.f'+frame+'.conus.grib2.idx'
+    # os.system('curl "'+idx_url+'" --output "/root/hiresw.t'+cycle+'z.fv3_5km.f'+frame+'.conus.grib2.idx"')
+    # idx_file = '/root/hiresw.t'+cycle+'z.fv3_5km.f'+frame+'.conus.grib2.idx'
+    # read_idx(idx_file,'fv35k',int(frame),cycle,datestr)
+    # (xr.load_dataset('/root/current.grib2',engine='cfgrib')).to_netcdf('/root/current.nc')
+    # os.system('/usr/bin/gdalwarp -t_srs EPSG:4326 /root/current.nc /root/current_.tif')
+    # inputfile = '/root/current_.tif'
+    # outputfile = '/root/current_.nc'
+    # ds = gdal.Translate(outputfile, inputfile, format='NetCDF')
+    # os.remove(idx_file)
+    # dataset = xr.load_dataset('/root/current_.nc')
+    # if 'crs' in str(dataset):
+    #     dataset = dataset.drop(['crs'])
+
+    dataset = xr.load_dataset('/root/fv35k_'+frame+'.nc')
 
     dataset['lon'] = dataset['lon']+360
     dataset = crop_ds(dataset,'180_chelsa',domain)
@@ -446,19 +457,21 @@ def arw2p5k(chelsa_ds,frame,cycle,datestr,offset,domain):
         os.remove('/root/current_.tif')
 
     frame = name_frame(int(frame)+offset)
-    idx_url = 'https://ftpprd.ncep.noaa.gov/data/nccf/com/hiresw/prod/hiresw.'+datestr+'/hiresw.t'+cycle+'z.arw_2p5km.f'+frame+'.conus.grib2.idx'
-    os.system('curl "'+idx_url+'" --output "/root/hiresw.t'+cycle+'z.arw_2p5km.f'+frame+'.conus.grib2.idx"')
-    idx_file = '/root/hiresw.t'+cycle+'z.arw_2p5km.f'+frame+'.conus.grib2.idx'
-    read_idx(idx_file,'arw2p5k',int(frame),cycle,datestr)
-    (xr.load_dataset('/root/current.grib2',engine='cfgrib')).to_netcdf('/root/current.nc')
-    os.system('/usr/bin/gdalwarp -t_srs EPSG:4326 /root/current.nc /root/current_.tif')
-    inputfile = '/root/current_.tif'
-    outputfile = '/root/current_.nc'
-    ds = gdal.Translate(outputfile, inputfile, format='NetCDF')
-    os.remove(idx_file)
-    dataset = xr.load_dataset('/root/current_.nc')
-    if 'crs' in str(dataset):
-        dataset = dataset.drop(['crs'])
+    # idx_url = 'https://ftpprd.ncep.noaa.gov/data/nccf/com/hiresw/prod/hiresw.'+datestr+'/hiresw.t'+cycle+'z.arw_2p5km.f'+frame+'.conus.grib2.idx'
+    # os.system('curl "'+idx_url+'" --output "/root/hiresw.t'+cycle+'z.arw_2p5km.f'+frame+'.conus.grib2.idx"')
+    # idx_file = '/root/hiresw.t'+cycle+'z.arw_2p5km.f'+frame+'.conus.grib2.idx'
+    # read_idx(idx_file,'arw2p5k',int(frame),cycle,datestr)
+    # (xr.load_dataset('/root/current.grib2',engine='cfgrib')).to_netcdf('/root/current.nc')
+    # os.system('/usr/bin/gdalwarp -t_srs EPSG:4326 /root/current.nc /root/current_.tif')
+    # inputfile = '/root/current_.tif'
+    # outputfile = '/root/current_.nc'
+    # ds = gdal.Translate(outputfile, inputfile, format='NetCDF')
+    # os.remove(idx_file)
+    # dataset = xr.load_dataset('/root/current_.nc')
+    # if 'crs' in str(dataset):
+    #     dataset = dataset.drop(['crs'])
+
+    dataset = xr.load_dataset('/root/arw2p5k_'+frame+'.nc')
 
     dataset['lon'] = dataset['lon']+360
     dataset = crop_ds(dataset,'180_chelsa',domain)
@@ -488,19 +501,21 @@ def fv32p5k(chelsa_ds,frame,cycle,datestr,offset,domain):
         os.remove('/root/current_.tif')
 
     frame = name_frame(int(frame)+offset)
-    idx_url = 'https://ftpprd.ncep.noaa.gov/data/nccf/com/hiresw/prod/hiresw.'+datestr+'/hiresw.t'+cycle+'z.fv3_2p5km.f'+frame+'.conus.grib2.idx'
-    os.system('curl "'+idx_url+'" --output "/root/hiresw.t'+cycle+'z.fv3_2p5km.f'+frame+'.conus.grib2.idx"')
-    idx_file = '/root/hiresw.t'+cycle+'z.fv3_2p5km.f'+frame+'.conus.grib2.idx'
-    read_idx(idx_file,'fv32p5k',int(frame),cycle,datestr)
-    (xr.load_dataset('/root/current.grib2',engine='cfgrib')).to_netcdf('/root/current.nc')
-    os.system('/usr/bin/gdalwarp -t_srs EPSG:4326 /root/current.nc /root/current_.tif')
-    inputfile = '/root/current_.tif'
-    outputfile = '/root/current_.nc'
-    ds = gdal.Translate(outputfile, inputfile, format='NetCDF')
-    os.remove(idx_file)
-    dataset = xr.load_dataset('/root/current_.nc')
-    if 'crs' in str(dataset):
-        dataset = dataset.drop(['crs'])
+    # idx_url = 'https://ftpprd.ncep.noaa.gov/data/nccf/com/hiresw/prod/hiresw.'+datestr+'/hiresw.t'+cycle+'z.fv3_2p5km.f'+frame+'.conus.grib2.idx'
+    # os.system('curl "'+idx_url+'" --output "/root/hiresw.t'+cycle+'z.fv3_2p5km.f'+frame+'.conus.grib2.idx"')
+    # idx_file = '/root/hiresw.t'+cycle+'z.fv3_2p5km.f'+frame+'.conus.grib2.idx'
+    # read_idx(idx_file,'fv32p5k',int(frame),cycle,datestr)
+    # (xr.load_dataset('/root/current.grib2',engine='cfgrib')).to_netcdf('/root/current.nc')
+    # os.system('/usr/bin/gdalwarp -t_srs EPSG:4326 /root/current.nc /root/current_.tif')
+    # inputfile = '/root/current_.tif'
+    # outputfile = '/root/current_.nc'
+    # ds = gdal.Translate(outputfile, inputfile, format='NetCDF')
+    # os.remove(idx_file)
+    # dataset = xr.load_dataset('/root/current_.nc')
+    # if 'crs' in str(dataset):
+    #     dataset = dataset.drop(['crs'])
+
+    dataset = xr.load_dataset('/root/fv32p5k_'+frame+'.nc')
 
     dataset['lon'] = dataset['lon']+360
     dataset = crop_ds(dataset,'180_chelsa',domain)
@@ -699,8 +714,121 @@ def create_master_ds(domain):
 
     return dataset
 
+def ingest_gribs():
+    for x in range(2,37):
+        frame = name_frame(x)
 
-def ingest_gribs(frame,master_ds,domain):
+        idx_url = 'https://ftpprd.ncep.noaa.gov/data/nccf/com/nam/prod/nam.'+datestr+'/nam.t'+cycle+'z.conusnest.hiresf'+frame+'.tm00.grib2.idx'
+        os.system('curl "'+idx_url+'" --output "/root/nam.t'+cycle+'z.conusnest.hiresf'+frame+'.tm00.grib2.idx"')
+        idx_file = '/root/nam.t'+cycle+'z.conusnest.hiresf'+frame+'.tm00.grib2.idx'
+        current_line = read_idx(idx_file,'nam',int(frame),cycle,datestr)
+        (xr.load_dataset('/root/current.grib2',engine='cfgrib')).to_netcdf('/root/current.nc')
+        os.system('/usr/bin/gdalwarp -t_srs EPSG:4326 /root/current.nc /root/current_.tif')
+        inputfile = '/root/current_.tif'
+        outputfile = '/root/current_.nc'
+        ds = gdal.Translate(outputfile, inputfile, format='NetCDF')
+        os.remove(idx_file)
+        dataset = xr.load_dataset('/root/current_.nc')
+        if 'crs' in str(dataset):
+            dataset = dataset.drop(['crs'])
+        dataset.to_netcdf('/root/nam3k_'+frame+'.nc')
+    
+        idx_url = 'https://ftpprd.ncep.noaa.gov/data/nccf/com/hrrr/prod/hrrr.'+datestr+'/conus/hrrr.t'+cycle+'z.wrfsfcf'+frame+'.grib2.idx'
+        os.system('curl "'+idx_url+'" --output "/root/hrrr.t'+cycle+'z.wrfsfcf'+frame+'.grib2.idx"')
+        idx_file = '/root/hrrr.t'+cycle+'z.wrfsfcf'+frame+'.grib2.idx'
+        read_idx(idx_file,'hrrr',int(frame),cycle,datestr)
+        (xr.load_dataset('/root/current.grib2',engine='cfgrib')).to_netcdf('/root/current.nc')
+        os.system('/usr/bin/gdalwarp -t_srs EPSG:4326 /root/current.nc /root/current_.tif')
+        inputfile = '/root/current_.tif'
+        outputfile = '/root/current_.nc'
+        ds = gdal.Translate(outputfile, inputfile, format='NetCDF')
+        os.remove(idx_file)
+        dataset = xr.load_dataset('/root/current_.nc')
+        if 'crs' in str(dataset):
+            dataset = dataset.drop(['crs'])
+        dataset.to_netcdf('/root/hrrr3k_'+frame+'.nc')
+
+        idx_url = 'https://ftpprd.ncep.noaa.gov/data/nccf/com/hiresw/prod/hiresw.'+datestr+'/hiresw.t'+cycle+'z.arw_5km.f'+frame+'.conus.grib2.idx'
+        os.system('curl "'+idx_url+'" --output "/root/hiresw.t'+cycle+'z.arw_5km.f'+frame+'.conus.grib2.idx"')
+        idx_file = '/root/hiresw.t'+cycle+'z.arw_5km.f'+frame+'.conus.grib2.idx'
+        read_idx(idx_file,'arw5k_1',int(frame),cycle,datestr)
+        (xr.load_dataset('/root/current.grib2',engine='cfgrib')).to_netcdf('/root/current.nc')
+        os.system('/usr/bin/gdalwarp -t_srs EPSG:4326 /root/current.nc /root/current_.tif')
+        inputfile = '/root/current_.tif'
+        outputfile = '/root/current_.nc'
+        ds = gdal.Translate(outputfile, inputfile, format='NetCDF')
+        os.remove(idx_file)
+        dataset = xr.load_dataset('/root/current_.nc')
+        if 'crs' in str(dataset):
+            dataset = dataset.drop(['crs'])
+        dataset.to_netcdf('/root/arw5k_1_'+frame+'.nc')
+
+        idx_url = 'https://ftpprd.ncep.noaa.gov/data/nccf/com/hiresw/prod/hiresw.'+datestr+'/hiresw.t'+cycle+'z.arw_5km.f'+frame+'.conusmem2.grib2.idx'
+        os.system('curl "'+idx_url+'" --output "/root/hiresw.t'+cycle+'z.arw_5km.f'+frame+'.conusmem2.grib2.idx"')
+        idx_file = '/root/hiresw.t'+cycle+'z.arw_5km.f'+frame+'.conusmem2.grib2.idx'
+        read_idx(idx_file,'arw5k_2',int(frame),cycle,datestr)
+        (xr.load_dataset('/root/current.grib2',engine='cfgrib')).to_netcdf('/root/current.nc')
+        os.system('/usr/bin/gdalwarp -t_srs EPSG:4326 /root/current.nc /root/current_.tif')
+        inputfile = '/root/current_.tif'
+        outputfile = '/root/current_.nc'
+        ds = gdal.Translate(outputfile, inputfile, format='NetCDF')
+        os.remove(idx_file)
+        dataset = xr.load_dataset('/root/current_.nc')
+        if 'crs' in str(dataset):
+            dataset = dataset.drop(['crs'])
+        dataset.to_netcdf('/root/arw5k_2_'+frame+'.nc')
+
+        idx_url = 'https://ftpprd.ncep.noaa.gov/data/nccf/com/hiresw/prod/hiresw.'+datestr+'/hiresw.t'+cycle+'z.fv3_5km.f'+frame+'.conus.grib2.idx'
+        os.system('curl "'+idx_url+'" --output "/root/hiresw.t'+cycle+'z.fv3_5km.f'+frame+'.conus.grib2.idx"')
+        idx_file = '/root/hiresw.t'+cycle+'z.fv3_5km.f'+frame+'.conus.grib2.idx'
+        read_idx(idx_file,'fv35k',int(frame),cycle,datestr)
+        (xr.load_dataset('/root/current.grib2',engine='cfgrib')).to_netcdf('/root/current.nc')
+        os.system('/usr/bin/gdalwarp -t_srs EPSG:4326 /root/current.nc /root/current_.tif')
+        inputfile = '/root/current_.tif'
+        outputfile = '/root/current_.nc'
+        ds = gdal.Translate(outputfile, inputfile, format='NetCDF')
+        os.remove(idx_file)
+        dataset = xr.load_dataset('/root/current_.nc')
+        if 'crs' in str(dataset):
+            dataset = dataset.drop(['crs'])
+        dataset.to_netcdf('/root/fv35k_'+frame+'.nc')
+
+        idx_url = 'https://ftpprd.ncep.noaa.gov/data/nccf/com/hiresw/prod/hiresw.'+datestr+'/hiresw.t'+cycle+'z.arw_2p5km.f'+frame+'.conus.grib2.idx'
+        os.system('curl "'+idx_url+'" --output "/root/hiresw.t'+cycle+'z.arw_2p5km.f'+frame+'.conus.grib2.idx"')
+        idx_file = '/root/hiresw.t'+cycle+'z.arw_2p5km.f'+frame+'.conus.grib2.idx'
+        read_idx(idx_file,'arw2p5k',int(frame),cycle,datestr)
+        (xr.load_dataset('/root/current.grib2',engine='cfgrib')).to_netcdf('/root/current.nc')
+        os.system('/usr/bin/gdalwarp -t_srs EPSG:4326 /root/current.nc /root/current_.tif')
+        inputfile = '/root/current_.tif'
+        outputfile = '/root/current_.nc'
+        ds = gdal.Translate(outputfile, inputfile, format='NetCDF')
+        os.remove(idx_file)
+        dataset = xr.load_dataset('/root/current_.nc')
+        if 'crs' in str(dataset):
+            dataset = dataset.drop(['crs'])
+        dataset.to_netcdf('/root/arw2p5k_'+frame+'.nc')
+
+        # idx_url = 'https://ftpprd.ncep.noaa.gov/data/nccf/com/hiresw/prod/hiresw.'+datestr+'/hiresw.t'+cycle+'z.fv3_2p5km.f'+frame+'.conus.grib2.idx'
+        os.system('curl "'+idx_url+'" --output "/root/hiresw.t'+cycle+'z.fv3_2p5km.f'+frame+'.conus.grib2.idx"')
+        idx_file = '/root/hiresw.t'+cycle+'z.fv3_2p5km.f'+frame+'.conus.grib2.idx'
+        read_idx(idx_file,'fv32p5k',int(frame),cycle,datestr)
+        (xr.load_dataset('/root/current.grib2',engine='cfgrib')).to_netcdf('/root/current.nc')
+        os.system('/usr/bin/gdalwarp -t_srs EPSG:4326 /root/current.nc /root/current_.tif')
+        inputfile = '/root/current_.tif'
+        outputfile = '/root/current_.nc'
+        ds = gdal.Translate(outputfile, inputfile, format='NetCDF')
+        os.remove(idx_file)
+        dataset = xr.load_dataset('/root/current_.nc')
+        if 'crs' in str(dataset):
+            dataset = dataset.drop(['crs'])
+        dataset.to_netcdf('/root/fv32p5k_'+frame+'.nc')
+
+
+
+
+
+
+def process_gribs(frame,master_ds,domain):
     frame = name_frame(int(frame))
     datestr = datestr_and_cycle()[0]
     cycle = datestr_and_cycle()[1]
@@ -955,6 +1083,7 @@ def ingest_gribs(frame,master_ds,domain):
 frame = '03'
 # master_master_ds = create_master_ds()
 # print(master_ds)
+ingest_gribs()
 domains = ['pnw','colorado','northeast','norcal','utah']
 for domain in domains:
     product_types = ['hourly','accumulated']
@@ -964,7 +1093,7 @@ for domain in domains:
             if product_type == 'hourly':
                 master_ds = create_master_ds(domain)
             frame = name_frame(n)
-            master_ds = ingest_gribs(frame,master_ds,domain)
+            master_ds = process_gribs(frame,master_ds,domain)
             # master_ds['tp'] = (master_ds['nam3k']+master_ds['hrrr3k']+master_ds['arw5k_1']+master_ds['arw5k_2']+master_ds['fv35k']+master_ds['arw2.5k']+master_ds['fv32.5k'])/7
             # master_ds['tp'] = (master_ds['nam3k_1']+master_ds['nam3k_2']+master_ds['nam3k_3']+master_ds['nam3k_4']+master_ds['nam3k_5']+master_ds['hrrr3k_1']+master_ds['hrrr3k_2']+master_ds['hrrr3k_3']+master_ds['arw5k_1_1']+master_ds['arw5k_1_2']+master_ds['arw5k_2_1']+master_ds['arw5k_2_2']+master_ds['fv35k_1']+master_ds['fv35k_2']+master_ds['fv35k_3']+master_ds['arw2.5k_1']+master_ds['arw2.5k_2']+master_ds['fv32.5k_1']+master_ds['fv32.5k_2']+master_ds['fv32.5k_3'])/20
             # master_ds['tp'] = (master_ds['nam3k_1']+master_ds['nam3k_2']+master_ds['hrrr3k_1']+master_ds['hrrr3k_2'])/4
