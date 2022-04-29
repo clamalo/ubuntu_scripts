@@ -1113,7 +1113,7 @@ for domain in domains:
         master_ds = xr.load_dataset('/root/'+domain+'_master.nc')
         for n in range(2,37):
             if product_type == 'hourly':
-                master_ds = create_master_ds(domain)
+                master_ds = xr.load_dataset('/root/'+domain+'_master.nc')
             frame = name_frame(n)
             master_ds = process_gribs(frame,master_ds,domain)
             # master_ds['tp'] = (master_ds['nam3k']+master_ds['hrrr3k']+master_ds['arw5k_1']+master_ds['arw5k_2']+master_ds['fv35k']+master_ds['arw2.5k']+master_ds['fv32.5k'])/7
