@@ -717,7 +717,7 @@ def create_master_ds(domain):
 def ingest_gribs():
     datestr = datestr_and_cycle[0]
     cycle = datestr_and_cycle[1]
-    for x in range(2,37):
+    for x in range(1,37):
         frame = name_frame(x)
 
         idx_url = 'https://ftpprd.ncep.noaa.gov/data/nccf/com/nam/prod/nam.'+datestr+'/nam.t'+cycle+'z.conusnest.hiresf'+frame+'.tm00.grib2.idx'
