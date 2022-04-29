@@ -950,9 +950,8 @@ master_ds = create_master_ds()
 # print(master_ds)
 # quit()
 product_types = ['hourly','accumulated']
-product_types = ['accumulated']
 for product_type in product_types:
-    for n in range(1,36):
+    for n in range(2,37):
         if product_type == 'hourly':
             master_ds = create_master_ds()
         frame = name_frame(n)
@@ -962,7 +961,7 @@ for product_type in product_types:
         # master_ds['tp'] = (master_ds['nam3k_1']+master_ds['nam3k_2']+master_ds['hrrr3k_1']+master_ds['hrrr3k_2'])/4
         # master_ds['tp'] = (master_ds['nam3k_1']+master_ds['hrrr3k_1'])/2
         master_ds['tp'] = (master_ds['nam3k_1']+master_ds['hrrr3k_1']+master_ds['arw5k_1_1']+master_ds['arw5k_2_1']+master_ds['fv35k_1']+master_ds['arw2.5k_1']+master_ds['fv32.5k_1'])/7
-        master_ds.to_netcdf('/root/master_ds.nc')
+        # master_ds.to_netcdf('/root/master_ds.nc')
         print(master_ds)
 
         # master_master_ds = xr.concat([master_master_ds,master_ds], dim="hour")
@@ -991,7 +990,22 @@ for product_type in product_types:
         ax.add_feature(cartopy.feature.STATES)
         # ax.add_feature(USCOUNTIES.with_scale('500k'),linewidth=1)
         cbar = plt.colorbar(cf, shrink=0.7, orientation="horizontal", pad=0.03)
-        plt.title('HRCAMEF Frame '+str(frame),fontsize=7)
+
+        #create initialization time and valid time for given frame for plot title
+        datestr = datestr_and_cycle()[0]
+        cycle = datestr_and_cycle()[1]
+        init_label = datestr[0:4]+'-'+datestr[4:6]+'-'+datestr[6:8]+' '+cycle+'z'
+        datestr = str(datestr)+str(cycle)
+        datestr = datetime.strptime(datestr, '%Y%m%d%H')
+        hours_added = timedelta(hours = int(frame))
+        datestr = str(datestr+hours_added)
+        valid_label = datestr[0:4]+'-'+datestr[5:7]+'-'+datestr[8:13]+'z'
+
+        plt.title('HRCAMEF '+str(frame),fontsize=7)
+        if product_type == 'accumulated':
+            plt.title("HRCAMEF Accumulated Precipitation (Inches) || Forecast Hour "+str(frame)+" || Init "+init_label+" || Valid "+valid_label,fontsize=10)
+        else:
+            plt.title("HRCAMEF Hourly Precipitation (Inches) || Forecast Hour "+str(frame)+" || Init "+init_label+" || Valid "+valid_label,fontsize=10)
         plt.savefig('/root/script/hrcamef/'+product_type+'/tp_'+frame+'.png',dpi=500,bbox_inches='tight')
         plt.clf()
 
