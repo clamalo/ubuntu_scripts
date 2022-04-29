@@ -950,6 +950,7 @@ master_ds = create_master_ds()
 # print(master_ds)
 # quit()
 product_types = ['hourly','accumulated']
+product_types = ['accumulated']
 for product_type in product_types:
     for n in range(2,37):
         if product_type == 'hourly':
@@ -975,7 +976,7 @@ for product_type in product_types:
 
         lats = ds['lat']
         lons = ds['lon']
-        tp = ds['tp']*.0393701
+        tp = ds['hrrr3k_1']*.0393701
 
         fig = plt.figure(figsize=(12, 8))
         ax = plt.axes(projection=ccrs.PlateCarree())
