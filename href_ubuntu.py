@@ -1102,7 +1102,7 @@ def process_gribs(frame,master_ds,domain):
 frame = '03'
 # master_master_ds = create_master_ds()
 # print(master_ds)
-# ingest_gribs()
+ingest_gribs()
 domains = ['pnw','colorado','northeast','norcal','utah']
 for domain in domains:
     create_master_ds(domain)
@@ -1173,10 +1173,10 @@ for domain in domains:
             plt.savefig('/root/script/hrcamef/'+product_type+'/'+domain+'/tp_'+frame+'.png',dpi=500,bbox_inches='tight')
             plt.clf()
 
-            os.chdir('/root/script')
-            os.system('git add hrcamef')
-            os.system('git commit -m "auto-push"')
-            os.system('git checkout master')
-            os.system('git pull git@github.com:clamalo/ubuntu_scripts.git master')
-            os.system('git config --global core.askpass "git-gui--askpass"')
-            os.system('git push git@github.com:clamalo/ubuntu_scripts.git master')
+        os.chdir('/root/script')
+        os.system('git add hrcamef')
+        os.system('git commit -m "auto-push"')
+        os.system('git checkout master')
+        os.system('git pull git@github.com:clamalo/ubuntu_scripts.git master')
+        os.system('git config --global core.askpass "git-gui--askpass"')
+        os.system('git push git@github.com:clamalo/ubuntu_scripts.git master')
