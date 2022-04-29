@@ -153,7 +153,7 @@ def read_idx(idx_file,model,frame,cycle,datestr):
 
     return line1
 
-def nam3k(chelsa_ds,frame,cycle,datestr,offset):
+def nam3k(chelsa_ds,frame,cycle,datestr,offset,domain):
 
     #remove files
     file_exists = os.path.exists('/root/current_.grib2')
@@ -238,7 +238,7 @@ def nam3k(chelsa_ds,frame,cycle,datestr,offset):
         #     print(max(dataset.tp[n].values))
 
     dataset['lon'] = dataset['lon']+360
-    dataset = crop_ds(dataset,'180_chelsa')
+    dataset = crop_ds(dataset,'180_chelsa',domain)
     # for n in range(len(dataset.lat)):
     #     print(max(dataset.tp[n].values))
     # for n in range(len(chelsa_ds.lat)):
@@ -262,7 +262,7 @@ def nam3k(chelsa_ds,frame,cycle,datestr,offset):
 
     return dataset
 
-def hrrr3k(chelsa_ds,frame,cycle,datestr,offset):
+def hrrr3k(chelsa_ds,frame,cycle,datestr,offset,domain):
 
     #remove files
     file_exists = os.path.exists('/root/current_.grib2')
@@ -297,13 +297,13 @@ def hrrr3k(chelsa_ds,frame,cycle,datestr,offset):
         dataset = dataset.drop(['crs'])
 
     dataset['lon'] = dataset['lon']+360
-    dataset = crop_ds(dataset,'180_chelsa')
+    dataset = crop_ds(dataset,'180_chelsa',domain)
     dataset = dataset.interp(lat=chelsa_ds["lat"], lon=chelsa_ds["lon"])
     dataset['tp'] = dataset['tp']*chelsa_ds['precip']
 
     return dataset
 
-def arw5k_1(chelsa_ds,frame,cycle,datestr,offset):
+def arw5k_1(chelsa_ds,frame,cycle,datestr,offset,domain):
 
     #remove files
     file_exists = os.path.exists('/root/current_.grib2')
@@ -338,13 +338,13 @@ def arw5k_1(chelsa_ds,frame,cycle,datestr,offset):
         dataset = dataset.drop(['crs'])
 
     dataset['lon'] = dataset['lon']+360
-    dataset = crop_ds(dataset,'180_chelsa')
+    dataset = crop_ds(dataset,'180_chelsa',domain)
     dataset = dataset.interp(lat=chelsa_ds["lat"], lon=chelsa_ds["lon"])
     dataset['tp'] = dataset['tp']*chelsa_ds['precip']
 
     return dataset
 
-def arw5k_2(chelsa_ds,frame,cycle,datestr,offset):
+def arw5k_2(chelsa_ds,frame,cycle,datestr,offset,domain):
 
     #remove files
     file_exists = os.path.exists('/root/current_.grib2')
@@ -379,13 +379,13 @@ def arw5k_2(chelsa_ds,frame,cycle,datestr,offset):
         dataset = dataset.drop(['crs'])
 
     dataset['lon'] = dataset['lon']+360
-    dataset = crop_ds(dataset,'180_chelsa')
+    dataset = crop_ds(dataset,'180_chelsa',domain)
     dataset = dataset.interp(lat=chelsa_ds["lat"], lon=chelsa_ds["lon"])
     dataset['tp'] = dataset['tp']*chelsa_ds['precip']
 
     return dataset
 
-def fv35k(chelsa_ds,frame,cycle,datestr,offset):
+def fv35k(chelsa_ds,frame,cycle,datestr,offset,domain):
 
     #remove files
     file_exists = os.path.exists('/root/current_.grib2')
@@ -420,13 +420,13 @@ def fv35k(chelsa_ds,frame,cycle,datestr,offset):
         dataset = dataset.drop(['crs'])
 
     dataset['lon'] = dataset['lon']+360
-    dataset = crop_ds(dataset,'180_chelsa')
+    dataset = crop_ds(dataset,'180_chelsa',domain)
     dataset = dataset.interp(lat=chelsa_ds["lat"], lon=chelsa_ds["lon"])
     dataset['tp'] = dataset['tp']*chelsa_ds['precip']
 
     return dataset
 
-def arw2p5k(chelsa_ds,frame,cycle,datestr,offset):
+def arw2p5k(chelsa_ds,frame,cycle,datestr,offset,domain):
 
     #remove files
     file_exists = os.path.exists('/root/current_.grib2')
@@ -461,14 +461,14 @@ def arw2p5k(chelsa_ds,frame,cycle,datestr,offset):
         dataset = dataset.drop(['crs'])
 
     dataset['lon'] = dataset['lon']+360
-    dataset = crop_ds(dataset,'180_chelsa')
+    dataset = crop_ds(dataset,'180_chelsa',domain)
     dataset = dataset.interp(lat=chelsa_ds["lat"], lon=chelsa_ds["lon"])
     dataset['tp'] = dataset['tp']*chelsa_ds['precip']
 
     return dataset
 
 
-def fv32p5k(chelsa_ds,frame,cycle,datestr,offset):
+def fv32p5k(chelsa_ds,frame,cycle,datestr,offset,domain):
 
     #remove files
     file_exists = os.path.exists('/root/current_.grib2')
@@ -503,7 +503,7 @@ def fv32p5k(chelsa_ds,frame,cycle,datestr,offset):
         dataset = dataset.drop(['crs'])
 
     dataset['lon'] = dataset['lon']+360
-    dataset = crop_ds(dataset,'180_chelsa')
+    dataset = crop_ds(dataset,'180_chelsa',domain)
     dataset = dataset.interp(lat=chelsa_ds["lat"], lon=chelsa_ds["lon"])
     dataset['tp'] = dataset['tp']*chelsa_ds['precip']
 
@@ -512,14 +512,24 @@ def fv32p5k(chelsa_ds,frame,cycle,datestr,offset):
 
 
 
-
-def crop_ds(ds,type):
+def crop_ds(ds,type,domain):
     # if type == '180_chelsa':
         # for n in range(len(ds.lat)):
         #     print(max(ds.tp[n].values))
     # topleft_bottomright = [45,-125,35,-115]
     # topleft_bottomright = [41,-109,37,-102]
-    topleft_bottomright = [50,-125,46.5,-120]
+    if domain == 'pnw':
+        topleft_bottomright = [50,-125,46.5,-120]
+    elif domain == 'norcal':
+        topleft_bottomright = [39,-124,37,-118]
+    elif domain == 'utah':
+        topleft_bottomright = [42,-113,39,-108]
+    elif domain == 'northeast':
+        topleft_bottomright = [45.5,-76,41,-69]
+    elif domain == 'colorado':
+        topleft_bottomright = [41,-109,36,-104]
+    elif domain == 'whole_domain':
+        topleft_bottomright = [50,-125,25,-60]
     # topleft_bottomright = []
     # topleft_bottomright = [50,-125,25,-60]
     # topleft_bottomright = [50,-125,45,-120]
@@ -577,7 +587,7 @@ def resolutions():
         lats = int(20880/(180/coarsen_resolution))
 
         ds['lon'] = ds['lon']+180
-        ds = crop_ds(ds,'resolutions')
+        ds = crop_ds(ds,'resolutions','whole_domain')
 
         ds_coarse = ds.coarsen(lon=lons, lat=lats, boundary='pad').mean()
 
@@ -597,7 +607,7 @@ def resolutions():
 
         ds.to_netcdf('/root/'+str(resolution)+'chelsa.nc')
 
-def create_master_ds():
+def create_master_ds(domain):
     datestr = datestr_and_cycle()[0]
     cycle = datestr_and_cycle()[1]
     print(datestr,cycle)
@@ -643,7 +653,7 @@ def create_master_ds():
         # os.system('/usr/bin/gdalwarp -t_srs EPSG:4326 current.grib2 current_.grib2')
         # dataset = xr.load_dataset('/root/current_.grib2',engine='cfgrib')
         dataset['lon'] = dataset['lon']+360
-        dataset = crop_ds(dataset,'180_chelsa')
+        dataset = crop_ds(dataset,'180_chelsa',domain)
         # for n in range(len(dataset.lat)):
         #     values = dataset.tp[n].values
         #     output = []
@@ -659,7 +669,7 @@ def create_master_ds():
         chelsa_ds = xr.load_dataset('/root/3chelsa.nc')
         # chelsa_ds['lon'] = chelsa_ds['lon']-180
         # print(chelsa_ds,dataset)
-        chelsa_ds = crop_ds(chelsa_ds,'360_chelsa')
+        chelsa_ds = crop_ds(chelsa_ds,'360_chelsa',domain)
 
         new_lon = np.linspace(chelsa_ds.lon[0], chelsa_ds.lon[-1], chelsa_ds.dims["lon"] * 2)
         new_lat = np.linspace(chelsa_ds.lat[0], chelsa_ds.lat[-1], chelsa_ds.dims["lat"] * 2)
@@ -690,7 +700,7 @@ def create_master_ds():
     return dataset
 
 
-def ingest_gribs(frame,master_ds):
+def ingest_gribs(frame,master_ds,domain):
     frame = name_frame(int(frame))
     datestr = datestr_and_cycle()[0]
     cycle = datestr_and_cycle()[1]
@@ -701,7 +711,7 @@ def ingest_gribs(frame,master_ds):
             #load downscaling file
             chelsa_ds = xr.load_dataset('/root/'+str(resolution)+'chelsa.nc')
             # chelsa_ds['lon'] = chelsa_ds['lon']-180
-            chelsa_ds = crop_ds(chelsa_ds,'360_chelsa')
+            chelsa_ds = crop_ds(chelsa_ds,'360_chelsa',domain)
 
             new_lon = np.linspace(chelsa_ds.lon[0], chelsa_ds.lon[-1], chelsa_ds.dims["lon"] * 2)
             new_lat = np.linspace(chelsa_ds.lat[0], chelsa_ds.lat[-1], chelsa_ds.dims["lat"] * 2)
@@ -736,14 +746,14 @@ def ingest_gribs(frame,master_ds):
                 #nam ingest
                 if model[0] == 'nam3k':
                     if cycle == '00':
-                        dataset_one = nam3k(chelsa_ds,frame,'00',datestr,0)
+                        dataset_one = nam3k(chelsa_ds,frame,'00',datestr,0,domain)
                         # datestr = ((datetime.strptime(datestr, '%Y%m%d'))-timedelta(days=1)).strftime('%Y%m%d')
                         # dataset_two = nam3k(chelsa_ds,frame,'18',datestr,6)
                         # dataset_three = nam3k(chelsa_ds,frame,'12',datestr,12)
                         # dataset_four = nam3k(chelsa_ds,frame,'06',datestr,18)
                         # dataset_five = nam3k(chelsa_ds,frame,'00',datestr,24)
                     else:
-                        dataset_one = nam3k(chelsa_ds,frame,'12',datestr,0)
+                        dataset_one = nam3k(chelsa_ds,frame,'12',datestr,0,domain)
                         # dataset_two = nam3k(chelsa_ds,frame,'06',datestr,6)
                         # dataset_three = nam3k(chelsa_ds,frame,'00',datestr,12)
                         # datestr = ((datetime.strptime(datestr, '%Y%m%d'))-timedelta(days=1)).strftime('%Y%m%d')
@@ -756,12 +766,12 @@ def ingest_gribs(frame,master_ds):
                 #hrrr ingest
                 elif model[0] == 'hrrr3k':
                     if cycle == '00':
-                        dataset_one = hrrr3k(chelsa_ds,frame,'00',datestr,0)
+                        dataset_one = hrrr3k(chelsa_ds,frame,'00',datestr,0,domain)
                         # datestr = ((datetime.strptime(datestr, '%Y%m%d'))-timedelta(days=1)).strftime('%Y%m%d')
                         # dataset_two = hrrr3k(chelsa_ds,frame,'18',datestr,6)
                         # dataset_three = hrrr3k(chelsa_ds,frame,'12',datestr,12)
                     else:
-                        dataset_one = hrrr3k(chelsa_ds,frame,'12',datestr,0)
+                        dataset_one = hrrr3k(chelsa_ds,frame,'12',datestr,0,domain)
                         # dataset_two = hrrr3k(chelsa_ds,frame,'06',datestr,6)
                         # dataset_three = hrrr3k(chelsa_ds,frame,'00',datestr,12)
 
@@ -781,7 +791,7 @@ def ingest_gribs(frame,master_ds):
             #load downscaling file
             chelsa_ds = xr.load_dataset('/root/'+str(resolution)+'chelsa.nc')
             # chelsa_ds['lon'] = chelsa_ds['lon']-180
-            chelsa_ds = crop_ds(chelsa_ds,'360_chelsa')
+            chelsa_ds = crop_ds(chelsa_ds,'360_chelsa',domain)
 
             new_lon = np.linspace(chelsa_ds.lon[0], chelsa_ds.lon[-1], chelsa_ds.dims["lon"] * 2)
             new_lat = np.linspace(chelsa_ds.lat[0], chelsa_ds.lat[-1], chelsa_ds.dims["lat"] * 2)
@@ -814,11 +824,11 @@ def ingest_gribs(frame,master_ds):
                 #wrf arw5k 1 ingest
                 if model[0] == 'arw5k_1':
                     if cycle == '00':
-                        dataset_one = arw5k_1(chelsa_ds,frame,'00',datestr,0)
+                        dataset_one = arw5k_1(chelsa_ds,frame,'00',datestr,0,domain)
                         # datestr = ((datetime.strptime(datestr, '%Y%m%d'))-timedelta(days=1)).strftime('%Y%m%d')
                         # dataset_two = arw5k_1(chelsa_ds,frame,'12',datestr,12)
                     else:
-                        dataset_one = arw5k_1(chelsa_ds,frame,'12',datestr,0)
+                        dataset_one = arw5k_1(chelsa_ds,frame,'12',datestr,0,domain)
                         # dataset_two = arw5k_1(chelsa_ds,frame,'00',datestr,12)
 
                     # datasets = [dataset_one,dataset_two]
@@ -827,11 +837,11 @@ def ingest_gribs(frame,master_ds):
                 #wrf arw5k 2 ingest
                 elif model[0] == 'arw5k_2':
                     if cycle == '00':
-                        dataset_one = arw5k_2(chelsa_ds,frame,'00',datestr,0)
+                        dataset_one = arw5k_2(chelsa_ds,frame,'00',datestr,0,domain)
                         # datestr = ((datetime.strptime(datestr, '%Y%m%d'))-timedelta(days=1)).strftime('%Y%m%d')
                         # dataset_two = arw5k_2(chelsa_ds,frame,'12',datestr,12)
                     else:
-                        dataset_one = arw5k_2(chelsa_ds,frame,'12',datestr,0)
+                        dataset_one = arw5k_2(chelsa_ds,frame,'12',datestr,0,domain)
                         # dataset_two = arw5k_2(chelsa_ds,frame,'00',datestr,12)
 
                     # datasets = [dataset_one,dataset_two]
@@ -840,12 +850,12 @@ def ingest_gribs(frame,master_ds):
                 #wrf fv3 ingest
                 elif model[0] == 'fv35k':
                     if cycle == '00':
-                        dataset_one = fv35k(chelsa_ds,frame,'00',datestr,0)
+                        dataset_one = fv35k(chelsa_ds,frame,'00',datestr,0,domain)
                         # datestr = ((datetime.strptime(datestr, '%Y%m%d'))-timedelta(days=1)).strftime('%Y%m%d')
                         # dataset_two = fv35k(chelsa_ds,frame,'12',datestr,12)
                         # dataset_three = fv35k(chelsa_ds,frame,'00',datestr,24)
                     else:
-                        dataset_one = fv35k(chelsa_ds,frame,'12',datestr,0)
+                        dataset_one = fv35k(chelsa_ds,frame,'12',datestr,0,domain)
                         # dataset_two = fv35k(chelsa_ds,frame,'00',datestr,12)
                         # datestr = ((datetime.strptime(datestr, '%Y%m%d'))-timedelta(days=1)).strftime('%Y%m%d')
                         # dataset_three = fv35k(chelsa_ds,frame,'12',datestr,24)
@@ -866,7 +876,7 @@ def ingest_gribs(frame,master_ds):
             #load downscaling file
             chelsa_ds = xr.load_dataset('/root/'+str(resolution)+'chelsa.nc')
             # chelsa_ds['lon'] = chelsa_ds['lon']-180
-            chelsa_ds = crop_ds(chelsa_ds,'360_chelsa')
+            chelsa_ds = crop_ds(chelsa_ds,'360_chelsa',domain)
 
             new_lon = np.linspace(chelsa_ds.lon[0], chelsa_ds.lon[-1], chelsa_ds.dims["lon"] * 2)
             new_lat = np.linspace(chelsa_ds.lat[0], chelsa_ds.lat[-1], chelsa_ds.dims["lat"] * 2)
@@ -900,11 +910,11 @@ def ingest_gribs(frame,master_ds):
                 #wrf arw2.5k 1 ingest
                 if model[0] == 'arw2.5k':
                     if cycle == '00':
-                        dataset_one = arw2p5k(chelsa_ds,frame,'00',datestr,0)
+                        dataset_one = arw2p5k(chelsa_ds,frame,'00',datestr,0,domain)
                         # datestr = ((datetime.strptime(datestr, '%Y%m%d'))-timedelta(days=1)).strftime('%Y%m%d')
                         # dataset_two = arw2p5k(chelsa_ds,frame,'12',datestr,12)
                     else:
-                        dataset_one = arw2p5k(chelsa_ds,frame,'12',datestr,0)
+                        dataset_one = arw2p5k(chelsa_ds,frame,'12',datestr,0,domain)
                         # dataset_two = arw2p5k(chelsa_ds,frame,'00',datestr,12)
 
                     # datasets = [dataset_one,dataset_two]
@@ -914,12 +924,12 @@ def ingest_gribs(frame,master_ds):
                 #wrf fv32.5k ingest
                 elif model[0] == 'fv32.5k':
                     if cycle == '00':
-                        dataset_one = fv32p5k(chelsa_ds,frame,'00',datestr,0)
+                        dataset_one = fv32p5k(chelsa_ds,frame,'00',datestr,0,domain)
                         # datestr = ((datetime.strptime(datestr, '%Y%m%d'))-timedelta(days=1)).strftime('%Y%m%d')
                         # dataset_two = fv32p5k(chelsa_ds,frame,'12',datestr,12)
                         # dataset_three = fv32p5k(chelsa_ds,frame,'00',datestr,24)
                     else:
-                        dataset_one = fv32p5k(chelsa_ds,frame,'12',datestr,0)
+                        dataset_one = fv32p5k(chelsa_ds,frame,'12',datestr,0,domain)
                         # dataset_two = fv32p5k(chelsa_ds,frame,'00',datestr,12)
                         # datestr = ((datetime.strptime(datestr, '%Y%m%d'))-timedelta(days=1)).strftime('%Y%m%d')
                         # dataset_three = fv32p5k(chelsa_ds,frame,'12',datestr,24)
@@ -943,77 +953,79 @@ def ingest_gribs(frame,master_ds):
 # resolutions()
 
 frame = '03'
-master_master_ds = create_master_ds()
+# master_master_ds = create_master_ds()
 # print(master_ds)
-product_types = ['hourly','accumulated']
-for product_type in product_types:
-    master_ds = create_master_ds()
-    for n in range(2,37):
-        if product_type == 'hourly':
-            master_ds = create_master_ds()
-        frame = name_frame(n)
-        master_ds = ingest_gribs(frame,master_ds)
-        # master_ds['tp'] = (master_ds['nam3k']+master_ds['hrrr3k']+master_ds['arw5k_1']+master_ds['arw5k_2']+master_ds['fv35k']+master_ds['arw2.5k']+master_ds['fv32.5k'])/7
-        # master_ds['tp'] = (master_ds['nam3k_1']+master_ds['nam3k_2']+master_ds['nam3k_3']+master_ds['nam3k_4']+master_ds['nam3k_5']+master_ds['hrrr3k_1']+master_ds['hrrr3k_2']+master_ds['hrrr3k_3']+master_ds['arw5k_1_1']+master_ds['arw5k_1_2']+master_ds['arw5k_2_1']+master_ds['arw5k_2_2']+master_ds['fv35k_1']+master_ds['fv35k_2']+master_ds['fv35k_3']+master_ds['arw2.5k_1']+master_ds['arw2.5k_2']+master_ds['fv32.5k_1']+master_ds['fv32.5k_2']+master_ds['fv32.5k_3'])/20
-        # master_ds['tp'] = (master_ds['nam3k_1']+master_ds['nam3k_2']+master_ds['hrrr3k_1']+master_ds['hrrr3k_2'])/4
-        # master_ds['tp'] = (master_ds['nam3k_1']+master_ds['hrrr3k_1'])/2
-        master_ds['tp'] = (master_ds['nam3k_1']+master_ds['hrrr3k_1']+master_ds['arw5k_1_1']+master_ds['arw5k_2_1']+master_ds['fv35k_1']+master_ds['arw2.5k_1']+master_ds['fv32.5k_1'])/7
-        # master_ds.to_netcdf('/root/master_ds.nc')
-        print(master_ds)
+domains = ['pnw','colorado','northeast','norcal','utah']
+for domain in domains:
+    product_types = ['hourly','accumulated']
+    for product_type in product_types:
+        master_ds = create_master_ds(domain)
+        for n in range(2,37):
+            if product_type == 'hourly':
+                master_ds = create_master_ds(domain)
+            frame = name_frame(n)
+            master_ds = ingest_gribs(frame,master_ds,domain)
+            # master_ds['tp'] = (master_ds['nam3k']+master_ds['hrrr3k']+master_ds['arw5k_1']+master_ds['arw5k_2']+master_ds['fv35k']+master_ds['arw2.5k']+master_ds['fv32.5k'])/7
+            # master_ds['tp'] = (master_ds['nam3k_1']+master_ds['nam3k_2']+master_ds['nam3k_3']+master_ds['nam3k_4']+master_ds['nam3k_5']+master_ds['hrrr3k_1']+master_ds['hrrr3k_2']+master_ds['hrrr3k_3']+master_ds['arw5k_1_1']+master_ds['arw5k_1_2']+master_ds['arw5k_2_1']+master_ds['arw5k_2_2']+master_ds['fv35k_1']+master_ds['fv35k_2']+master_ds['fv35k_3']+master_ds['arw2.5k_1']+master_ds['arw2.5k_2']+master_ds['fv32.5k_1']+master_ds['fv32.5k_2']+master_ds['fv32.5k_3'])/20
+            # master_ds['tp'] = (master_ds['nam3k_1']+master_ds['nam3k_2']+master_ds['hrrr3k_1']+master_ds['hrrr3k_2'])/4
+            # master_ds['tp'] = (master_ds['nam3k_1']+master_ds['hrrr3k_1'])/2
+            master_ds['tp'] = (master_ds['nam3k_1']+master_ds['hrrr3k_1']+master_ds['arw5k_1_1']+master_ds['arw5k_2_1']+master_ds['fv35k_1']+master_ds['arw2.5k_1']+master_ds['fv32.5k_1'])/7
+            # master_ds.to_netcdf('/root/master_ds.nc')
+            print(master_ds)
 
-        # master_master_ds = xr.concat([master_master_ds,master_ds], dim="hour")
+            # master_master_ds = xr.concat([master_master_ds,master_ds], dim="hour")
 
-        # ds = master_master_ds.isel(hour=n-1)
+            # ds = master_master_ds.isel(hour=n-1)
 
-        ds = master_ds
-        # new_lon = np.linspace(ds.lon[0], ds.lon[-1], ds.dims["lon"] * 2)
-        # new_lat = np.linspace(ds.lat[0], ds.lat[-1], ds.dims["lat"] * 2)
-        # ds = ds.interp(lat=new_lat, lon=new_lon)
+            ds = master_ds
+            # new_lon = np.linspace(ds.lon[0], ds.lon[-1], ds.dims["lon"] * 2)
+            # new_lat = np.linspace(ds.lat[0], ds.lat[-1], ds.dims["lat"] * 2)
+            # ds = ds.interp(lat=new_lat, lon=new_lon)
 
-        lats = ds['lat']
-        lons = ds['lon']
-        tp = ds['tp']*.0393701
+            lats = ds['lat']
+            lons = ds['lon']
+            tp = ds['tp']*.0393701
 
-        fig = plt.figure(figsize=(12, 8))
-        ax = plt.axes(projection=ccrs.PlateCarree())
-        newcmp = create_colormap()
-        bounds = [0,0.01,0.03,0.05,0.075,0.1,0.15,0.2,0.25,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1,1.2,1.4,1.6,1.8,2,2.5,3,3.5,4,5,6,7,8,9,10]#,11,12,13,14,15,16,17,18,19,20]
-        norm = colors.BoundaryNorm(boundaries=bounds, ncolors=32)
-        #cf = ax.contourf(lons,lats,precip,us,norm=norm,cmap=newcmp)
-        cf = ax.pcolormesh(lons, lats, tp, norm=norm, cmap=newcmp)
+            fig = plt.figure(figsize=(12, 8))
+            ax = plt.axes(projection=ccrs.PlateCarree())
+            newcmp = create_colormap()
+            bounds = [0,0.01,0.03,0.05,0.075,0.1,0.15,0.2,0.25,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1,1.2,1.4,1.6,1.8,2,2.5,3,3.5,4,5,6,7,8,9,10]#,11,12,13,14,15,16,17,18,19,20]
+            norm = colors.BoundaryNorm(boundaries=bounds, ncolors=32)
+            #cf = ax.contourf(lons,lats,precip,us,norm=norm,cmap=newcmp)
+            cf = ax.pcolormesh(lons, lats, tp, norm=norm, cmap=newcmp)
 
-        # cf = ax.pcolormesh(lons, lats, tp, cmap='jet', vmin=0, vmax=50)
-        ax.coastlines()
-        ax.add_feature(cartopy.feature.STATES)
-        # ax.add_feature(USCOUNTIES.with_scale('500k'),linewidth=1)
-        cbar = plt.colorbar(cf, shrink=0.7, orientation="horizontal", pad=0.03)
-        cbar.set_ticks([0.01, 0.05, 0.1, 0.2, 0.3, 0.5, 0.7, 0.9, 1.2, 1.6, 2, 3, 4, 6, 8, 10])
-        cbar.set_ticklabels(['0.01', '0.05', '0.1', '0.2', '0.3', '0.5', '0.7', '0.9', '1.2', '1.6', '2', '3', '4', '6', '8', '10'])
-        cbar.ax.tick_params(labelsize=8)
-        cbar.ax.tick_params(width=0.25)
+            # cf = ax.pcolormesh(lons, lats, tp, cmap='jet', vmin=0, vmax=50)
+            ax.coastlines()
+            ax.add_feature(cartopy.feature.STATES)
+            # ax.add_feature(USCOUNTIES.with_scale('500k'),linewidth=1)
+            cbar = plt.colorbar(cf, shrink=0.7, orientation="horizontal", pad=0.03)
+            cbar.set_ticks([0.01, 0.05, 0.1, 0.2, 0.3, 0.5, 0.7, 0.9, 1.2, 1.6, 2, 3, 4, 6, 8, 10])
+            cbar.set_ticklabels(['0.01', '0.05', '0.1', '0.2', '0.3', '0.5', '0.7', '0.9', '1.2', '1.6', '2', '3', '4', '6', '8', '10'])
+            cbar.ax.tick_params(labelsize=8)
+            cbar.ax.tick_params(width=0.25)
 
-        #create initialization time and valid time for given frame for plot title
-        datestr = datestr_and_cycle()[0]
-        cycle = datestr_and_cycle()[1]
-        init_label = datestr[0:4]+'-'+datestr[4:6]+'-'+datestr[6:8]+' '+cycle+'z'
-        datestr = str(datestr)+str(cycle)
-        datestr = datetime.strptime(datestr, '%Y%m%d%H')
-        hours_added = timedelta(hours = int(frame))
-        datestr = str(datestr+hours_added)
-        valid_label = datestr[0:4]+'-'+datestr[5:7]+'-'+datestr[8:13]+'z'
+            #create initialization time and valid time for given frame for plot title
+            datestr = datestr_and_cycle()[0]
+            cycle = datestr_and_cycle()[1]
+            init_label = datestr[0:4]+'-'+datestr[4:6]+'-'+datestr[6:8]+' '+cycle+'z'
+            datestr = str(datestr)+str(cycle)
+            datestr = datetime.strptime(datestr, '%Y%m%d%H')
+            hours_added = timedelta(hours = int(frame))
+            datestr = str(datestr+hours_added)
+            valid_label = datestr[0:4]+'-'+datestr[5:7]+'-'+datestr[8:13]+'z'
 
-        plt.title('HRCAMEF '+str(frame),fontsize=7)
-        if product_type == 'accumulated':
-            plt.title("HRCAMEF Accumulated Precipitation (Inches) || Forecast Hour "+str(frame)+" || Init "+init_label+" || Valid "+valid_label,fontsize=10)
-        else:
-            plt.title("HRCAMEF Hourly Precipitation (Inches) || Forecast Hour "+str(frame)+" || Init "+init_label+" || Valid "+valid_label,fontsize=10)
-        plt.savefig('/root/script/hrcamef/'+product_type+'/tp_'+frame+'.png',dpi=500,bbox_inches='tight')
-        plt.clf()
+            plt.title('HRCAMEF '+str(frame),fontsize=7)
+            if product_type == 'accumulated':
+                plt.title(domain+" HRCAMEF Accumulated Precipitation (Inches) || Forecast Hour "+str(frame)+" || Init "+init_label+" || Valid "+valid_label,fontsize=10)
+            else:
+                plt.title(domain+" HRCAMEF Hourly Precipitation (Inches) || Forecast Hour "+str(frame)+" || Init "+init_label+" || Valid "+valid_label,fontsize=10)
+            plt.savefig('/root/script/hrcamef/'+product_type+'/'+domain+'/tp_'+frame+'.png',dpi=500,bbox_inches='tight')
+            plt.clf()
 
-        os.chdir('/root/script')
-        os.system('git add hrcamef')
-        os.system('git commit -m "auto-push"')
-        os.system('git checkout master')
-        os.system('git pull git@github.com:clamalo/ubuntu_scripts.git master')
-        os.system('git config --global core.askpass "git-gui--askpass"')
-        os.system('git push git@github.com:clamalo/ubuntu_scripts.git master')
+            os.chdir('/root/script')
+            os.system('git add hrcamef')
+            os.system('git commit -m "auto-push"')
+            os.system('git checkout master')
+            os.system('git pull git@github.com:clamalo/ubuntu_scripts.git master')
+            os.system('git config --global core.askpass "git-gui--askpass"')
+            os.system('git push git@github.com:clamalo/ubuntu_scripts.git master')
