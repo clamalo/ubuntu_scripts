@@ -712,6 +712,7 @@ def create_master_ds(domain):
         dataset['fv32.5k_2'] = dataset['tp']
         dataset['fv32.5k_3'] = dataset['tp']
 
+    dataset.to_netcdf('/root/'+domain+'_master.nc')
     return dataset
 
 def ingest_gribs():
@@ -1101,12 +1102,15 @@ def process_gribs(frame,master_ds,domain):
 frame = '03'
 # master_master_ds = create_master_ds()
 # print(master_ds)
-ingest_gribs()
+# ingest_gribs()
 domains = ['pnw','colorado','northeast','norcal','utah']
+for domain in domains:
+    create_master_ds(domain)
 for domain in domains:
     product_types = ['hourly','accumulated']
     for product_type in product_types:
-        master_ds = create_master_ds(domain)
+        # master_ds = create_master_ds(domain)
+        master_ds = ds.load_dataset('/root/'+domain+'_master.nc')
         for n in range(2,37):
             if product_type == 'hourly':
                 master_ds = create_master_ds(domain)
