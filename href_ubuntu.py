@@ -631,12 +631,11 @@ def create_master_ds():
             os.system('curl "'+idx_url+'" --output "/root/nam.t'+cycle+'z.conusnest.hiresf'+frame+'.tm00.grib2.idx"')
             idx_file = '/root/nam.t'+cycle+'z.conusnest.hiresf'+frame+'.tm00.grib2.idx'
             read_idx(idx_file,'nam',int(frame),cycle,datestr)
-            (xr.load_dataset('/root/current.grib2',engine='cfgrib')).to_netcdf('/root/current.nc')
-            os.system('conda activate gis')
-            os.system('/usr/bin/gdalwarp -t_srs EPSG:4326 /root/current.nc /root/master.tif')
-            inputfile = '/root/master.tif'
-            outputfile = '/root/master.nc'
-            ds = gdal.Translate(outputfile, inputfile, format='NetCDF')
+            # (xr.load_dataset('/root/current.grib2',engine='cfgrib')).to_netcdf('/root/current.nc')
+            os.system('/usr/bin/gdalwarp -t_srs EPSG:4326 /root/current.grib2 /root/master.nc')
+            # inputfile = '/root/master.tif'
+            # outputfile = '/root/master.nc'
+            # ds = gdal.Translate(outputfile, inputfile, format='NetCDF')
             os.remove(idx_file)
             dataset = xr.load_dataset('/root/master.nc')
             if 'crs' in str(dataset):
@@ -946,10 +945,10 @@ def ingest_gribs(frame,master_ds):
 
 frame = '03'
 master_master_ds = create_master_ds()
+quit()
 # print(master_ds)
 # quit()
 product_types = ['hourly','accumulated']
-product_types = ['accumulated']
 for product_type in product_types:
     master_ds = create_master_ds()
     for n in range(2,37):
