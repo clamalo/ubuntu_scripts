@@ -990,6 +990,10 @@ for product_type in product_types:
         ax.add_feature(cartopy.feature.STATES)
         # ax.add_feature(USCOUNTIES.with_scale('500k'),linewidth=1)
         cbar = plt.colorbar(cf, shrink=0.7, orientation="horizontal", pad=0.03)
+        cbar.set_ticks([0.01, 0.05, 0.1, 0.2, 0.3, 0.5, 0.7, 0.9, 1.2, 1.6, 2, 3, 4, 6, 8, 10])
+        cbar.set_ticklabels(['0.01', '0.05', '0.1', '0.2', '0.3', '0.5', '0.7', '0.9', '1.2', '1.6', '2', '3', '4', '6', '8', '10'])
+        cbar.ax.tick_params(labelsize=8)
+        cbar.ax.tick_params(width=0.25)
 
         #create initialization time and valid time for given frame for plot title
         datestr = datestr_and_cycle()[0]
