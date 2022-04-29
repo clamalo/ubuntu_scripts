@@ -61,6 +61,7 @@ def datestr_and_cycle():
             datestr = str(year+month+day)
         else:
             datestr = datestr
+    cycle = '00'
     return datestr,cycle,hour
 
 #read grib idx file
@@ -951,7 +952,7 @@ master_ds = create_master_ds()
 product_types = ['hourly','accumulated']
 product_types = ['accumulated']
 for product_type in product_types:
-    for n in range(2,36):
+    for n in range(1,36):
         if product_type == 'hourly':
             master_ds = create_master_ds()
         frame = name_frame(n)
