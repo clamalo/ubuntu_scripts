@@ -950,7 +950,7 @@ master_master_ds = create_master_ds()
 # quit()
 product_types = ['hourly','accumulated']
 for product_type in product_types:
-    master_ds = create_master_ds()
+    #master_ds = create_master_ds()
     for n in range(2,37):
         if product_type == 'hourly':
             master_ds = create_master_ds()
