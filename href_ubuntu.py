@@ -602,6 +602,7 @@ def resolutions():
 def create_master_ds():
     datestr = datestr_and_cycle()[0]
     cycle = datestr_and_cycle()[1]
+    print(datestr,cycle)
     sub_models = [['nam',3]]
     for model in sub_models:
         file_exists = os.path.exists('/root/current_.grib2')
@@ -945,10 +946,10 @@ def ingest_gribs(frame,master_ds):
 
 frame = '03'
 master_master_ds = create_master_ds()
+quit()
 # print(master_ds)
 # quit()
 product_types = ['hourly','accumulated']
-product_types = ['accumulated']
 for product_type in product_types:
     master_ds = create_master_ds()
     for n in range(2,37):
