@@ -613,6 +613,9 @@ def create_master_ds():
         file_exists = os.path.exists('/root/master.grib2')
         if file_exists == True:
             os.remove('/root/master.grib2')
+        file_exists = os.path.exists('/root/master.nc')
+        if file_exists == True:
+            os.remove('/root/master.nc')
         file_exists = os.path.exists('/root/current.nc')
         if file_exists == True:
             os.remove('/root/current.nc')
