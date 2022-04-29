@@ -1097,7 +1097,7 @@ def process_gribs(frame,master_ds,domain):
 
     return master_ds
 
-resolutions()
+# resolutions()
 
 frame = '03'
 # master_master_ds = create_master_ds()
@@ -1110,7 +1110,7 @@ for domain in domains:
     product_types = ['hourly','accumulated']
     for product_type in product_types:
         # master_ds = create_master_ds(domain)
-        master_ds = ds.load_dataset('/root/'+domain+'_master.nc')
+        master_ds = xr.load_dataset('/root/'+domain+'_master.nc')
         for n in range(2,37):
             if product_type == 'hourly':
                 master_ds = create_master_ds(domain)
