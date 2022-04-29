@@ -715,6 +715,8 @@ def create_master_ds(domain):
     return dataset
 
 def ingest_gribs():
+    datestr = datestr_and_cycle[0]
+    cycle = datestr_and_cycle[1]
     for x in range(2,37):
         frame = name_frame(x)
 
