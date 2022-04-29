@@ -38,7 +38,6 @@ def datestr_and_cycle():
     hour = int(datestr[0:2])
     #datestr to pull from NOMADS
     datestr = str(year+month+day)
-    print(hour)
     #logic checks to make sure it's not pulling data before it's done on NOMADS
     if 3<=hour<15:
         cycle = '00'
