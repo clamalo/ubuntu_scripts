@@ -12,6 +12,7 @@ import matplotlib.colors as colors
 from metpy.plots import USCOUNTIES
 from osgeo import gdal
 import multiprocessing
+import time
 
 #create the colormap
 def create_colormap():
@@ -654,8 +655,8 @@ def create_master_ds(domain):
             idx_url = 'https://ftpprd.ncep.noaa.gov/data/nccf/com/nam/prod/nam.'+datestr+'/nam.t'+cycle+'z.conusnest.hiresf'+frame+'.tm00.grib2.idx'
             os.system('curl "'+idx_url+'" --output "/root/nam.t'+cycle+'z.conusnest.hiresf'+frame+'.tm00.grib2.idx"')
             idx_file = '/root/nam.t'+cycle+'z.conusnest.hiresf'+frame+'.tm00.grib2.idx'
-            read_idx(idx_file,'nam',int(frame),cycle,datestr)
-            (xr.load_dataset('/root/current.grib2',engine='cfgrib')).to_netcdf('/root/current.nc')
+            file_name = read_idx(idx_file,'nam',int(frame),cycle,datestr)
+            (xr.load_dataset(file_name,engine='cfgrib')).to_netcdf('/root/current.nc')
             os.system('/usr/bin/gdalwarp -t_srs EPSG:4326 /root/current.nc /root/master.tif')
             inputfile = '/root/master.tif'
             outputfile = '/root/master.nc'
@@ -1251,14 +1252,15 @@ def process_gribs(frame,master_ds,domain):
     return master_ds
 
 def process_frame(i):
+    time.sleep(i*30)
     domains = ['pnw','colorado','northeast','norcal','utah']
     domain = domains[i]
-    product_types = ['hourly','accumulated']
+    product_types = ['accumulated','hourly']
     for product_type in product_types:
         # master_ds = create_master_ds(domain)
         master_ds = xr.load_dataset('/root/'+domain+'_master.nc')
         for n in range(2,37):
-            print(n)
+            print(domain,n)
             if product_type == 'hourly':
                 master_ds = xr.load_dataset('/root/'+domain+'_master.nc')
             frame = name_frame(n)
@@ -1335,9 +1337,7 @@ if __name__ == '__main__':
     frame = '03'
     # master_master_ds = create_master_ds()
     # print(master_ds)
-    # for n in range(1,37):
-    #     ingest_gribs(n)
-    ingest_gribs()
+    # ingest_gribs()
     # p = multiprocessing.Pool(18)
     # p.map(ingest_gribs, range(1,37))
     domains = ['pnw','colorado','northeast','norcal','utah']
