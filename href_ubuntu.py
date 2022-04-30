@@ -147,6 +147,7 @@ def read_idx(idx_file,model,frame,cycle,datestr):
         url = 'https://ftpprd.ncep.noaa.gov/data/nccf/com/hiresw/prod/hiresw.'+datestr+'/hiresw.t'+cycle+'z.fv3_2p5km.f'+name_frame(frame)+'.conus.grib2'
 
     file_name = '/root/'+model+'_'+name_frame(frame)+'current.grib2'
+    print(file_name)
     curl_message = ('curl '+url+' -r '+str(start_bytes)+'-'+str(end_bytes)+' > '+file_name)
     print(curl_message)
     os.system(curl_message)
