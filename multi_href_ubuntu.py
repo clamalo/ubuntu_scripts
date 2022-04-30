@@ -546,6 +546,8 @@ def crop_ds(ds,type,domain):
         topleft_bottomright = [41,-109,37,-104]
     elif domain == 'whole_domain':
         topleft_bottomright = [50,-125,25,-60]
+    elif domain == 'custom_domain':
+        topleft_bottomright = [45,-105,40,-93]
     # topleft_bottomright = []
     # topleft_bottomright = [50,-125,25,-60]
     # topleft_bottomright = [50,-125,45,-120]
@@ -1256,7 +1258,7 @@ def process_gribs(frame,master_ds,domain):
 
 def process_frame(i):
     time.sleep(i*10)
-    domains = ['pnw','colorado','northeast','norcal','utah','whole_domain']
+    domains = ['pnw','colorado','northeast','norcal','utah','custom_domain']
     domain = domains[i]
     product_types = ['accumulated','hourly']
     for product_type in product_types:
@@ -1334,19 +1336,17 @@ def process_frame(i):
         os.system('git push git@github.com:clamalo/ubuntu_scripts.git master')
 
 
-# if __name__ == '__main__':
-# resolutions()
+if __name__ == '__main__':
+    # resolutions()
 
-frame = '03'
-# master_master_ds = create_master_ds()
-# print(master_ds)
-# ingest_gribs()
-# p = multiprocessing.Pool(18)
-# p.map(ingest_gribs, range(1,37))
-domains = ['pnw','colorado','northeast','norcal','utah','whole_domain']
-for domain in domains:
-    create_master_ds(domain)
-# p = multiprocessing.Pool(5)
-# p.map(process_frame, range(0,5))
-
-process_frame(6)
+    frame = '03'
+    # master_master_ds = create_master_ds()
+    # print(master_ds)
+    # ingest_gribs()
+    # p = multiprocessing.Pool(18)
+    # p.map(ingest_gribs, range(1,37))
+    domains = ['pnw','colorado','northeast','norcal','utah','custom_domain']
+    for domain in domains:
+        create_master_ds(domain)
+    p = multiprocessing.Pool(6)
+    p.map(process_frame, range(0,6))
