@@ -1122,7 +1122,7 @@ for domain in domains:
             # master_ds['tp'] = (master_ds['nam3k_1']+master_ds['hrrr3k_1'])/2
             master_ds['tp'] = (master_ds['nam3k_1']+master_ds['hrrr3k_1']+master_ds['arw5k_1_1']+master_ds['arw5k_2_1']+master_ds['fv35k_1']+master_ds['arw2.5k_1']+master_ds['fv32.5k_1'])/7
             # master_ds.to_netcdf('/root/master_ds.nc')
-            print(master_ds)
+            # print(master_ds)
 
             # master_master_ds = xr.concat([master_master_ds,master_ds], dim="hour")
 
