@@ -1260,7 +1260,7 @@ def process_frame(i):
         # master_ds = create_master_ds(domain)
         master_ds = xr.load_dataset('/root/'+domain+'_master.nc')
         for n in range(2,37):
-            print(n)
+            print(domain,n)
             if product_type == 'hourly':
                 master_ds = xr.load_dataset('/root/'+domain+'_master.nc')
             frame = name_frame(n)
