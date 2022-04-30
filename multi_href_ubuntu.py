@@ -1347,4 +1347,4 @@ if __name__ == '__main__':
     for domain in domains:
         create_master_ds(domain)
     p = multiprocessing.Pool(6)
-    p.map(process_frame, range(0,5))
+    p.map(process_frame, range(0,6))
