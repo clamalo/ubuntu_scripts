@@ -548,7 +548,7 @@ def crop_ds(ds,type,domain):
     elif domain == 'whole_domain':
         topleft_bottomright = [50,-125,25,-60]
     elif domain == 'custom_domain':
-        topleft_bottomright = [45,-105,40,-93]
+        topleft_bottomright = [44.60611,-111.07178,41.90228,-106.32568]
     # topleft_bottomright = []
     # topleft_bottomright = [50,-125,25,-60]
     # topleft_bottomright = [50,-125,45,-120]
