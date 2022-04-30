@@ -261,7 +261,6 @@ def nam3k(chelsa_ds,frame,cycle,datestr,offset,domain):
     dataset['tp'] = dataset['tp']*chelsa_ds['precip']
     # for n in range(len(dataset.lat)):
     #     print(max(dataset.tp[n].values))
-    print(frame)
 
     return dataset
 
@@ -1112,6 +1111,7 @@ for domain in domains:
         # master_ds = create_master_ds(domain)
         master_ds = xr.load_dataset('/root/'+domain+'_master.nc')
         for n in range(2,37):
+            print(n)
             if product_type == 'hourly':
                 master_ds = xr.load_dataset('/root/'+domain+'_master.nc')
             frame = name_frame(n)
