@@ -969,7 +969,7 @@ def process_gribs(frame,master_ds,domain):
 frame = '03'
 # master_master_ds = create_master_ds()
 # print(master_ds)
-# ingest_gribs()
+ingest_gribs()
 domains = ['pnw','colorado','northeast','norcal','utah']
 for domain in domains:
     create_master_ds(domain)
