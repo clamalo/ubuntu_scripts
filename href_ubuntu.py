@@ -147,7 +147,6 @@ def read_idx(idx_file,model,frame,cycle,datestr):
         url = 'https://ftpprd.ncep.noaa.gov/data/nccf/com/hiresw/prod/hiresw.'+datestr+'/hiresw.t'+cycle+'z.fv3_2p5km.f'+name_frame(frame)+'.conus.grib2'
 
     file_name = '/root/'+model+'_'+name_frame(frame)+'current.grib2'
-    print(file_name)
     curl_message = ('curl '+url+' -r '+str(start_bytes)+'-'+str(end_bytes)+' > '+file_name)
     print(curl_message)
     os.system(curl_message)
@@ -801,7 +800,7 @@ def ingest_gribs(i):
         idx_url = 'https://ftpprd.ncep.noaa.gov/data/nccf/com/hiresw/prod/hiresw.'+datestr+'/hiresw.t'+cycle+'z.arw_5km.f'+frame+'.conusmem2.grib2.idx'
         os.system('curl "'+idx_url+'" --output "/root/hiresw.t'+cycle+'z.arw_5km.f'+frame+'.conusmem2.grib2.idx"')
         idx_file = '/root/hiresw.t'+cycle+'z.arw_5km.f'+frame+'.conusmem2.grib2.idx'
-        read_idx(idx_file,'arw5k_2',int(frame),cycle,datestr)
+        file_name = read_idx(idx_file,'arw5k_2',int(frame),cycle,datestr)
         model = 'arw5k_2'
         (xr.load_dataset(file_name,engine='cfgrib')).to_netcdf('/root/'+model+'_'+frame+'current.nc')
         os.remove(file_name)
@@ -820,7 +819,7 @@ def ingest_gribs(i):
         idx_url = 'https://ftpprd.ncep.noaa.gov/data/nccf/com/hiresw/prod/hiresw.'+datestr+'/hiresw.t'+cycle+'z.fv3_5km.f'+frame+'.conus.grib2.idx'
         os.system('curl "'+idx_url+'" --output "/root/hiresw.t'+cycle+'z.fv3_5km.f'+frame+'.conus.grib2.idx"')
         idx_file = '/root/hiresw.t'+cycle+'z.fv3_5km.f'+frame+'.conus.grib2.idx'
-        read_idx(idx_file,'fv35k',int(frame),cycle,datestr)
+        file_name = read_idx(idx_file,'fv35k',int(frame),cycle,datestr)
         model = 'fv35k'
         (xr.load_dataset(file_name,engine='cfgrib')).to_netcdf('/root/'+model+'_'+frame+'current.nc')
         os.remove(file_name)
@@ -839,7 +838,7 @@ def ingest_gribs(i):
         idx_url = 'https://ftpprd.ncep.noaa.gov/data/nccf/com/hiresw/prod/hiresw.'+datestr+'/hiresw.t'+cycle+'z.arw_2p5km.f'+frame+'.conus.grib2.idx'
         os.system('curl "'+idx_url+'" --output "/root/hiresw.t'+cycle+'z.arw_2p5km.f'+frame+'.conus.grib2.idx"')
         idx_file = '/root/hiresw.t'+cycle+'z.arw_2p5km.f'+frame+'.conus.grib2.idx'
-        read_idx(idx_file,'arw2p5k',int(frame),cycle,datestr)
+        file_name = read_idx(idx_file,'arw2p5k',int(frame),cycle,datestr)
         model = 'arw2p5k'
         (xr.load_dataset(file_name,engine='cfgrib')).to_netcdf('/root/'+model+'_'+frame+'current.nc')
         os.remove(file_name)
@@ -858,7 +857,7 @@ def ingest_gribs(i):
         idx_url = 'https://ftpprd.ncep.noaa.gov/data/nccf/com/hiresw/prod/hiresw.'+datestr+'/hiresw.t'+cycle+'z.fv3_2p5km.f'+frame+'.conus.grib2.idx'
         os.system('curl "'+idx_url+'" --output "/root/hiresw.t'+cycle+'z.fv3_2p5km.f'+frame+'.conus.grib2.idx"')
         idx_file = '/root/hiresw.t'+cycle+'z.fv3_2p5km.f'+frame+'.conus.grib2.idx'
-        read_idx(idx_file,'fv32p5k',int(frame),cycle,datestr)
+        file_name = read_idx(idx_file,'fv32p5k',int(frame),cycle,datestr)
         model = 'fv32p5k'
         (xr.load_dataset(file_name,engine='cfgrib')).to_netcdf('/root/'+model+'_'+frame+'current.nc')
         os.remove(file_name)
