@@ -1265,7 +1265,7 @@ def process_frame(i):
     for product_type in product_types:
         # master_ds = create_master_ds(domain)
         master_ds = xr.load_dataset('/root/'+domain+'_master.nc')
-        for n in range(2,37):
+        for n in range(2,49):
             print(domain,n)
             if product_type == 'hourly':
                 master_ds = xr.load_dataset('/root/'+domain+'_master.nc')
@@ -1344,7 +1344,7 @@ if __name__ == '__main__':
     frame = '03'
     # master_master_ds = create_master_ds()
     # print(master_ds)
-    ingest_gribs()
+    # ingest_gribs()
     # p = multiprocessing.Pool(18)
     # p.map(ingest_gribs, range(1,37))
     domains = ['pnw','colorado','northeast','norcal','utah','custom_domain']
