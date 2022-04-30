@@ -146,6 +146,7 @@ def read_idx(idx_file,model,frame,cycle,datestr):
     if model == 'fv32p5k':
         url = 'https://ftpprd.ncep.noaa.gov/data/nccf/com/hiresw/prod/hiresw.'+datestr+'/hiresw.t'+cycle+'z.fv3_2p5km.f'+name_frame(frame)+'.conus.grib2'
 
+    print(type(frame))
     file_name = '/root/'+model+'_'+frame+'current.grib2'
     curl_message = ('curl '+url+' -r '+str(start_bytes)+'-'+str(end_bytes)+' > '+file_name)
     print(curl_message)
