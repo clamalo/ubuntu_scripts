@@ -1346,5 +1346,7 @@ if __name__ == '__main__':
     domains = ['pnw','colorado','northeast','norcal','utah','whole_domain']
     for domain in domains:
         create_master_ds(domain)
-    p = multiprocessing.Pool(6)
-    p.map(process_frame, range(0,6))
+    # p = multiprocessing.Pool(5)
+    # p.map(process_frame, range(0,5))
+
+    process_frame(6)
