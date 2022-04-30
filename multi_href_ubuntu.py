@@ -879,7 +879,7 @@ def create_master_ds(domain):
 def ingest_gribs():
     datestr = datestr_and_cycle()[0]
     cycle = datestr_and_cycle()[1]
-    for x in range(1,37):
+    for x in range(1,49):
         frame = name_frame(x)
         if x == 1:
             idx_url = 'https://ftpprd.ncep.noaa.gov/data/nccf/com/nam/prod/nam.'+datestr+'/nam.t'+cycle+'z.conusnest.hiresf'+frame+'.tm00.grib2.idx'
@@ -1257,7 +1257,7 @@ def process_gribs(frame,master_ds,domain):
     return master_ds
 
 def process_frame(i):
-    time.sleep(i*10)
+    time.sleep(i*5)
     domains = ['pnw','colorado','northeast','norcal','utah','custom_domain']
     domain = domains[i]
     product_types = ['accumulated','hourly']
@@ -1343,7 +1343,7 @@ if __name__ == '__main__':
     frame = '03'
     # master_master_ds = create_master_ds()
     # print(master_ds)
-    # ingest_gribs()
+    ingest_gribs()
     # p = multiprocessing.Pool(18)
     # p.map(ingest_gribs, range(1,37))
     domains = ['pnw','colorado','northeast','norcal','utah','custom_domain']
