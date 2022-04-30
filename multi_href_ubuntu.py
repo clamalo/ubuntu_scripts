@@ -147,7 +147,8 @@ def read_idx(idx_file,model,frame,cycle,datestr):
     if model == 'fv32p5k':
         url = 'https://ftpprd.ncep.noaa.gov/data/nccf/com/hiresw/prod/hiresw.'+datestr+'/hiresw.t'+cycle+'z.fv3_2p5km.f'+name_frame(frame)+'.conus.grib2'
 
-    file_name = '/root/'+model+'_'+name_frame(frame)+'current.grib2'
+    # file_name = '/root/'+model+'_'+name_frame(frame)+'current.grib2'
+    file_name = '/root/current.grib2'
     curl_message = ('curl '+url+' -r '+str(start_bytes)+'-'+str(end_bytes)+' > '+file_name)
     print(curl_message)
     os.system(curl_message)
@@ -885,7 +886,7 @@ def ingest_gribs():
             idx_url = 'https://ftpprd.ncep.noaa.gov/data/nccf/com/nam/prod/nam.'+datestr+'/nam.t'+cycle+'z.conusnest.hiresf'+frame+'.tm00.grib2.idx'
             os.system('curl "'+idx_url+'" --output "/root/nam.t'+cycle+'z.conusnest.hiresf'+frame+'.tm00.grib2.idx"')
             idx_file = '/root/nam.t'+cycle+'z.conusnest.hiresf'+frame+'.tm00.grib2.idx'
-            current_line = read_idx(idx_file,'nam',int(frame),cycle,datestr)
+            file_name = read_idx(idx_file,'nam',int(frame),cycle,datestr)
             (xr.load_dataset('/root/current.grib2',engine='cfgrib')).to_netcdf('/root/current.nc')
             os.system('/usr/bin/gdalwarp -t_srs EPSG:4326 /root/current.nc /root/current_.tif')
             inputfile = '/root/current_.tif'
