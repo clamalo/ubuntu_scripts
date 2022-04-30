@@ -655,8 +655,8 @@ def create_master_ds(domain):
             idx_url = 'https://ftpprd.ncep.noaa.gov/data/nccf/com/nam/prod/nam.'+datestr+'/nam.t'+cycle+'z.conusnest.hiresf'+frame+'.tm00.grib2.idx'
             os.system('curl "'+idx_url+'" --output "/root/nam.t'+cycle+'z.conusnest.hiresf'+frame+'.tm00.grib2.idx"')
             idx_file = '/root/nam.t'+cycle+'z.conusnest.hiresf'+frame+'.tm00.grib2.idx'
-            read_idx(idx_file,'nam',int(frame),cycle,datestr)
-            (xr.load_dataset('/root/current.grib2',engine='cfgrib')).to_netcdf('/root/current.nc')
+            file_name = read_idx(idx_file,'nam',int(frame),cycle,datestr)
+            (xr.load_dataset(file_name,engine='cfgrib')).to_netcdf('/root/current.nc')
             os.system('/usr/bin/gdalwarp -t_srs EPSG:4326 /root/current.nc /root/master.tif')
             inputfile = '/root/master.tif'
             outputfile = '/root/master.nc'
