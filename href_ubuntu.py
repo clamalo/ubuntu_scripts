@@ -542,7 +542,7 @@ def crop_ds(ds,type,domain):
     elif domain == 'northeast':
         topleft_bottomright = [45.5,-76,41,-69]
     elif domain == 'colorado':
-        topleft_bottomright = [41,-109,36,-104]
+        topleft_bottomright = [41,-109,37,-104]
     elif domain == 'whole_domain':
         topleft_bottomright = [50,-125,25,-60]
     # topleft_bottomright = []
@@ -1167,9 +1167,9 @@ for domain in domains:
 
             plt.title('HRCAMEF '+str(frame),fontsize=7)
             if product_type == 'accumulated':
-                plt.title(domain+" HRCAMEF Accumulated Precipitation (Inches) || Forecast Hour "+str(frame)+" || Init "+init_label+" || Valid "+valid_label,fontsize=10)
+                plt.title("HRCAMEF Accumulated Precipitation (Inches) || Forecast Hour "+str(frame)+" || Init "+init_label+" || Valid "+valid_label,fontsize=10)
             else:
-                plt.title(domain+" HRCAMEF Hourly Precipitation (Inches) || Forecast Hour "+str(frame)+" || Init "+init_label+" || Valid "+valid_label,fontsize=10)
+                plt.title("HRCAMEF Hourly Precipitation (Inches) || Forecast Hour "+str(frame)+" || Init "+init_label+" || Valid "+valid_label,fontsize=10)
             plt.savefig('/root/script/hrcamef/'+product_type+'/'+domain+'/tp_'+frame+'.png',dpi=500,bbox_inches='tight')
             plt.clf()
 
