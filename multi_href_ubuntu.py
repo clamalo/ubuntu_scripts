@@ -537,7 +537,7 @@ def crop_ds(ds,type,domain):
     if domain == 'pnw':
         topleft_bottomright = [50,-125,46.5,-120]
     elif domain == 'norcal':
-        topleft_bottomright = [39,-124,37,-118]
+        topleft_bottomright = [40.5,-123,37,-118]
     elif domain == 'utah':
         topleft_bottomright = [42,-113,39,-108]
     elif domain == 'northeast':
@@ -925,6 +925,7 @@ def ingest_gribs():
             if 'crs' in str(dataset):
                 dataset = dataset.drop(['crs'])
             dataset.to_netcdf('/root/hrrr3k_'+frame+'.nc')
+
             idx_url = 'https://ftpprd.ncep.noaa.gov/data/nccf/com/hiresw/prod/hiresw.'+datestr+'/hiresw.t'+cycle+'z.arw_5km.f'+frame+'.conus.grib2.idx'
             os.system('curl "'+idx_url+'" --output "/root/hiresw.t'+cycle+'z.arw_5km.f'+frame+'.conus.grib2.idx"')
             idx_file = '/root/hiresw.t'+cycle+'z.arw_5km.f'+frame+'.conus.grib2.idx'
@@ -939,6 +940,7 @@ def ingest_gribs():
             if 'crs' in str(dataset):
                 dataset = dataset.drop(['crs'])
             dataset.to_netcdf('/root/arw5k_1_'+frame+'.nc')
+
             idx_url = 'https://ftpprd.ncep.noaa.gov/data/nccf/com/hiresw/prod/hiresw.'+datestr+'/hiresw.t'+cycle+'z.arw_5km.f'+frame+'.conusmem2.grib2.idx'
             os.system('curl "'+idx_url+'" --output "/root/hiresw.t'+cycle+'z.arw_5km.f'+frame+'.conusmem2.grib2.idx"')
             idx_file = '/root/hiresw.t'+cycle+'z.arw_5km.f'+frame+'.conusmem2.grib2.idx'
@@ -953,6 +955,7 @@ def ingest_gribs():
             if 'crs' in str(dataset):
                 dataset = dataset.drop(['crs'])
             dataset.to_netcdf('/root/arw5k_2_'+frame+'.nc')
+
             idx_url = 'https://ftpprd.ncep.noaa.gov/data/nccf/com/hiresw/prod/hiresw.'+datestr+'/hiresw.t'+cycle+'z.fv3_5km.f'+frame+'.conus.grib2.idx'
             os.system('curl "'+idx_url+'" --output "/root/hiresw.t'+cycle+'z.fv3_5km.f'+frame+'.conus.grib2.idx"')
             idx_file = '/root/hiresw.t'+cycle+'z.fv3_5km.f'+frame+'.conus.grib2.idx'
@@ -967,6 +970,7 @@ def ingest_gribs():
             if 'crs' in str(dataset):
                 dataset = dataset.drop(['crs'])
             dataset.to_netcdf('/root/fv35k_'+frame+'.nc')
+
             idx_url = 'https://ftpprd.ncep.noaa.gov/data/nccf/com/hiresw/prod/hiresw.'+datestr+'/hiresw.t'+cycle+'z.arw_2p5km.f'+frame+'.conus.grib2.idx'
             os.system('curl "'+idx_url+'" --output "/root/hiresw.t'+cycle+'z.arw_2p5km.f'+frame+'.conus.grib2.idx"')
             idx_file = '/root/hiresw.t'+cycle+'z.arw_2p5km.f'+frame+'.conus.grib2.idx'
@@ -981,6 +985,7 @@ def ingest_gribs():
             if 'crs' in str(dataset):
                 dataset = dataset.drop(['crs'])
             dataset.to_netcdf('/root/arw2p5k_'+frame+'.nc')
+
             idx_url = 'https://ftpprd.ncep.noaa.gov/data/nccf/com/hiresw/prod/hiresw.'+datestr+'/hiresw.t'+cycle+'z.fv3_2p5km.f'+frame+'.conus.grib2.idx'
             os.system('curl "'+idx_url+'" --output "/root/hiresw.t'+cycle+'z.fv3_2p5km.f'+frame+'.conus.grib2.idx"')
             idx_file = '/root/hiresw.t'+cycle+'z.fv3_2p5km.f'+frame+'.conus.grib2.idx'
@@ -995,8 +1000,6 @@ def ingest_gribs():
             if 'crs' in str(dataset):
                 dataset = dataset.drop(['crs'])
             dataset.to_netcdf('/root/fv32p5k_'+frame+'.nc')
-
-
 
 
 
@@ -1252,7 +1255,7 @@ def process_gribs(frame,master_ds,domain):
     return master_ds
 
 def process_frame(i):
-    time.sleep(i*30)
+    time.sleep(i*10)
     domains = ['pnw','colorado','northeast','norcal','utah']
     domain = domains[i]
     product_types = ['accumulated','hourly']
