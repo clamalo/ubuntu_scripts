@@ -1215,7 +1215,7 @@ if __name__ == '__main__':
     # print(master_ds)
     # for n in range(1,37):
     #     ingest_gribs(n)
-    p = multiprocessing.Pool(18)
+    p = multiprocessing.Pool(2)
     p.map(ingest_gribs, range(1,37))
     domains = ['pnw','colorado','northeast','norcal','utah']
     for domain in domains:
