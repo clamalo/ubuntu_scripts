@@ -1257,30 +1257,19 @@ def process_gribs(frame,master_ds,domain):
     return master_ds
 
 def process_frame(i):
-<<<<<<< HEAD
     time.sleep(i*10)
     domains = ['pnw','colorado','northeast','norcal','utah','custom_domain']
-=======
-    #time.sleep(i*10)
-    domains = ['pnw','colorado','northeast','norcal','utah','whole_domain']
->>>>>>> 46aa3530b8505e32b918715e60905598b0aa34dc
     domain = domains[i]
     product_types = ['accumulated','hourly']
-    print('done with domain select')
     for product_type in product_types:
         # master_ds = create_master_ds(domain)
-        print('loading master ds')
         master_ds = xr.load_dataset('/root/'+domain+'_master.nc')
-        print('done loading master ds')
         for n in range(2,37):
             print(domain,n)
             if product_type == 'hourly':
                 master_ds = xr.load_dataset('/root/'+domain+'_master.nc')
             frame = name_frame(n)
-            start = time.time()
             master_ds = process_gribs(frame,master_ds,domain)
-            end = time.time()
-            print((end-start),'processing gribs')
             # master_ds['tp'] = (master_ds['nam3k']+master_ds['hrrr3k']+master_ds['arw5k_1']+master_ds['arw5k_2']+master_ds['fv35k']+master_ds['arw2.5k']+master_ds['fv32.5k'])/7
             # master_ds['tp'] = (master_ds['nam3k_1']+master_ds['nam3k_2']+master_ds['nam3k_3']+master_ds['nam3k_4']+master_ds['nam3k_5']+master_ds['hrrr3k_1']+master_ds['hrrr3k_2']+master_ds['hrrr3k_3']+master_ds['arw5k_1_1']+master_ds['arw5k_1_2']+master_ds['arw5k_2_1']+master_ds['arw5k_2_2']+master_ds['fv35k_1']+master_ds['fv35k_2']+master_ds['fv35k_3']+master_ds['arw2.5k_1']+master_ds['arw2.5k_2']+master_ds['fv32.5k_1']+master_ds['fv32.5k_2']+master_ds['fv32.5k_3'])/20
             # master_ds['tp'] = (master_ds['nam3k_1']+master_ds['nam3k_2']+master_ds['hrrr3k_1']+master_ds['hrrr3k_2'])/4
@@ -1338,8 +1327,6 @@ def process_frame(i):
                 plt.title("HRCAMEF Hourly Precipitation (Inches) || Forecast Hour "+str(frame)+" || Init "+init_label+" || Valid "+valid_label,fontsize=10)
             plt.savefig('/root/script/hrcamef/'+product_type+'/'+domain+'/tp_'+frame+'.png',dpi=500,bbox_inches='tight')
             plt.clf()
-            end = time.time()
-            print((end-start),'plotting')
 
         os.chdir('/root/script')
         os.system('git add hrcamef')
@@ -1350,7 +1337,6 @@ def process_frame(i):
         os.system('git push git@github.com:clamalo/ubuntu_scripts.git master')
 
 
-<<<<<<< HEAD
 if __name__ == '__main__':
     # resolutions()
 
@@ -1365,21 +1351,3 @@ if __name__ == '__main__':
         create_master_ds(domain)
     p = multiprocessing.Pool(6)
     p.map(process_frame, range(0,6))
-=======
-# if __name__ == '__main__':
-# resolutions()
-
-frame = '03'
-# master_master_ds = create_master_ds()
-# print(master_ds)
-# ingest_gribs()
-# p = multiprocessing.Pool(18)
-# p.map(ingest_gribs, range(1,37))
-domains = ['pnw','colorado','northeast','norcal','utah','whole_domain']
-for domain in domains:
-    create_master_ds(domain)
-# p = multiprocessing.Pool(5)
-# p.map(process_frame, range(0,5))
-
-process_frame(5)
->>>>>>> 46aa3530b8505e32b918715e60905598b0aa34dc
