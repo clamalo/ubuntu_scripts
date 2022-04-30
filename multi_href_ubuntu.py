@@ -1334,19 +1334,19 @@ def process_frame(i):
         os.system('git push git@github.com:clamalo/ubuntu_scripts.git master')
 
 
-if __name__ == '__main__':
-    # resolutions()
+# if __name__ == '__main__':
+# resolutions()
 
-    frame = '03'
-    # master_master_ds = create_master_ds()
-    # print(master_ds)
-    # ingest_gribs()
-    # p = multiprocessing.Pool(18)
-    # p.map(ingest_gribs, range(1,37))
-    domains = ['pnw','colorado','northeast','norcal','utah','whole_domain']
-    for domain in domains:
-        create_master_ds(domain)
-    # p = multiprocessing.Pool(5)
-    # p.map(process_frame, range(0,5))
+frame = '03'
+# master_master_ds = create_master_ds()
+# print(master_ds)
+# ingest_gribs()
+# p = multiprocessing.Pool(18)
+# p.map(ingest_gribs, range(1,37))
+domains = ['pnw','colorado','northeast','norcal','utah','whole_domain']
+for domain in domains:
+    create_master_ds(domain)
+# p = multiprocessing.Pool(5)
+# p.map(process_frame, range(0,5))
 
-    process_frame(6)
+process_frame(6)
