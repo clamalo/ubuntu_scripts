@@ -1261,6 +1261,7 @@ def process_gribs(frame,master_ds,domain):
 def process_frame(i):
     time.sleep(i*5)
     domains = ['pnw','colorado','northeast','norcal','utah','custom_domain']
+    domains = ['custom_domain']
     domain = domains[i]
     product_types = ['accumulated','hourly']
     for product_type in product_types:
