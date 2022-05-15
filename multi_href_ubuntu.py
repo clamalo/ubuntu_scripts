@@ -548,7 +548,8 @@ def crop_ds(ds,type,domain):
     elif domain == 'whole_domain':
         topleft_bottomright = [50,-125,25,-60]
     elif domain == 'custom_domain':
-        topleft_bottomright = [44.60611,-111.07178,41.90228,-106.32568]
+        topleft_bottomright = [42.00492,-87.94762,41.80868,-87.45667]
+
     # topleft_bottomright = []
     # topleft_bottomright = [50,-125,25,-60]
     # topleft_bottomright = [50,-125,45,-120]
@@ -1305,6 +1306,10 @@ def process_frame(i):
             ax.coastlines()
             ax.add_feature(cartopy.feature.STATES)
             ax.add_feature(USCOUNTIES.with_scale('500k'),linewidth=1)
+            if domain == 'custom_domain':
+                point_lons = [-87.62498]
+                point_lats = [41.87384]
+                cd = ax.scatter(x=point_lons, y=point_lats, s=7, color='#000000', alpha=1)
             cbar = plt.colorbar(cf, shrink=0.7, orientation="horizontal", pad=0.03)
             cbar.set_ticks([0.01, 0.05, 0.1, 0.2, 0.3, 0.5, 0.7, 0.9, 1.2, 1.6, 2, 3, 4, 6, 8, 10])
             cbar.set_ticklabels(['0.01', '0.05', '0.1', '0.2', '0.3', '0.5', '0.7', '0.9', '1.2', '1.6', '2', '3', '4', '6', '8', '10'])
