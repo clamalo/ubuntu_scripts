@@ -1261,7 +1261,6 @@ def process_gribs(frame,master_ds,domain):
 def process_frame(i):
     time.sleep(i*5)
     domains = ['pnw','colorado','northeast','norcal','utah','custom_domain']
-    domains = ['custom_domain']
     domain = domains[i]
     product_types = ['accumulated','hourly']
     for product_type in product_types:
@@ -1350,11 +1349,10 @@ if __name__ == '__main__':
     frame = '03'
     # master_master_ds = create_master_ds()
     # print(master_ds)
-    # ingest_gribs()
+    ingest_gribs()
     # p = multiprocessing.Pool(18)
     # p.map(ingest_gribs, range(1,37))
     domains = ['pnw','colorado','northeast','norcal','utah','custom_domain']
-    domains = ['custom_domain']
     for domain in domains:
         create_master_ds(domain)
     p = multiprocessing.Pool(6)
