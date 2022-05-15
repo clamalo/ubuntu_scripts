@@ -1349,10 +1349,11 @@ if __name__ == '__main__':
     frame = '03'
     # master_master_ds = create_master_ds()
     # print(master_ds)
-    ingest_gribs()
+    # ingest_gribs()
     # p = multiprocessing.Pool(18)
     # p.map(ingest_gribs, range(1,37))
     domains = ['pnw','colorado','northeast','norcal','utah','custom_domain']
+    domains = 'custom_domain'
     for domain in domains:
         create_master_ds(domain)
     p = multiprocessing.Pool(6)
