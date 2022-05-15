@@ -530,8 +530,6 @@ def fv32p5k(chelsa_ds,frame,cycle,datestr,offset,domain):
 
 
 def crop_ds(ds,type,domain):
-    for k in range(5):
-        print(domain)
     # if type == '180_chelsa':
         # for n in range(len(ds.lat)):
         #     print(max(ds.tp[n].values))
@@ -630,6 +628,8 @@ def resolutions():
         ds.to_netcdf('/root/'+str(resolution)+'chelsa.nc')
 
 def create_master_ds(domain):
+    for k in range(5):
+        print(domain)
     datestr = datestr_and_cycle()[0]
     cycle = datestr_and_cycle()[1]
     print(datestr,cycle)
