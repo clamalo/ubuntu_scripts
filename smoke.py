@@ -167,7 +167,7 @@ def ingest_and_plot(i):
 if __name__ == '__main__':
     datestr_and_cycle()
 
-    p = multiprocessing.Pool(5)
+    p = multiprocessing.Pool(10)
     p.map(ingest_and_plot, range(0,49))
 
     os.chdir('/root/script/smoke/')
