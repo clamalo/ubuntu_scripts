@@ -597,7 +597,7 @@ def resolutions():
     resolutions = [3,5,2.5,12]
     for resolution in resolutions:
         ds = xr.load_dataset('/root/chelsa2.nc')
-        latitude = 45
+        latitude = 42.5
         km = math.cos(latitude*0.0174533)*111.321543
         degrees = resolution/km
         print(degrees)
