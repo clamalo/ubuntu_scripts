@@ -1344,7 +1344,7 @@ def process_frame(i):
 
 
 if __name__ == '__main__':
-    # resolutions()
+    resolutions()
 
     frame = '03'
     # master_master_ds = create_master_ds()
